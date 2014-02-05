@@ -9,14 +9,14 @@ var Node = React.createClass({
       name: 'root',
       value: null,
       expanded: this.props.root ? true : false,
-      ref: null
+      ref: null,
+      priority: null
     };
   },
 
   componentWillMount: function() {
     this.props.ref.on('value', function(snapshot){
       var hasChildren = snapshot.hasChildren();
-      console.log(snapshot)
 
       // PUSH CHILDREN OF NODE TO AN ARRAY
       var children = [];
@@ -38,7 +38,6 @@ var Node = React.createClass({
         priority: snapshot.getPriority()
       });
 
-      console.log(this.state);
     }.bind(this));
   },
 
@@ -52,12 +51,43 @@ var Node = React.createClass({
     return this.state.expanded ? '-' : '+';
   },
 
+  prefixClass: function(name) {
+    return 'forge-stealth-' + name;
+  },
+
   render: function() {
+    var pclass = this.prefixClass;
+
     return (
-      <li>
-        <button onClick={this.toggle}>{this.getToggleText()}</button> <strong>{this.state.name}</strong> - <em>priority: {this.state.priority}</em>
+      <li className={pclass('node')}>
+        {function(){
+          //SHOW NUMBER OF CHILDREN
+          if(this.state.hasChildren) {
+            return <span className={pclass('num-children')}>{this.state.numChildren}</span>
+          }
+        }.bind(this)()}
 
         {function(){
+          //SHOW BUTTON
+          if(this.state.hasChildren && !this.props.root) {
+            return <button onClick={this.toggle}>{this.getToggleText()}</button>
+          }
+        }.bind(this)()}
+
+
+        {function(){
+          //SHOW PRIORITY
+          if(this.state.priority !== null) {
+            return <em className={pclass('priority')}>{this.state.priority}</em>
+          }
+        }.bind(this)()}
+
+        <strong className={pclass('name')}>{this.state.name}</strong>
+
+        {function(){
+          //VALUE FOR NODE
+
+          //1. TREE OF CHILDREN
           if(this.state.hasChildren && this.state.expanded) {
 
             return (
@@ -68,12 +98,11 @@ var Node = React.createClass({
               </ul>
             )
           }
-          else if(this.state.hasChildren) {
-            return <span>{this.state.numChildren}</span>
-          }
-          else {
+          else if(!this.state.hasChildren) {
+            //2. VALUE (LEAF)
             return <em>{this.state.value}</em>
           }
+
         }.bind(this)()}
       </li>
     );

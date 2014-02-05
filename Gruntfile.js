@@ -31,14 +31,18 @@ module.exports = function(grunt) {
       },
     },
 
-    compass: {
-      resources: {
-        options: {
-          sassDir: 'app/scss',
-          cssDir: 'production/css',
-          environment: 'production',
-          outputStyle: 'expanded'
+    sass: {
+      dist: {
+        files: {
+          'tmp/css/app.css': 'app/scss/app.scss'
         }
+      }
+    },
+
+    autoprefixer: {
+      production: {
+        src: 'tmp/css/app.css',
+        dest: 'production/css/app.css'
       }
     },
 
@@ -59,6 +63,14 @@ module.exports = function(grunt) {
           cwd: '.',
           src: ['bower_components/**/*'],
           dest: 'production'
+        }]
+      },
+      images: {
+        files: [{
+          expand: true,
+          cwd: 'app/images',
+          src: ['**/*'],
+          dest: 'production/images'
         }]
       }
     },
@@ -81,9 +93,9 @@ module.exports = function(grunt) {
         debounceDelay: 250
       },
 
-      compass: {
+      sass: {
         files: ['app/scss/**/*.scss'],
-        tasks: ['compass']
+        tasks: ['sass', 'autoprefixer']
       },
 
       js: {
@@ -112,6 +124,6 @@ module.exports = function(grunt) {
   });
 
   // Default task(s).
-  grunt.registerTask('default', ['compass', 'react', 'browserify', 'copy', 'clean', 'connect', 'watch']);
+  grunt.registerTask('default', ['sass', 'autoprefixer', 'react', 'browserify', 'copy', 'clean', 'connect', 'watch']);
 
 };

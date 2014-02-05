@@ -62,12 +62,12 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        <header>
+        <div className="forge-stealth-header">
           <h1>Stealth</h1>
           <ul>
             <li><a onClick={this.logout}>Logout</a></li>
           </ul>
-        </header>
+        </div>
 
         <div className="forge-stealth-body">
           {function(){

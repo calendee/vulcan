@@ -1,3 +1,55 @@
-body {
-  background: white;
+//////////////////////////////////////////////////////////
+// VARS //////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+$namespace: 'forge-stealth';
+$default-font: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$baseline: 28px;
+$basefont: 14px;
+$navy-darkest: #292d33;
+$navy-dark: #373d44;
+$navy: #3d444b;
+$navy-light: #51585e;
+$navy-lightest: #9298a0;
+$pearl-darkest: #c8ccd8;
+$pearl-darker: #d2d4e0;
+$pearl-dark: #e7e8ef;
+$pearl: #f2f3f7;
+$teal: #33cd7b;
+$royal: #8339ce;
+
+
+##{$namespace} {
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, .3);
+  background: #FFF;
+  position: fixed;
+  bottom: 0px;
+  right: 50px;
+  z-index: 99999999;
+  width: 500px;
+  max-height: 600px;
+  font-family: $default-font;
+
+  .#{$namespace}-header {
+    box-sizing: border-box;
+    background: $navy-darkest;
+    height: 50px;
+    padding: 10px;
+    color: #FFF;
+
+    h1 {
+      font-size: $basefont - 2;
+      margin: 0px;
+      width: 23px;
+      height: 31px;
+      overflow: hidden;
+      text-indent: -3000px;
+      background: url(../images/logo.png) top left no-repeat;
+    }
+  }
+
+  .#{$namespace}-body {
+    width: 500px;
+    height: 600px;
+    overflow: auto;
+  }
 }
