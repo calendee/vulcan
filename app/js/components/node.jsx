@@ -74,7 +74,6 @@ var Node = React.createClass({
           }
         }.bind(this)()}
 
-
         {function(){
           //SHOW PRIORITY
           if(this.state.priority !== null) {
@@ -89,7 +88,6 @@ var Node = React.createClass({
 
           //1. TREE OF CHILDREN
           if(this.state.hasChildren && this.state.expanded) {
-
             return (
               <ul>
                 {this.state.children.map(function(child) {
@@ -98,11 +96,14 @@ var Node = React.createClass({
               </ul>
             )
           }
-          else if(!this.state.hasChildren) {
+          else if(!this.state.hasChildren && !this.props.root) {
             //2. VALUE (LEAF)
             return <em>{this.state.value}</em>
           }
-
+          else if(this.state.value === null) {
+            //3. VALUE (NULL)
+            return <em>null</em>
+          }
         }.bind(this)()}
       </li>
     );
