@@ -80,7 +80,7 @@ module.exports = React.createClass({
                 <ul>
                   <li>
                     <label>Firebase URL</label>
-                    <input type="text" name="url"/>
+                    <input type="text" name="url" value="https://airwolfe.firebaseio.com/"/>
                   </li>
                   <li>
                     <label>Auth Token</label>

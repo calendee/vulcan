@@ -5,7 +5,9 @@ module.exports = React.createClass({
 
   render: function() {
     return (
-      <div>They I am {this.props.ref.toString()}</div>
+      <ul>
+      <Node root={true} ref={this.props.ref} />
+      </ul>
     );
   }
 

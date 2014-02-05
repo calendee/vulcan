@@ -6,19 +6,21 @@ var Node = React.createClass({
       hasChildren: false,
       numChildren: 0,
       children: null,
-      name: null,
+      name: 'root',
       value: null,
-      expanded: false,
+      expanded: this.props.root ? true : false,
       ref: null
     };
   },
 
   componentWillMount: function() {
     this.props.ref.on('value', function(snapshot){
+      var hasChildren = snapshot.hasChildren();
+      console.log(snapshot)
 
       // PUSH CHILDREN OF NODE TO AN ARRAY
       var children = [];
-      if(snapshot.hasChildren()) {
+      if(hasChildren) {
         snapshot.forEach(function(childSnapshot){
           children.push(childSnapshot);
         });
@@ -28,26 +30,50 @@ var Node = React.createClass({
       }
 
       this.setState({
-        hasChildren: snapshot.hasChildren(),
+        hasChildren: hasChildren,
         numChildren: snapshot.numChildren(),
         children: children,
-        name: snapshot.name(),
-        value: snapshot.val()
+        name: snapshot.name() || 'root',
+        value: snapshot.val(),
+        priority: snapshot.getPriority()
       });
 
+      console.log(this.state);
     }.bind(this));
+  },
+
+  toggle: function() {
+    this.setState({
+      expanded: true
+    });
+  },
+
+  getToggleText: function() {
+    return this.state.expanded ? '-' : '+';
   },
 
   render: function() {
     return (
       <li>
+        <button onClick={this.toggle}>{this.getToggleText()}</button> <strong>{this.state.name}</strong> - <em>priority: {this.state.priority}</em>
+
         {function(){
-          if(this.state.hasChildren) {
-            <ul></ul>
+          if(this.state.hasChildren && this.state.expanded) {
+
+            //blah
+            return (
+              <ul>
+                {this.state.children.map(function(child) {
+                  return <Node key={child.name()} ref={child.ref()}/>
+                })}
+              </ul>
+            )
+          }
+          else if(this.state.hasChildren) {
+            return <span>{this.state.numChildren}</span>
           }
           else {
-            <strong>{this.state.name}</strong>
-            <em>{this.state.value}</em>
+            return <em>{this.state.value}</em>
           }
         }.bind(this)()}
       </li>
