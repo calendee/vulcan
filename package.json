@@ -1,0 +1,24 @@
+{
+  "name": "project-x",
+  "version": "0.0.0",
+  "description": "project-x =========",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/firebase/project-x.git"
+  },
+  "author": "Alex Wolfe, Adam Putinski",
+  "bugs": {
+    "url": "https://github.com/firebase/project-x/issues"
+  },
+  "dependencies": {
+    "grunt": "~0.4.2",
+    "grunt-browserify": "~1.3.0",
+    "load-grunt-tasks": "~0.3.0"
+  },
+  "devDependencies": {
+    "grunt-jsx": "~0.1.5",
+    "grunt-contrib-compass": "~0.7.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-react": "~0.6.0"
+  }
+}
