@@ -44,7 +44,7 @@ var Node = React.createClass({
 
   toggle: function() {
     this.setState({
-      expanded: true
+      expanded: !this.state.expanded
     });
   },
 
@@ -60,7 +60,6 @@ var Node = React.createClass({
         {function(){
           if(this.state.hasChildren && this.state.expanded) {
 
-            //blah
             return (
               <ul>
                 {this.state.children.map(function(child) {
