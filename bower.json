@@ -15,6 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "react": "~0.8.0"
+    "react": "~0.8.0",
+    "firebase": "~1.0.3"
   }
 }
