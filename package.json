@@ -11,14 +11,16 @@
     "url": "https://github.com/firebase/project-x/issues"
   },
   "dependencies": {
-    "grunt": "~0.4.2",
-    "grunt-browserify": "~1.3.0",
-    "load-grunt-tasks": "~0.3.0"
   },
   "devDependencies": {
-    "grunt-jsx": "~0.1.5",
+    "grunt": "~0.4.2",
+    "grunt-browserify": "~1.3.0",
+    "load-grunt-tasks": "~0.3.0",
     "grunt-contrib-compass": "~0.7.1",
+    "grunt-contrib-copy": "~0.5.0",
     "grunt-contrib-clean": "~0.5.0",
-    "grunt-react": "~0.6.0"
+    "grunt-contrib-connect": "~0.5.0",
+    "grunt-react": "~0.6.0",
+    "grunt-contrib-watch": "~0.5.2"
   }
 }
