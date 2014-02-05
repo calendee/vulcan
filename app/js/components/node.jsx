@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 var Node = React.createClass({
+
   getInitialState: function() {
     return {
       hasChildren: false,
@@ -8,12 +9,11 @@ var Node = React.createClass({
       name: null,
       value: null,
       expanded: false,
-      ref: null,
+      ref: null
     };
   },
 
   componentWillMount: function() {
-
     this.props.ref.on('value', function(snapshot){
 
       // PUSH CHILDREN OF NODE TO AN ARRAY
@@ -28,7 +28,6 @@ var Node = React.createClass({
       }
 
       this.setState({
-        snapshot: snapshot,
         hasChildren: snapshot.hasChildren(),
         numChildren: snapshot.numChildren(),
         children: children,
@@ -42,15 +41,15 @@ var Node = React.createClass({
   render: function() {
     return (
       <li>
-      (function(){
-        if(this.state.hasChildren) {
-          <ul></ul>
-        }
-        else {
-          <strong>{this.state.name}</strong>
-          <em>{this.state.value}</em>
-        }
-      }.bind(this))()
+        {function(){
+          if(this.state.hasChildren) {
+            <ul></ul>
+          }
+          else {
+            <strong>{this.state.name}</strong>
+            <em>{this.state.value}</em>
+          }
+        }.bind(this)()}
       </li>
     );
   }

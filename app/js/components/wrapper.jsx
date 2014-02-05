@@ -1,33 +1,33 @@
 /** @jsx React.DOM */
 var Tree = require('./tree');
 
-
-
 module.exports = React.createClass({
+
   getInitialState: function() {
     return {
       status: 'new',
       ref: null,
       url: '',
-      token: '',
+      token: ''
     };
   },
 
   login: function(event) {
     event.preventDefault();
+
     var form = event.currentTarget;
     var url = form.url.value;
     var token = form.token.value;
     var firebase = new Firebase(form.url.value);
 
     //LOADING
-    this.setState({status: 'loading'});
+    this.setState({ status: 'loading' });
 
     //AUTHENTICATED FIREBASE
     if(form.token.value) {
       firebase.auth(token, function(error, result) {
         if(error) {
-          this.setState({status: 'error'});
+          this.setState({ status: 'error' });
         }
         else {
           this.setState({
@@ -64,14 +64,13 @@ module.exports = React.createClass({
       <div>
         <header>
           <h1>Stealth</h1>
-
           <ul>
             <li><a onClick={this.logout}>Logout</a></li>
           </ul>
         </header>
 
         <div className="forge-stealth-body">
-          {(function(){
+          {function(){
             if(this.state.ref) {
               return <Tree ref={this.state.ref} />
             }
@@ -93,9 +92,10 @@ module.exports = React.createClass({
               </form>
               )
             }
-          }.bind(this))()}
+          }.bind(this)()}
         </div>
       </div>
     );
   }
+
 });
