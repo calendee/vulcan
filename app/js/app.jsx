@@ -3,7 +3,8 @@
 var initialize = function () {
 
   var container = document.createElement('div');
-  container.id = 'forge';
+      container.id = 'forge-stealth';
+
   document.body.appendChild(container);
 
   React.renderComponent(
