@@ -8,6 +8,7 @@ var Node = React.createClass({
       children: null,
       name: 'root',
       value: null,
+      status: 'normal', //normal, changed, removed, updated
       expanded: this.props.root ? true : false,
       ref: null,
       priority: null
@@ -17,6 +18,14 @@ var Node = React.createClass({
   //ITEM IS BEING REMOVED
   componentWillUnMount: function() {
     this.props.ref.off('value');
+  },
+
+  componentDidUpdate: function() {
+    setTimeout(function() {
+      if(this.state.status !== 'normal') {
+        this.setState({status: 'normal'});
+      }
+    }.bind(this), 1000);
   },
 
   //ITEM IS BEING ADDED
@@ -45,6 +54,10 @@ var Node = React.createClass({
       });
 
     }.bind(this));
+
+    this.props.ref.on('child_changed', function(childSnapshot, prevChildName) {
+      this.setState({status: 'changed'});
+    }.bind(this));
   },
 
   toggle: function() {
@@ -65,7 +78,7 @@ var Node = React.createClass({
     var pclass = this.prefixClass;
 
     return (
-      <li className={pclass('node')}>
+      <li className={'forge-stealth-' + this.state.status}>
         {function(){
           //SHOW NUMBER OF CHILDREN
           if(this.state.hasChildren) {
