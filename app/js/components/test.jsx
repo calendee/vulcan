@@ -10,11 +10,11 @@ var Node = React.createClass({
       hasChildren: false,
       numChildren: 0,
       children: [],
-      name: '',
+      name: 'root',
       value: null,
       status: 'normal', //normal, changed, removed, updated
       expanded: false,
-      firebaseRef: null,
+      ref: null,
       priority: null
     };
   },
@@ -37,27 +37,21 @@ var Node = React.createClass({
   // 2. Components checks props for its status
   // 3. Settimeout then change status to normal
 
-  //ONLY CALLED ON FIRST INIT
+  //ITEM IS BEING ADDED
   componentWillMount: function() {
     //AUTO EXPAND FOR ROOT NODE
     if(this.props.root) {
-      this.props.firebaseRef.on('value', this.update);
-    }
-
-    if(this.props && this.props.snapshot) {
-      this.update(this.props.snapshot);
+      this.props.ref.on('value', this.update.bind(this));
     }
   },
 
-  //NOT CALLED ON FIRST INIT, ONLY AFTER FIRST RENDER IF PROPS HAVE BEEN CHANGED
-  componentWillReceiveProps: function(nextProps){
-    if(nextProps && nextProps.snapshot) {
-      this.update(nextProps.snapshot);
+  componentWillReceiveProps: function(){
+    if(this.props.snapshot) {
+      this.update(snapshot);
     }
   },
 
   update: function(snapshot) {
-
      this.setState({
       hasChildren: snapshot.hasChildren(),
       numChildren: snapshot.numChildren(),
@@ -67,7 +61,7 @@ var Node = React.createClass({
       priority: snapshot.getPriority()
     }, function() {
       if(this.props.root && this.state.hasChildren && !this.state.expanded) {
-        this.expand(snapshot);
+        this.expand();
       }
     }.bind(this));
   },
@@ -81,16 +75,14 @@ var Node = React.createClass({
     }
   },
 
-  expand: function(snapshot) {
-    snapshot = snapshot || this.props.snapshot;
-
+  expand: function() {
     //RESET DATA FOR CHILDEN ARRAY AND DICTIONARY
     this.childrenArray = [];
     this.children = {};
 
     snapshot.forEach(function(child){
       //CREATE A NODE
-      var node = <Node key={child.name()} firebaseRef={child.ref()} snapshot={child} status="normal"/>;
+      var node = <Node key={child.name()} ref={child.ref()} snapshot={child} status="normal"/>;
 
       //ADD TO DICTIONARY AND ARRAY
       this.childrenArray.push(node);
@@ -100,7 +92,7 @@ var Node = React.createClass({
 
     //ADD ALL EVENTS
     ['child_added', 'child_removed', 'child_removed', 'child_changed'].forEach(function(event) {
-        this.props.firebaseRef.on(event, this.listeners[event].bind(this));
+        this.props.ref.on(event, this.listeners[event].bind(this));
     }, this);
 
     //SET STATE TO EXPANDED
@@ -113,7 +105,7 @@ var Node = React.createClass({
   collapse: function() {
     //REMOVE ALL EVENTS
     ['child_added', 'child_removed', 'child_removed', 'child_changed'].forEach(function(event) {
-        this.props.firebaseRef.off(event, this.listeners[event].bind(this));
+        this.props.ref.off(event, this.listeners[event].bind(this));
     }, this);
 
     //SET STATE TO NOT EXPANDED
@@ -146,7 +138,7 @@ var Node = React.createClass({
 
 
 
-    this.props.firebaseRef.off();
+    this.props.ref.off();
   },
 
   componentDidUpdate: function() {

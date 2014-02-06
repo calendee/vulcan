@@ -6,7 +6,7 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       status: 'new',
-      ref: null,
+      firebaseRef: null,
       url: '',
       token: ''
     };
@@ -33,7 +33,7 @@ module.exports = React.createClass({
           this.setState({
             url: url,
             token: token,
-            ref: firebase
+            firebaseRef: firebase
           });
         }
       }.bind(this));
@@ -42,19 +42,19 @@ module.exports = React.createClass({
     else {
       this.setState({
         url: url,
-        ref: firebase
+        firebaseRef: firebase
       });
     }
   },
 
   logout: function() {
     //UNAUTH USER
-    this.state.ref.unauth();
+    this.state.firebaseRef.unauth();
 
     this.setState({
       url: '',
       token: '',
-      ref: null,
+      firebaseRef: null,
       status: 'new'
     });
   },
@@ -66,10 +66,10 @@ module.exports = React.createClass({
           <h1>Stealth</h1>
 
           {function(){
-            if(this.state.ref) {
+            if(this.state.firebaseRef) {
               return (
                 <form className="forge-stealth-header-extras">
-                  <input type="text" defaultValue={this.state.ref.toString()} />
+                  <input type="text" defaultValue={this.state.firebaseRef.toString()} />
 
                   <ul className="forge-stealth-dropdown">
                     <li><a onClick={this.logout}>Logout</a></li>
@@ -82,8 +82,8 @@ module.exports = React.createClass({
 
         <div className="forge-stealth-body">
           {function(){
-            if(this.state.ref) {
-              return <Tree ref={this.state.ref} />
+            if(this.state.firebaseRef) {
+              return <Tree firebaseRef={this.state.firebaseRef} />
             }
             else  {
               return  (
