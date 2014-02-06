@@ -33,10 +33,15 @@ $royal: #8339ce;
     box-sizing: border-box;
     background: $navy-darkest;
     height: 50px;
-    padding: 10px;
     color: #FFF;
+    position: relative;
+    padding: 10px 90px 10px 50px;
 
     h1 {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1;
       font-size: $basefont - 2;
       margin: 0px;
       width: 23px;
@@ -45,6 +50,20 @@ $royal: #8339ce;
       text-indent: -3000px;
       background: url(../images/logo.png) top left no-repeat;
     }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      height: 28px;
+    }
+
+    .#{$namespace}-dropdown {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 1;
+    }
+
   }
 
   .#{$namespace}-body {

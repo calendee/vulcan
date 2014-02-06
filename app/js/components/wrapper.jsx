@@ -64,9 +64,20 @@ module.exports = React.createClass({
       <div>
         <div className="forge-stealth-header">
           <h1>Stealth</h1>
-          <ul>
-            <li><a onClick={this.logout}>Logout</a></li>
-          </ul>
+
+          {function(){
+            if(this.state.ref) {
+              return (
+                <form className="forge-stealth-header-extras">
+                  <input type="text" defaultValue={this.state.ref.toString()} />
+
+                  <ul className="forge-stealth-dropdown">
+                    <li><a onClick={this.logout}>Logout</a></li>
+                  </ul>
+                </form>
+              )
+            }
+          }.bind(this)()}
         </div>
 
         <div className="forge-stealth-body">
@@ -80,7 +91,7 @@ module.exports = React.createClass({
                 <ul>
                   <li>
                     <label>Firebase URL</label>
-                    <input type="text" name="url" value="https://airwolfe.firebaseio.com/"/>
+                    <input type="text" name="url" defaultValue="https://airwolfe.firebaseio.com/"/>
                   </li>
                   <li>
                     <label>Auth Token</label>

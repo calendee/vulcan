@@ -14,6 +14,12 @@ var Node = React.createClass({
     };
   },
 
+  //ITEM IS BEING REMOVED
+  componentWillUnMount: function() {
+    this.props.ref.off('value');
+  },
+
+  //ITEM IS BEING ADDED
   componentWillMount: function() {
     this.props.ref.on('value', function(snapshot){
       var hasChildren = snapshot.hasChildren();
