@@ -19,7 +19,7 @@ $royal: #8339ce;
 
 
 body {
-  background: url(http://www.wallpaperklix.com/wp-content/uploads/2014/01/Cool-Desktop-Wallpapers-3.jpg);
+  background: teal;
   background-size: cover;
 }
 
@@ -75,7 +75,7 @@ body {
     overflow: auto;
 
     ul {
-      li {
+      li strong {
         transition: background-color 500ms ease-out;
 
         &.#{$namespace}-changed {

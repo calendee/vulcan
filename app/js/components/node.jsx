@@ -17,7 +17,7 @@ var Node = React.createClass({
 
   //ITEM IS BEING REMOVED
   componentWillUnMount: function() {
-    this.props.ref.off('value');
+    this.props.ref.off();
   },
 
   componentDidUpdate: function() {
@@ -32,6 +32,7 @@ var Node = React.createClass({
   componentWillMount: function() {
     this.props.ref.on('value', function(snapshot){
       var hasChildren = snapshot.hasChildren();
+
 
       // PUSH CHILDREN OF NODE TO AN ARRAY
       var children = [];
@@ -50,11 +51,13 @@ var Node = React.createClass({
         children: children,
         name: snapshot.name() || 'root',
         value: snapshot.val(),
+        status: 'changed',
         priority: snapshot.getPriority()
       });
 
     }.bind(this));
 
+    //CHILD WAS CHANGED
     this.props.ref.on('child_changed', function(childSnapshot, prevChildName) {
       this.setState({status: 'changed'});
     }.bind(this));
@@ -78,7 +81,7 @@ var Node = React.createClass({
     var pclass = this.prefixClass;
 
     return (
-      <li className={'forge-stealth-' + this.state.status}>
+      <li>
         {function(){
           //SHOW NUMBER OF CHILDREN
           if(this.state.hasChildren) {
@@ -100,7 +103,7 @@ var Node = React.createClass({
           }
         }.bind(this)()}
 
-        <strong className={pclass('name')}>{this.state.name}</strong>
+        <strong className={'forge-stealth-name ' + 'forge-stealth-' + this.state.status}>{this.state.name}</strong>
 
         {function(){
           //VALUE FOR NODE
