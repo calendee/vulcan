@@ -36,7 +36,7 @@ var Node = React.createClass({
       children: [],
       name: '',
       value: null,
-      status: this.props.status || 'normal', //normal, changed, removed, updated
+      status: this.props.status, //normal, changed, removed, updated
       expanded: false,
       firebaseRef: null,
       priority: null
@@ -74,12 +74,13 @@ var Node = React.createClass({
     var children = [];
     var expanded = (options.expanded !== undefined) ? options.expanded : this.state.expanded;
     var name = snapshot.name();
-    var status = options.status || 'normal';
+    var status = this.state.status;
 
     //ROOT NODE ONLY
     if(this.props.root) {
       name = 'ROOT'; //CHANGE TO REAL NAME OF FIREBASE AT SOME POINT
       expanded = true;
+      status = 'changed';
     }
 
     //I HAVE CHILDREN, CREATE THEM
@@ -102,7 +103,7 @@ var Node = React.createClass({
     function() {
       //ONLY USED FOR ROOT NODE EVENTS
       if(this.props.root && snapshot.hasChildren()) {
-        ['child_added', 'child_removed', 'child_moved'].forEach(function(event) {
+        ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
           this.props.firebaseRef.on(event, this.listeners[event].bind(this));
         }, this);
       }
@@ -149,7 +150,7 @@ var Node = React.createClass({
     this.numChildrenRendered = 0;
 
     //ADD ALL EVENTS
-    ['child_added', 'child_removed', 'child_moved'].forEach(function(event) {
+    ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
       this.props.firebaseRef.on(event, this.listeners[event].bind(this));
     }, this);
 
@@ -159,7 +160,7 @@ var Node = React.createClass({
 
   collapseList: function() {
     //REMOVE ALL EVENTS
-    ['child_added', 'child_removed', 'child_moved'].forEach(function(event) {
+    ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
       this.props.firebaseRef.off(event, this.listeners[event].bind(this));
     }, this);
 
@@ -170,26 +171,22 @@ var Node = React.createClass({
   listeners: {
     //ONLY CALLED FROM FIREBASE ON VALUE EVENT
     value: function(snapshot) {
-      //DON'T UPDATE STATUS FOR FIRST RENDER EVENT
-      var status = this.firstRender ? this.props.status : 'changed';
-      this.firstRender = false;
+      this.update(snapshot);
+    },
 
-      this.update(snapshot, {status: status});
+    child_changed: function(snapshot, prevChildName) {
+      console.log(snapshot.name());
+      this.flags[snapshot.name()] = 'changed';
     },
 
     child_added: function(snapshot, previousName) {
-      if(this.numChildrenRendered >= this.state.numChildren) {
-        this.flags[snapshot.name()] = 'added';
-      }
 
-      //INCREMENT NUMBER OF CHILDREN IN DOME
-      this.numChildrenRendered++;
     },
+
     child_removed: function(snapshot) {
-      this.flags[snapshot.name()] = 'removed';
+      //this.flags[snapshot.name()] = 'removed';
 
       //INCREMENT NUMBER OF CHILDREN IN DOME
-      this.numChildrenRendered--;
     },
     child_moved: function(snapshot, previousName) {
       this.flags[snapshot.name()] = 'moved';

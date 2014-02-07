@@ -6,7 +6,7 @@ module.exports = React.createClass({
   render: function() {
     return (
       <ul>
-        <Node root={true} firebaseRef={this.props.firebaseRef} />
+        <Node root={true} firebaseRef={this.props.firebaseRef} status="normal" />
       </ul>
     );
   }
