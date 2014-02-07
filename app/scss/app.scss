@@ -78,8 +78,17 @@ body {
       li strong {
         transition: background-color 500ms ease-out;
 
+        &.#{$namespace}-added {
+          background-color: green;
+        }
         &.#{$namespace}-changed {
           background-color: orange;
+        }
+        &.#{$namespace}-moved {
+          background-color: blue;
+        }
+        &.#{$namespace}-removed {
+          background-color: red;
         }
       }
     }
