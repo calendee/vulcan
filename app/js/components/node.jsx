@@ -36,7 +36,7 @@ var Node = React.createClass({
       children: [],
       name: '',
       value: null,
-      status: 'normal', //normal, changed, removed, updated
+      status: this.props.status || 'normal', //normal, changed, removed, updated
       expanded: false,
       firebaseRef: null,
       priority: null
@@ -71,9 +71,11 @@ var Node = React.createClass({
 
     //ROOT NODE ONLY
     if(this.props.root) {
-      expanded = true;
       name = 'ROOT'; //CHANGE TO REAL NAME OF FIREBASE AT SOME POINT
+      expanded = true;
     }
+
+
 
     //I HAVE CHILDREN, CREATE THEM
     if(snapshot.hasChildren() && expanded) {
@@ -91,15 +93,35 @@ var Node = React.createClass({
       status: status,
       value: snapshot.val(),
       priority: snapshot.getPriority()
-    });
+    },
+    function() {
+      //ONLY USED FOR ROOT NODE EVENTS
+      if(this.props.root && snapshot.hasChildren()) {
+        ['child_added', 'child_removed', 'child_moved', 'child_changed'].forEach(function(event) {
+          this.props.firebaseRef.on(event, this.listeners[event].bind(this));
+        }, this);
+      }
+    }.bind(this));
   },
 
   createChildren: function(snapshot) {
     var children = [];
 
     snapshot.forEach(function(child){
+      var status = 'normal';
+
+      //GET THE STATUS FLAG FOR THIS NODE
+      if(this.flags[child.name()]) {
+
+        //SET NEW STATUS
+        status = this.flags[child.name()];
+
+        //NOW DELETE THE FLAG
+        delete this.flags[child.name()];
+      }
+
       //CREATE A NODE
-      var node = <Node key={child.name()} firebaseRef={child.ref()} snapshot={child} status="normal"/>;
+      var node = <Node key={child.name()} firebaseRef={child.ref()} snapshot={child} status={status}/>;
       //ADD TO DICTIONARY AND ARRAY
       children.push(node);
     }.bind(this));
@@ -144,18 +166,19 @@ var Node = React.createClass({
     //ONLY CALLED FROM FIREBASE ON VALUE EVENT
     value: function(snapshot) {
       //DON'T UPDATE STATUS FOR FIRST RENDER EVENT
-      var status = this.firstRender ? 'normal' : 'changed';
+      var status = this.firstRender ? this.props.status : 'changed';
       this.firstRender = false;
 
       this.update(snapshot, {status: status});
     },
 
     child_added: function(snapshot, previousName) {
-      //if(this.numChildrenRendered >= this.state.numChildren) {
-       // console.log('child_added');
-      //}
+      if(this.numChildrenRendered >= this.state.numChildren) {
+        this.flags[snapshot.name()] = 'added';
+      }
+
       //INCREMENT NUMBER OF CHILDREN IN DOME
-      //this.numChildrenRendered++;
+      this.numChildrenRendered++;
     },
     child_removed: function(snapshot) {
       //this.numChildrenRendered--;
