@@ -53,6 +53,13 @@ var Node = React.createClass({
     this.props.firebaseRef.off();
   },
 
+  //LISTEN FOR CHANGES ON PROPERTIES AND UPDATE STATE
+  componentWillReceiveProps: function(nextProps) {
+    if(nextProps.status !== this.state.status) {
+      this.setState({status: nextProps.status});
+    }
+  },
+
   //CALL RIGHT AFTER ELEMENT IS RENDERED
   componentDidUpdate: function() {
     setTimeout(function() {
@@ -75,8 +82,6 @@ var Node = React.createClass({
       expanded = true;
     }
 
-
-
     //I HAVE CHILDREN, CREATE THEM
     if(snapshot.hasChildren() && expanded) {
       children = this.createChildren(snapshot);
@@ -97,7 +102,7 @@ var Node = React.createClass({
     function() {
       //ONLY USED FOR ROOT NODE EVENTS
       if(this.props.root && snapshot.hasChildren()) {
-        ['child_added', 'child_removed', 'child_moved', 'child_changed'].forEach(function(event) {
+        ['child_added', 'child_removed', 'child_moved'].forEach(function(event) {
           this.props.firebaseRef.on(event, this.listeners[event].bind(this));
         }, this);
       }
@@ -144,7 +149,7 @@ var Node = React.createClass({
     this.numChildrenRendered = 0;
 
     //ADD ALL EVENTS
-    ['child_added', 'child_removed', 'child_moved', 'child_changed'].forEach(function(event) {
+    ['child_added', 'child_removed', 'child_moved'].forEach(function(event) {
       this.props.firebaseRef.on(event, this.listeners[event].bind(this));
     }, this);
 
@@ -154,7 +159,7 @@ var Node = React.createClass({
 
   collapseList: function() {
     //REMOVE ALL EVENTS
-    ['child_added', 'child_removed', 'child_moved', 'child_changed'].forEach(function(event) {
+    ['child_added', 'child_removed', 'child_moved'].forEach(function(event) {
       this.props.firebaseRef.off(event, this.listeners[event].bind(this));
     }, this);
 
@@ -181,15 +186,13 @@ var Node = React.createClass({
       this.numChildrenRendered++;
     },
     child_removed: function(snapshot) {
-      //this.numChildrenRendered--;
-    },
-    child_changed: function(snapshot, previousName) {
-      //var node = this.children[snapshot.name()];
-      //node.setState({ status: 'changed' });
+      this.flags[snapshot.name()] = 'removed';
+
+      //INCREMENT NUMBER OF CHILDREN IN DOME
+      this.numChildrenRendered--;
     },
     child_moved: function(snapshot, previousName) {
-      //var node = this.children[snapshot.name()];
-      //node.setState({ status: 'moved' });
+      this.flags[snapshot.name()] = 'moved';
     }
   },
 
