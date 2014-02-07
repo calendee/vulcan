@@ -46,6 +46,13 @@ var Node = React.createClass({
   //ONLY CALLED ON FIRST INIT
   componentWillMount: function() {
     this.props.firebaseRef.on('value', this.listeners.value.bind(this));
+
+    //ONLY USED FOR ROOT NODE EVENTS
+    if(this.props.root) {
+      ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
+        this.props.firebaseRef.on(event, this.listeners[event].bind(this));
+      }, this);
+    }
   },
 
   //CALLED WHEN ITEM IS BEING REMOVED
@@ -55,18 +62,22 @@ var Node = React.createClass({
 
   //LISTEN FOR CHANGES ON PROPERTIES AND UPDATE STATE
   componentWillReceiveProps: function(nextProps) {
-    if(nextProps.status !== this.state.status) {
+    if(nextProps.status !== this.props.status) {
       this.setState({status: nextProps.status});
     }
   },
 
   //CALL RIGHT AFTER ELEMENT IS RENDERED
   componentDidUpdate: function() {
-    setTimeout(function() {
-      if(this.state.status !== 'normal') {
-        this.setState({status: 'normal'});
-      }
-    }.bind(this), 1000);
+    this.resetStatus();
+  },
+
+  resetStatus: function() {
+    if(this.state.status !== 'normal' && this.state.status !== 'removed') {
+      setTimeout(function() {
+          this.setState({status: 'normal'});
+      }.bind(this), 1000);
+    }
   },
 
   update: function(snapshot, options) {
@@ -85,7 +96,18 @@ var Node = React.createClass({
 
     //I HAVE CHILDREN, CREATE THEM
     if(snapshot.hasChildren() && expanded) {
-      children = this.createChildren(snapshot);
+      //ITEM HAS BEEN REMOVED
+      if(this.state.numChildren > snapshot.numChildren()) {
+        children = this.createChildren(this.state.snapshot);
+
+        setTimeout(function(){
+          this.setState({children: this.createChildren(snapshot)});
+        }.bind(this), 1000);
+      }
+      //GET NEW LIST OF CHILDREN
+      else {
+        children = this.createChildren(snapshot);
+      }
     }
 
     //SET THE NEW STATE
@@ -99,15 +121,7 @@ var Node = React.createClass({
       status: status,
       value: snapshot.val(),
       priority: snapshot.getPriority()
-    },
-    function() {
-      //ONLY USED FOR ROOT NODE EVENTS
-      if(this.props.root && snapshot.hasChildren()) {
-        ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
-          this.props.firebaseRef.on(event, this.listeners[event].bind(this));
-        }, this);
-      }
-    }.bind(this));
+    });
   },
 
   createChildren: function(snapshot) {
@@ -169,24 +183,27 @@ var Node = React.createClass({
   },
 
   listeners: {
-    //ONLY CALLED FROM FIREBASE ON VALUE EVENT
+
+    //Called when all other events have completed
     value: function(snapshot) {
       this.update(snapshot);
+
+      this.firstRender = false;
     },
 
     child_changed: function(snapshot, prevChildName) {
-      console.log(snapshot.name());
       this.flags[snapshot.name()] = 'changed';
     },
 
+    //called many times
     child_added: function(snapshot, previousName) {
-
+      if(this.firstRender === false && this.state.expanded) {
+        this.flags[snapshot.name()] = 'added';
+      }
     },
 
     child_removed: function(snapshot) {
-      //this.flags[snapshot.name()] = 'removed';
-
-      //INCREMENT NUMBER OF CHILDREN IN DOME
+      this.flags[snapshot.name()] = 'removed';
     },
     child_moved: function(snapshot, previousName) {
       this.flags[snapshot.name()] = 'moved';
