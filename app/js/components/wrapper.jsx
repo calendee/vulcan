@@ -7,8 +7,8 @@ module.exports = React.createClass({
 
   getInitialState: function() {
     //ADD PUB SUB EVENTS
-    Transimitter.subscribe('add', this.addNode.bind(this));
-    Transimitter.subscribe('edit', this.editNode.bind(this));
+    Transimitter.subscribe('add', this.addNode);
+    Transimitter.subscribe('edit', this.editNode);
 
     return {
       status: 'new',
@@ -88,6 +88,10 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
+        {/*ADD AND EDIT FORM */}
+        <EditForm node={this.state.node} action={this.state.action} />
+
+
         <div className="forge-stealth-header">
           <h1>Stealth</h1>
 
@@ -105,9 +109,6 @@ module.exports = React.createClass({
             }
           }.bind(this)()}
         </div>
-
-        <EditForm node={this.state.node} action={this.state.action} />
-
 
         <div className="forge-stealth-body">
           {function(){

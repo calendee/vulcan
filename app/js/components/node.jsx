@@ -47,7 +47,11 @@ var Node = React.createClass({
   //LISTEN FOR CHANGES ON PROPERTIES AND UPDATE STATE
   componentWillReceiveProps: function(nextProps) {
     //IF STATUS IS DIFFERENT
-    this.setState({status: nextProps.status});
+    var priority = nextProps.snapshot ? nextProps.snapshot.getPriority() : null;
+
+    this.setState({
+      status: nextProps.status
+    });
   },
 
   //CALL RIGHT AFTER ELEMENT IS UPDATED
@@ -72,7 +76,17 @@ var Node = React.createClass({
 
     //ROOT NODE ONLY
     if(this.props.root) {
-      name = 'ROOT'; //CHANGE TO REAL NAME OF FIREBASE AT SOME POINT
+      var realRoot = this.props.firebaseRef.root().toString();
+      var refName = this.props.firebaseRef.toString();
+
+      //IF WE'RE AT THE ROOT, JUST STRIP META INFO
+      if(refName === realRoot) {
+        name = refName.replace('https://', '').replace('.firebaseio.com', ''); //CHANGE TO REAL NAME OF FIREBASE AT SOME POINT
+      }
+      // STRIP THE ROOT DOMAIN AND SHOW THE CURRENT LOCATION NAME
+      else {
+        name = refName.replace(realRoot + '/', ''); //CHANGE TO REAL NAME OF FIREBASE AT SOME POINT
+      }
       expanded = true;
       status = 'changed';
     }
@@ -170,7 +184,6 @@ var Node = React.createClass({
     //Called when all other events have completed
     value: function(snapshot) {
       this.update(snapshot);
-
       this.firstRender = false;
     },
 
@@ -231,14 +244,6 @@ var Node = React.createClass({
     return (
       <li ref="alex" className={pclass('node')}>
         {function(){
-          //SHOW NUMBER OF CHILDREN
-          if(this.state.hasChildren) {
-            return <span className={pclass('num-children')}>{this.state.numChildren}</span>
-          }
-        }.bind(this)()}
-
-
-        {function(){
           //SHOW BUTTON
           if(this.state.hasChildren && !this.props.root) {
             return <span className={pclass('toggle')} onClick={this.toggle}>{this.getToggleText()}</span>
@@ -263,6 +268,14 @@ var Node = React.createClass({
 
           {/* KEY (NAME) */}
           <strong className={pclass('name')}>{this.state.name}</strong>
+
+          {/* NUMBER OF CHILDREN */}
+          {function(){
+            if(this.state.hasChildren) {
+              return <span className={pclass('num-children')}>({this.state.numChildren})</span>
+            }
+          }.bind(this)()}
+
 
           {/* VALUE */}
           {function(){

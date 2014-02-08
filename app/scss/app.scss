@@ -42,8 +42,8 @@ body {
 }
 
 ##{$namespace} {
-  box-shadow: 0px -3px 20px rgba(0, 0, 0, .3);
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjM0MDlDMkYzODZFMzExRTM4QkE3QjhBRjNGQUUxMDEzIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjM0MDlDMkY0ODZFMzExRTM4QkE3QjhBRjNGQUUxMDEzIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MzQwOUMyRjE4NkUzMTFFMzhCQTdCOEFGM0ZBRTEwMTMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MzQwOUMyRjI4NkUzMTFFMzhCQTdCOEFGM0ZBRTEwMTMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4pI/cLAAAAG0lEQVR42mL8//+/LwMRgImBSDCqkDoKAQIMAE8/A159t5+/AAAAAElFTkSuQmCC);
+  box-shadow: 0px 0px 50px rgba(0, 0, 0, .4);
+  background-color: $white;
   position: fixed;
   bottom: 0px;
   right: 50px;
@@ -51,14 +51,13 @@ body {
   width: 500px;
   font-family: $default-font;
 
-
-
-
+  //////////////////////////////////////////////////////////
+  // HEADER  ///////////////////////////////////////////////
+  //////////////////////////////////////////////////////////
   .#{$namespace}-header {
     box-sizing: border-box;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjM0MDlDMkYzODZFMzExRTM4QkE3QjhBRjNGQUUxMDEzIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjM0MDlDMkY0ODZFMzExRTM4QkE3QjhBRjNGQUUxMDEzIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MzQwOUMyRjE4NkUzMTFFMzhCQTdCOEFGM0ZBRTEwMTMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MzQwOUMyRjI4NkUzMTFFMzhCQTdCOEFGM0ZBRTEwMTMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4pI/cLAAAAG0lEQVR42mL8//+/LwMRgImBSDCqkDoKAQIMAE8/A159t5+/AAAAAElFTkSuQmCC);
+    background-color: $navy-dark;
     height: 50px;
-    color: #FFF;
     position: relative;
     padding: 10px 90px 10px 50px;
 
@@ -91,26 +90,25 @@ body {
 
   }
 
+  //////////////////////////////////////////////////////////
+  // BODY  ///////////////////////////////////////////////
+  //////////////////////////////////////////////////////////
   .#{$namespace}-body {
     height: 400px;
     overflow: auto;
     padding: 20px;
 
-    ul.#{$namespace}-child-list {
+    ul.#{$namespace}-child-list, ul.#{$namespace}-root-list  {
       list-style-type: none;
       margin: 0px;
       padding: 0px;
-      border-left: 1px dotted rgba(255, 255, 255, .4);
-
-
+      border-left: 1px dotted $gray-light;
 
       //NODE
       li.#{$namespace}-node {
         margin: 0px 0px 10px 0px;
         padding: 0px 0px 0px 30px;
-        line-height: $baseline;
         position: relative;
-        color: $gray-lightest;
 
         //STEM
         &:before {
@@ -118,32 +116,19 @@ body {
           content: "";
           width: 26px;
           height: 1px;
-          border-bottom: 1px dotted rgba(255, 255, 255, .4);
+          border-bottom: 1px dotted $gray-light;
           position: absolute;
           left: 0px;
           top: 15px;
           z-index: 1;
         }
 
-        // NUMBER OF CHILD NODES
-        .#{$namespace}-num-children {
-          opacity: .5;
-          font-size: $basefont - 3;
-          margin-right: 5px;
-          line-height: baseline;
-          position: absolute;
-          right:  100%;
-          margin-right: 20px;
-          text-align: right;
-          z-index: 1;
-        }
-
         //TOGGLE BUTTON
         .#{$namespace}-toggle {
-          transition: background-color 100ms ease-in;
+          background-color: $gray-lightest;
           border-radius: 100px;
           display: inline-block;
-          border: 1px solid $gray-lightest;
+          border: 1px solid $gray-light;
           width: 16px;
           line-height: 16px;
           text-align: center;
@@ -154,16 +139,42 @@ body {
           top: 7px;
           left: 0px;
           z-index: 1;
-
-          &:hover {
-            background-color: rgba(255, 255, 255, .4);
-          }
         }
 
+        //DATA ROW
         .#{$namespace}-container {
           position: relative;
-          margin-left: -12px;
+          margin-left: -2px;
+          transition: all ease-out 500ms;
+          border-radius: 5px;
+          line-height: $baseline;
 
+          &:hover  {
+            .#{$namespace}-options {
+              display: block;
+            }
+          }
+
+          //STATUS UPDATES
+          &.#{$namespace}-added {
+            color: darken($teal, 40%);
+            background-color: $teal;
+          }
+          &.#{$namespace}-changed {
+            color: darken($yellow-dark, 40%);
+            background-color: $yellow-dark;
+          }
+          &.#{$namespace}-moved {
+            color: darken($blue, 40%);
+            background-color: $blue;
+          }
+          &.#{$namespace}-removed {
+            opacity: .3;
+            color: darken($red, 40%);
+            background-color: $red;
+          }
+
+          //HOVER OPTIONS
           .#{$namespace}-options {
             display: none;
             position: absolute;
@@ -171,62 +182,76 @@ body {
             z-index: 1;
           }
 
-          &:hover  {
-            .#{$namespace}-options {
-              display: block;
-            }
+          //PRIORITY
+          .#{$namespace}-priority {
+            background: $teal;
+            color: $white;
+            border-radius: 3px;
+            line-height: $baseline;
+            font-size: $basefont - 2;
+            font-style: normal;
+            padding: 0px 3px;
+            margin: 0px 5px 0px 0px;
           }
-        }
 
-        //PRIORITY
-        .#{$namespace}-priority {
-          background: $teal;
-          border-radius: 3px;
-          padding: 0px 3px;
-          line-height: $baseline;
-          font-size: $basefont - 2;
-          margin: 0px;
-        }
+          //NODE NAME
+          .#{$namespace}-name {
+            border-radius: 3px;
+            transition: all 500ms ease-out;
+            margin: 0px 10px 0px 0px;
+            font-size: $basefont;
+            font-weight: bold;
+          }
 
+          // NUMBER OF CHILD NODES
+          .#{$namespace}-num-children {
+            opacity: .5;
+            font-size: $basefont - 2;
+            margin-left: -5px;
+          }
 
-        //NODE NAME
-        .#{$namespace}-name {
-          border-radius: 3px;
-          transition: all 500ms ease-out;
-          margin: 0px 10px 0px 10px;
-          font-size: $basefont - 1;
-          border: 1px solid transparent;
-          display: inline-block;
-          line-height: $baseline;
-        }
+          //VALUE
+          .#{$namespace}-value {
+            margin: 0px 0px 0px 0px;
+            font-size: $basefont - 1;
+            font-style: normal;
+          }
 
-        //VALUE
-        .#{$namespace}-value {
-          transition: all 500ms ease-out;
-          margin: 0px 0px 0px 0px;
-          font-size: $basefont - 1;
-          font-style: normal;
-          display: inline-block;
-        }
-
-        //COLOR HIGHLIGHTS
-        .#{$namespace}-added {
-          color: $green;
-          border: 1px solid $green;
-        }
-        .#{$namespace}-changed {
-          color: $yellow;
-          border: 1px solid $yellow-dark;
-        }
-        .#{$namespace}-moved {
-          color: $blue;
-          border: 1px solid $blue;
-        }
-        .#{$namespace}-removed {
-          color: $red;
-          border: 1px solid $red;
         }
       }
     }
+  }
+
+
+  //////////////////////////////////////////////////////////
+  // FORM  /////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////
+  .#{$namespace}-form {
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+
+    .#{$namespace}-form-body {
+      input {
+        border-radius: 3px;
+        border: 1px solid $gray-light;
+        height: 28px;
+        display: inline-block;
+      }
+
+      &.#{$namespace}-standard {
+        .#{$namespace}-form-add-child {
+          display: none;
+        }
+      }
+      &.#{$namespace}-child {
+        .#{$namespace}-form-standard {
+          display: none;
+        }
+      }
+    }
+
   }
 }
