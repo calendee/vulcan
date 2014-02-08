@@ -1,15 +1,41 @@
 /** @jsx React.DOM */
 var Tree = require('./tree');
+var EditForm = require('./form');
+var Transimitter = require('./transmitter');
 
 module.exports = React.createClass({
 
   getInitialState: function() {
+    //ADD PUB SUB EVENTS
+    Transimitter.subscribe('add', this.addNode.bind(this));
+    Transimitter.subscribe('edit', this.editNode.bind(this));
+
     return {
       status: 'new',
       firebaseRef: null,
       url: '',
-      token: ''
+      token: '',
+      action: '',
+      node: null
     };
+  },
+
+  editNode: function(name, node) {
+    this.setState({
+      action: name,
+      node: node
+    })
+
+    console.log(name);
+  },
+
+  addNode: function(name, node) {
+    this.setState({
+      action: name,
+      node: node
+    })
+
+    console.log(name);
   },
 
   login: function(event) {
@@ -79,6 +105,9 @@ module.exports = React.createClass({
             }
           }.bind(this)()}
         </div>
+
+        <EditForm node={this.state.node} action={this.state.action} />
+
 
         <div className="forge-stealth-body">
           {function(){

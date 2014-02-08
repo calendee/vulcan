@@ -5,7 +5,7 @@ module.exports = React.createClass({
 
   render: function() {
     return (
-      <ul>
+      <ul className="forge-stealth-root-list">
         <Node root={true} firebaseRef={this.props.firebaseRef} status="normal" />
       </ul>
     );

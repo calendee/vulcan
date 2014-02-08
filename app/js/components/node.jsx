@@ -1,24 +1,8 @@
 /** @jsx React.DOM */
+var Transmitter = require('./transmitter');
+
+
 var Node = React.createClass({
-
-  //this.state is the current view
-  // this.children is the current working copy, comes from on.value
-  // ? Get the current changed item from other events
-
-  // CHILD EVENTS
-  // 1. Child event fires
-  // 2. Look up child in this.state
-  // 3. Update the status on that child
-  // 4. Settimeout then push the real data to this.state
-  // 5. Eventhing updates automatically
-
-  // ADDING A NODE IN GENERAL
-  // A. Node checks if it is expanded
-  // B.
-  // 1. REACT calls componentWillMount
-  // 2. Components checks props for its status
-  // 3. Settimeout then change status to normal
-
 
   //CALLED BEFORE VERY FIRST INIT, FIRST THING THAT GETS CALLED!
   getInitialState: function() {
@@ -62,12 +46,11 @@ var Node = React.createClass({
 
   //LISTEN FOR CHANGES ON PROPERTIES AND UPDATE STATE
   componentWillReceiveProps: function(nextProps) {
-    if(nextProps.status !== this.props.status) {
-      this.setState({status: nextProps.status});
-    }
+    //IF STATUS IS DIFFERENT
+    this.setState({status: nextProps.status});
   },
 
-  //CALL RIGHT AFTER ELEMENT IS RENDERED
+  //CALL RIGHT AFTER ELEMENT IS UPDATED
   componentDidUpdate: function() {
     this.resetStatus();
   },
@@ -215,13 +198,38 @@ var Node = React.createClass({
   },
 
   prefixClass: function(name) {
-    return 'forge-stealth-' + name;
+    var prefix = 'forge-stealth';
+    // Convert the name to an array
+    if (!Array.isArray(name)) {
+      name = name.split(' ');
+    }
+    return name.reduce(function(classString, className) {
+      return classString + ' ' + prefix + '-' + className;
+    }, '').replace(/^\s|\s$/g, '');
+  },
+
+  removeNode: function(e) {
+    e.preventDefault();
+    this.props.firebaseRef.remove();
+  },
+
+  editNode: function(e) {
+    e.preventDefault();
+
+    Transmitter.publish('edit', this);
+  },
+
+  addNode: function(e) {
+    e.preventDefault();
+
+    Transmitter.publish('add', this);
   },
 
   render: function() {
     var pclass = this.prefixClass;
+
     return (
-      <li>
+      <li ref="alex" className={pclass('node')}>
         {function(){
           //SHOW NUMBER OF CHILDREN
           if(this.state.hasChildren) {
@@ -229,41 +237,55 @@ var Node = React.createClass({
           }
         }.bind(this)()}
 
+
         {function(){
           //SHOW BUTTON
           if(this.state.hasChildren && !this.props.root) {
-            return <button onClick={this.toggle}>{this.getToggleText()}</button>
+            return <span className={pclass('toggle')} onClick={this.toggle}>{this.getToggleText()}</span>
           }
         }.bind(this)()}
 
+        <div className={pclass(['container', this.state.status])}>
+
+          <div className={pclass('options')}>
+            <button onClick={this.addNode}>Add</button>
+            <button onClick={this.removeNode}>Remove</button>
+            <button onClick={this.editNode}>Edit</button>
+          </div>
+
+
+          {/* PRIORITY */}
+          {function(){
+            if(this.state.priority !== null) {
+              return <em className={pclass('priority')}>{this.state.priority}</em>
+            }
+          }.bind(this)()}
+
+          {/* KEY (NAME) */}
+          <strong className={pclass('name')}>{this.state.name}</strong>
+
+          {/* VALUE */}
+          {function(){
+            if(!this.state.hasChildren && !this.props.root) {
+              //2. VALUE (LEAF)
+              return <em className={pclass('value')}>{this.state.value}</em>
+            }
+            else if(this.state.value === null) {
+              //3. VALUE (NULL) ROOT
+              return <em className={pclass('value')}>null</em>
+            }
+          }.bind(this)()}
+        </div>
+
+
         {function(){
-          //SHOW PRIORITY
-          if(this.state.priority !== null) {
-            return <em className={pclass('priority')}>{this.state.priority}</em>
-          }
-        }.bind(this)()}
-
-        <strong className={'forge-stealth-name ' + 'forge-stealth-' + this.state.status}>{this.state.name}</strong>
-
-
-        {function(){
-          //VALUE FOR NODE
-
           //1. TREE OF CHILDREN
           if(this.state.hasChildren && this.state.expanded) {
             return (
-              <ul>
+              <ul className={pclass('child-list')}>
                 {this.state.children}
               </ul>
             )
-          }
-          else if(!this.state.hasChildren && !this.props.root) {
-            //2. VALUE (LEAF)
-            return <em>{this.state.value}</em>
-          }
-          else if(this.state.value === null) {
-            //3. VALUE (NULL) ROOT
-            return <em>null</em>
           }
         }.bind(this)()}
       </li>
