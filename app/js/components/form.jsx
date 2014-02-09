@@ -50,6 +50,10 @@ module.exports = React.createClass({
       firebaseRef.child(key).setPriority(priority);
     }
 
+    this.closeForm();
+  },
+
+  closeForm: function() {
     Transmitter.publish('closeForm');
   },
 
@@ -117,8 +121,9 @@ module.exports = React.createClass({
             </div>
           </div>
 
-          <footer>
-            <input type="submit" value="Done" />
+          <footer  className={pclass('form-footer')}>
+            <input type="submit" value="Done"  className={pclass('form-submit')} />
+            <a className={pclass('form-cancel')} onClick={this.closeForm}>Cancel</a>
           </footer>
         </form>
       </div>
