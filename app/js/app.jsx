@@ -5,7 +5,6 @@ var initialize = function () {
 
   var container = document.createElement('div');
       container.id = 'forge-stealth';
-      container.className = 'forge-translucent';
 
   document.body.appendChild(container);
 

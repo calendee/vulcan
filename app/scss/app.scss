@@ -169,7 +169,6 @@ body {
             background-color: $blue;
           }
           &.#{$namespace}-removed {
-            opacity: .3;
             color: darken($red, 40%);
             background-color: $red;
           }
@@ -226,11 +225,32 @@ body {
   //////////////////////////////////////////////////////////
   // FORM  /////////////////////////////////////////////////
   //////////////////////////////////////////////////////////
-  .#{$namespace}-form {
-    display: none;
+  .#{$namespace}-form-overlay {
     position: absolute;
     top: 0px;
     left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: $navy-darkest;
+    opacity: .3;
+  }
+  .#{$namespace}-form {
+    background: $white;
+    position: absolute;
+    top: 100px;
+    left: 40px;
+    right: 40px;
+    bottom: 40px;
+    z-index: 2000;
+
+    .#{$namespace}-form-header {
+      background: $navy-darkest;
+      padding: 10px;
+      line-height: 10px;
+      color: $white;
+      text-align: center;
+      font-size: $basefont - 2;
+    }
 
 
     .#{$namespace}-form-body {

@@ -1,41 +1,51 @@
 /** @jsx React.DOM */
 var Tree = require('./tree');
 var EditForm = require('./form');
-var Transimitter = require('./transmitter');
+var Transmitter = require('./transmitter');
 
 module.exports = React.createClass({
 
   getInitialState: function() {
     //ADD PUB SUB EVENTS
-    Transimitter.subscribe('add', this.addNode);
-    Transimitter.subscribe('edit', this.editNode);
+    Transmitter.subscribe('add', this.addNode);
+    Transmitter.subscribe('edit', this.editNode);
+    Transmitter.subscribe('closeForm', this.closeForm);
 
     return {
       status: 'new',
       firebaseRef: null,
       url: '',
       token: '',
-      action: '',
+      formAction: null,
       node: null
     };
   },
 
   editNode: function(name, node) {
     this.setState({
-      action: name,
+      formAction: name,
       node: node
-    })
+    });
 
     console.log(name);
   },
 
   addNode: function(name, node) {
     this.setState({
-      action: name,
+      formAction: name,
       node: node
-    })
+    });
 
     console.log(name);
+  },
+
+  closeForm: function() {
+    this.setState({
+      formAction: null,
+      node: null
+    });
+
+    console.log('close');
   },
 
   login: function(event) {
@@ -88,9 +98,13 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        {/*ADD AND EDIT FORM */}
-        <EditForm node={this.state.node} action={this.state.action} />
 
+        {/*ADD AND EDIT FORM */}
+        {function(){
+          if(this.state.formAction){
+            return <EditForm node={this.state.node} action={this.state.formAction}/>
+          }
+        }.bind(this)()}
 
         <div className="forge-stealth-header">
           <h1>Stealth</h1>

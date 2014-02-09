@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 var Transmitter = require('./transmitter');
+var ReactTransitionGroup = React.addons.TransitionGroup;
 
 
 var Node = React.createClass({
@@ -47,11 +48,7 @@ var Node = React.createClass({
   //LISTEN FOR CHANGES ON PROPERTIES AND UPDATE STATE
   componentWillReceiveProps: function(nextProps) {
     //IF STATUS IS DIFFERENT
-    var priority = nextProps.snapshot ? nextProps.snapshot.getPriority() : null;
-
-    this.setState({
-      status: nextProps.status
-    });
+    this.setState({status: nextProps.status});
   },
 
   //CALL RIGHT AFTER ELEMENT IS UPDATED
@@ -252,11 +249,25 @@ var Node = React.createClass({
 
         <div className={pclass(['container', this.state.status])}>
 
-          <div className={pclass('options')}>
-            <button onClick={this.addNode}>Add</button>
-            <button onClick={this.removeNode}>Remove</button>
-            <button onClick={this.editNode}>Edit</button>
-          </div>
+          {/* HOVER OPTIONS */}
+          {function(){
+            if(this.state.hasChildren) {
+              return (
+                <div className={pclass('options')}>
+                  <button onClick={this.addNode}>Add</button>
+                  <button onClick={this.removeNode}>Remove</button>
+                </div>
+              )
+            }
+            else {
+              return (
+                <div className={pclass('options')}>
+                  <button onClick={this.editNode}>Edit</button>
+                  <button onClick={this.removeNode}>Remove</button>
+                </div>
+              )
+            }
+          }.bind(this)()}
 
 
           {/* PRIORITY */}
@@ -296,7 +307,7 @@ var Node = React.createClass({
           if(this.state.hasChildren && this.state.expanded) {
             return (
               <ul className={pclass('child-list')}>
-                {this.state.children}
+                  {this.state.children}
               </ul>
             )
           }

@@ -1,4 +1,6 @@
 /** @jsx React.DOM */
+var Transmitter = require('./transmitter');
+
 module.exports = React.createClass({
 
   getInitialState: function() {
@@ -42,8 +44,13 @@ module.exports = React.createClass({
     var nodeValue = form.nodeValue.value;
     var priority = form.priority.value;
 
-    firebaseRef.parent().child(key).set(nodeValue);
-    firebaseRef.parent().child(key).setPriority(priority);
+    firebaseRef.child(key).set(nodeValue);
+
+    if(priority) {
+      firebaseRef.child(key).setPriority(priority);
+    }
+
+    Transmitter.publish('closeForm');
   },
 
   prefixClass: function(name) {
@@ -57,66 +64,64 @@ module.exports = React.createClass({
     }, '').replace(/^\s|\s$/g, '');
   },
 
-  handleKeyUp: function(e) {
-    console.log(this.refs.nodeValue.getDOMNode().value);
-    this.setState({nodeValue: this.refs.nodeValue.getDOMNode().value});
-  },
 
   render: function() {
     var pclass = this.prefixClass;
-    var nodeValue = this.state.nodeValue;
 
     return (
-      <form onSubmit={this.handleSubmit} className={pclass(['form', this.props.action])}>
-        <header className={pclass('form-header')}>
-          <a>Value</a>
-          <a>Child</a>
-          <a>JSON</a>
-        </header>
+      <div>
+        <div className={pclass('form-overlay')}></div>
+        <form onSubmit={this.handleSubmit} className={pclass(['form', this.props.action])}>
+          <header className={pclass('form-header')}>
+            <a>Value</a>
+            <a>Child</a>
+            <a>JSON</a>
+          </header>
 
-        {/* JSON FORM */}
-        <div className={pclass(['form-body', this.state.mode])}>
+          {/* JSON FORM */}
+          <div className={pclass(['form-body', this.state.mode])}>
 
-          {/* STANDARD FORM */}
-          <div className={pclass('form-standard')}>
-            <div className="standard-row">
-              <label>Key</label>
-              <input  type="text" name="key" value={this.state.key}/>
+            {/* STANDARD FORM */}
+            <div className={pclass('form-standard')}>
+              <div className="standard-row">
+                <label>Key</label>
+                <input  type="text" name="key" />
 
-              <label>Value</label>
-              <input ref="nodeValue" type="text" name="nodeValue" value={nodeValue} onKeyUp={this.handleKeyUp} />
+                <label>Value</label>
+                <input type="text" name="nodeValue"  />
+              </div>
+
+              <div className="prio-row">
+                <label>Prio</label>
+                <input ref="priority" type="text" name="priority"  />
+              </div>
             </div>
 
-            <div className="prio-row">
-              <label>Prio</label>
-              <input ref="priority" type="text" name="priority" value={this.state.priority} />
+            {/* CHILD ADD FORM */}
+            <div className={pclass('form-add-child')}>
+              <div className="parent-row">
+                <label>Key</label>
+                <input type="text" name="parent-key" />
+              </div>
+              <div className="standard-row">
+                <label>Child Key</label>
+                <input type="text" name="child-key" />
+                <label>Child Value</label>
+                <input type="text" name="child-value" />
+              </div>
+
+              <div className="prio-row">
+                <label>Prio</label>
+                <input type="text" name="prio" />
+              </div>
             </div>
           </div>
 
-          {/* CHILD ADD FORM */}
-          <div className={pclass('form-add-child')}>
-            <div className="parent-row">
-              <label>Key</label>
-              <input type="text" name="parent-key" />
-            </div>
-            <div className="standard-row">
-              <label>Child Key</label>
-              <input type="text" name="child-key" />
-              <label>Child Value</label>
-              <input type="text" name="child-value" />
-            </div>
-
-            <div className="prio-row">
-              <label>Prio</label>
-              <input type="text" name="prio" />
-            </div>
-          </div>
-        </div>
-
-        <footer>
-          <input type="submit" value="Done" />
-        </footer>
-      </form>
+          <footer>
+            <input type="submit" value="Done" />
+          </footer>
+        </form>
+      </div>
     )
   }
 });
