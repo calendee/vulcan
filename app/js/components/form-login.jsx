@@ -42,7 +42,7 @@ module.exports = React.createClass({
           </li>
         </ul>
 
-        <input type="submit" value="Submit"/>
+        <input type="submit" value="Sign In" className={pclass('button-primary')} />
       </form>
     )
   }

@@ -55,7 +55,16 @@ body {
   //////////////////////////////////////////////////////////
   // BUTTONS  ///////////////////////////////////////////////
   //////////////////////////////////////////////////////////
-
+  .#{$namespace}-button-primary {
+    border-radius: 3px;
+    border: none;
+    background: $teal;
+    height: 40px;
+    color: $white;
+    padding: 0px 20px;
+    font-size: $basefont + 4;
+    font-weight: 200;
+  }
 
   //////////////////////////////////////////////////////////
   // HEADER  ///////////////////////////////////////////////
@@ -299,6 +308,7 @@ body {
   // LOGIN FORM  ///////////////////////////////////////////
   //////////////////////////////////////////////////////////
   .#{$namespace}-login-form {
+    padding: 0px 60px;
     h2 {
       text-align: center;
       margin: 20px 0px 0px 0px;
@@ -312,7 +322,7 @@ body {
     }
     p {
       text-align: center;
-      margin: 0px 0px 20px 0px;
+      margin: 0px 0px 40px 0px;
       padding: 0px;
       color: $cool;
       font-size: $basefont + 4;
@@ -325,7 +335,7 @@ body {
     ul {
       list-style-type: none;
       margin: 0px;
-      padding: 0px 40px;
+      padding: 0px;
 
       li {
         margin-bottom: 30px;
@@ -335,7 +345,7 @@ body {
           font-family: $default-font;
           font-size: $basefont - 2;
           margin-bottom: 5px;
-          color: $cool;
+          color: $navy-lightest;
           text-transform: uppercase;
 
           em {
