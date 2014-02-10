@@ -67,8 +67,8 @@ module.exports = React.createClass({
               <form className="forge-stealth-header-extras" onSubmit={this.handleSubmit}>
                 <input type="text" defaultValue={this.props.url} ref="url" />
 
-                <div className={pclass('dropdown')}>
-                  <a href="#" className={pclass('dropdown-link')} onClick={this.toggle}>Nav</a>
+                <div className={pclass('dropdown')} onClick={this.toggle}>
+                  <a href="#" className={pclass('dropdown-link')}></a>
 
                   {function(){
                     if(this.state.showDropdown) {
@@ -85,6 +85,9 @@ module.exports = React.createClass({
                 </div>
               </form>
             )
+          }
+          else {
+            //show alt here
           }
         }.bind(this)()}
       </div>

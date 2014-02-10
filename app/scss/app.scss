@@ -147,6 +147,7 @@ body {
       top: 0px;
       right: 0px;
       z-index: 1;
+      cursor: pointer;
 
       .#{$namespace}-dropdown-link {
         color: $navy;
@@ -154,7 +155,31 @@ body {
         line-height: 60px;
         display: block;
         text-decoration: none;
+
+        &:before, &:after {
+          top: 50%;
+          left: 50%;
+          border: solid transparent;
+          content: " ";
+          height: 0;
+          width: 0;
+          position: absolute;
+        }
+
+        &:after {
+          border-color: rgba(61, 68, 75, 0);
+          border-top-color: lighten($navy-darkest, 2%);
+          border-width: 8px;
+          margin-left: -8px;
+        }
+        &:before {
+          border-color: rgba(81, 88, 94, 0);
+          border-top-color: $navy-light;
+          border-width: 9px;
+          margin-left: -9px;
+        }
       }
+
 
       .#{$namespace}-dropdown-list {
         box-shadow: 0px 2px 15px rgba(0, 0, 0, .3);
