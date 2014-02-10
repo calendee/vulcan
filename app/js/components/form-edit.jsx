@@ -2,7 +2,7 @@
 var AppMixins = require('./mixins');
 
 module.exports = React.createClass({
-  mixins: [AppMixins],
+  mixins: [AppMixins, React.addons.LinkedStateMixin],
 
   getInitialState: function() {
     var node = this.props.node;
@@ -20,19 +20,84 @@ module.exports = React.createClass({
 
   handleSubmit: function(e) {
     e.preventDefault();
-    var firebaseRef = this.props.node.props.firebaseRef;
+    var form = e.target;
 
-    firebaseRef.child(key).set(nodeValue);
-
-    if(priority) {
-      firebaseRef.child(key).setPriority(priority);
+    //GET FORM AND CALL CORRECT METHOD
+    switch(this.props.action) {
+      case 'edit': this.updateNode(form); break;
+      case 'priority': this.updatePriority(form); break;
+      case 'add':
+        if(this.state.addMode === 'child')  {
+          this.saveChildNode(form);
+        }
+        if(this.state.addMode === 'branch')  {
+          this.saveBranchNode(form);
+        }
+        if(this.state.addMode === 'json')  {
+          this.saveJsonNode(form);
+        }
+      break;
     }
 
     this.closeForm();
   },
 
-  updateValue: function(e) {
-    this.setState({value: e.target.value});
+  saveChildNode: function(form) {
+    var key = form.key.value.trim();
+    var value = form.value.value.trim();
+    var priority = form.priority.value.trim() || null;
+
+    if(value && key) {
+      this.state.firebaseRef.child(key).setWithPriority(value, priority);
+    }
+  },
+
+  saveBranchNode: function(form) {
+    var parentKey = form.parentKey.value.trim();
+    var parentPriority = form.parentPriority.value.trim() || null;
+
+    var key = form.key.value.trim();
+    var value = form.value.value.trim();
+    var priority = form.priority.value.trim() || null;
+
+    if(parentKey && key && value) {
+      var childData = {};
+      childData[key] = value;
+
+      //CREATE PARENT WITH DATA AND PRIORITY
+      this.state.firebaseRef.child(parentKey).setWithPriority(childData, parentPriority, function() {
+        //UPDATE CHILD PRIORITY
+        this.state.firebaseRef.child(parentKey).child(key).setPriority(priority);
+      }.bind(this));
+    }
+  },
+
+  saveJsonNode: function(form) {
+    var key = form.key.value.trim();
+    var json = JSON.parse(form.json.value.trim());
+    var priority = form.priority.value.trim() || null;
+
+    if(json && key) {
+      console.log(json);
+      this.state.firebaseRef.child(key).setWithPriority(json, priority);
+    }
+  },
+
+  updateNode: function(form) {
+    var priority = form.priority.value.trim() || null;
+    var value = form.value.value.trim();
+
+    if(value) {
+      this.state.firebaseRef.setWithPriority(value, priority);
+      this.closeForm();
+    }
+  },
+
+  updatePriority: function(form){
+    var priority = form.priority.value.trim() || null;
+
+    this.state.firebaseRef.setPriority(priority);
+    this.closeForm();
   },
 
   closeForm: function() {
@@ -57,8 +122,7 @@ module.exports = React.createClass({
     return (
       <div>
         <div className={pclass('form-overlay')}></div>
-        <form onSubmit={this.addNode} className={pclass(['form', this.props.action])}>
-
+        <form onSubmit={this.handleSubmit} className={pclass(['form', this.props.action])}>
 
           {function() {
             //EDIT PRIORITY
@@ -69,7 +133,7 @@ module.exports = React.createClass({
                   <ul>
                     <li>
                       <label>Priority</label>
-                      <input type="text" name="priority" />
+                      <input type="text" name="priority" valueLink={this.linkState('priority')} />
                     </li>
                   </ul>
                 </div>
@@ -89,10 +153,10 @@ module.exports = React.createClass({
                       <label>{this.state.name}</label>
 
                       <label>Value</label>
-                      <input type="text" name="value" value={this.state.value} onChange={this.updateValue}/>
+                      <input type="text" name="value" valueLink={this.linkState('value')} />
 
                       <label>Priority</label>
-                      <input type="text" name="priority" value={this.state.priority} />
+                      <input type="text" name="priority" valueLink={this.linkState('priority')} />
                     </li>
                   </ul>
                 </div>
@@ -179,7 +243,7 @@ module.exports = React.createClass({
                     <input  type="text" name="key" />
 
                     <label>Value</label>
-                    <textarea name="value"></textarea>
+                    <textarea name="json"></textarea>
 
                     <label>Priority</label>
                     <input type="text" name="priority" />
