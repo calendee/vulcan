@@ -118,6 +118,15 @@ module.exports = React.createClass({
 
   render: function() {
     var pclass = this.prefixClass;
+    var cx = React.addons.classSet;
+
+    //OPTIONS FOR PINNING STATE
+    var navClasses = cx({
+      'forge-stealth-form-nav': true,
+      'forge-stealth-nav-child-selected': this.state.addMode === 'child',
+      'forge-stealth-nav-branch-selected': this.state.addMode === 'branch',
+      'forge-stealth-nav-json-selected': this.state.addMode === 'json'
+    });
 
     return (
       <div>
@@ -132,8 +141,10 @@ module.exports = React.createClass({
                   <header className={pclass('form-header')}><h3>Editing Priority for {this.state.name}</h3></header>
                   <ul>
                     <li>
-                      <label>Priority</label>
-                      <input type="text" name="priority" valueLink={this.linkState('priority')} />
+                      <div className={pclass('priority-box')}>
+                        <label>Priority</label>
+                        <input type="text" name="priority" valueLink={this.linkState('priority')} />
+                      </div>
                     </li>
                   </ul>
                 </div>
@@ -150,13 +161,17 @@ module.exports = React.createClass({
                   <header className={pclass('form-header')}><h3>Editing {this.state.name}</h3></header>
                   <ul>
                     <li>
-                      <label>{this.state.name}</label>
+                      <div className={pclass(['value-box', 'left'])}>
+                        <label>{this.state.name}:</label>
+                        <input type="text" name="value" valueLink={this.linkState('value')} />
+                      </div>
 
-                      <label>Value</label>
-                      <input type="text" name="value" valueLink={this.linkState('value')} />
+                      <div className={pclass(['priority-box', 'right'])}>
+                        <label>Priority</label>
+                        <input type="text" name="priority" valueLink={this.linkState('priority')} />
+                      </div>
 
-                      <label>Priority</label>
-                      <input type="text" name="priority" valueLink={this.linkState('priority')} />
+                      <div className={pclass('clear')}></div>
                     </li>
                   </ul>
                 </div>
@@ -172,10 +187,10 @@ module.exports = React.createClass({
                 <header className={pclass('form-header')} >
                   <h3>Adding Child to <strong>{this.state.name}</strong> Node</h3>
 
-                  <nav className={pclass('form-nav')}>
-                    <a onClick={this.addChildMode}>Add Child</a>
-                    <a onClick={this.addBranchMode}>Add Branch</a>
-                    <a onClick={this.addJsonMode}>Add JSON</a>
+                  <nav className={navClasses}>
+                    <a className={pclass('form-nav-child')} onClick={this.addChildMode}>Add Child</a>
+                    <a className={pclass('form-nav-branch')} onClick={this.addBranchMode}>Add Branch</a>
+                    <a className={pclass('form-nav-json')} onClick={this.addJsonMode}>Add JSON</a>
                   </nav>
                 </header>
               )
@@ -189,14 +204,22 @@ module.exports = React.createClass({
               return (
                 <ul>
                   <li>
-                    <label>Key</label>
-                    <input  type="text" name="key" />:
+                    <div className={pclass(['key-box', 'left'])}>
+                      <label>Key</label>
+                      <input  type="text" name="key" />
+                    </div>
 
-                    <label>Value</label>
-                    <input type="text" name="value"  />
+                    <div className={pclass(['value-box', 'left'])}>
+                      <label>Value</label>
+                      <input type="text" name="value"  />
+                    </div>
 
-                    <label>Priority</label>
-                    <input type="text" name="priority"  />
+                    <div className={pclass(['priority-box', 'right'])}>
+                      <label>Priority</label>
+                      <input type="text" name="priority"  />
+                    </div>
+                    <div className={pclass('clear')}></div>
+
                   </li>
                 </ul>
               )
@@ -210,22 +233,35 @@ module.exports = React.createClass({
               return (
                 <ul>
                   <li>
-                    <label>Parent Key</label>
-                    <input  type="text" name="parentKey" />:
+                    <div className={pclass(['parent-box', 'left'])}>
+                      <label>Parent Key</label>
+                      <input  type="text" name="parentKey" />
+                    </div>
 
-                    <label>Priority</label>
-                    <input type="text" name="parentPriority" />
+                    <div className={pclass(['priority-box', 'left'])}>
+                      <label>Priority</label>
+                      <input type="text" name="parentPriority" />
+                    </div>
+                    <div className={pclass('clear')}></div>
                   </li>
 
                   <li>
-                    <label>Key</label>
-                    <input  type="text" name="key" />:
+                    <div className={pclass(['key-box', 'left'])}>
+                      <label>Key</label>
+                      <input  type="text" name="key" />
+                    </div>
 
-                    <label>Value</label>
-                    <input type="text" name="value"  />
+                    <div className={pclass(['value-box', 'left'])}>
+                      <label>Value</label>
+                      <input type="text" name="value"  />
+                    </div>
 
-                    <label>Priority</label>
-                    <input type="text" name="priority"  />
+                    <div className={pclass(['priority-box', 'right'])}>
+                      <label>Priority</label>
+                      <input type="text" name="priority"  />
+                    </div>
+                    <div className={pclass('clear')}></div>
+
                   </li>
                 </ul>
               )
@@ -239,14 +275,22 @@ module.exports = React.createClass({
               return (
                 <ul>
                   <li>
-                    <label>Key</label>
-                    <input  type="text" name="key" />
+                    <div className={pclass(['key-box', 'left'])}>
+                      <label>Key</label>
+                      <input  type="text" name="key" />
+                    </div>
 
-                    <label>Value</label>
-                    <textarea name="json"></textarea>
-
-                    <label>Priority</label>
-                    <input type="text" name="priority" />
+                    <div className={pclass(['priority-box', 'left'])}>
+                      <label>Priority</label>
+                      <input type="text" name="priority"  />
+                    </div>
+                    <div className={pclass('clear')}></div>
+                  </li>
+                  <li>
+                    <div className={pclass('json-box')}>
+                      <label>JSON</label>
+                      <textarea name="json"></textarea>
+                    </div>
                   </li>
                 </ul>
               )

@@ -42,7 +42,16 @@ body {
 }
 
 ##{$namespace} {
+  .#{$namespace}-left {
+    float: left;
+  }
 
+  .#{$namespace}-right {
+    float: right;
+  }
+  .#{$namespace}-clear {
+    clear: both;
+  }
 
   .#{$namespace}-pinned {
     position: fixed;
@@ -492,9 +501,12 @@ body {
 
     .#{$namespace}-form-header {
       border-radius: 3px 3px 0px 0px;
-      background-color: $gray-lightest;
+
 
       h3 {
+        border-radius: 3px 3px 0px 0px;
+        background: $gray-lightest;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, .2);
         color: $cool;
         text-align: center;
         font-size: $basefont - 2;
@@ -511,6 +523,15 @@ body {
       .#{$namespace}-form-nav {
         background: $navy-dark;
 
+        &.#{$namespace}-nav-child-selected a.#{$namespace}-form-nav-child,
+        &.#{$namespace}-nav-branch-selected a.#{$namespace}-form-nav-branch,
+        &.#{$namespace}-nav-json-selected a.#{$namespace}-form-nav-json
+        {
+          background: $navy-darkest;
+          color: $white;
+        }
+
+
         a {
           display: inline-block;
           line-height: 50px;
@@ -521,62 +542,85 @@ body {
           font-size: $basefont - 2;
           cursor: pointer;
 
-          &.#{$namespace}-selected {
-            background: $navy-darkest;
-            color: $white;
+
+        }
+      }
+    }
+
+    ul {
+      list-style-type: none;
+      margin: 0px;
+      padding: 30px 30px 10px 30px;
+
+
+
+      li {
+        margin-bottom: 20px;
+
+        .#{$namespace}-key-box {
+          width: 70px;
+          margin-right: 10px;
+        }
+
+        .#{$namespace}-parent-box {
+          width: 100px;
+          margin-right: 10px;
+        }
+
+        .#{$namespace}-value-box {
+          width: 200px;
+        }
+
+        .#{$namespace}-priority-box {
+          width: 70px;
+        }
+
+        label {
+          display: block;
+          font-family: $default-font;
+          font-size: $basefont - 2;
+          margin-bottom: 5px;
+          color: $navy-lightest;
+          text-transform: uppercase;
+
+          em {
+            font-size: $basefont - 3;
+            font-style: normal;
           }
         }
+
+
+        input, textarea{
+          border-radius: 3px;
+          width: 100%;
+          box-sizing: border-box;
+          border: none;
+          background: $gray-lightest;
+          height: 40px;
+          font-size: $basefont + 2;
+          color: $navy-light;
+          margin: 0px;
+          padding: 0px 20px;
+          outline: none;
+
+          &:active, &:focus {
+            color: $navy;
+            box-shadow: inset 0px 2px 5px rgba(0, 0, 0, .4);
+          }
+        }
+
+        textarea {
+          height: 100px;
+        }
       }
     }
 
-    //FORM BODY
-    .#{$namespace}-form-body {
-      padding: 20px;
-
-      input {
-        border-radius: 3px;
-        border: 1px solid $gray-light;
-        height: 28px;
-        display: inline-block;
-      }
-
-      &.#{$namespace}-standard {
-        .#{$namespace}-form-add-child {
-          display: none;
-        }
-      }
-      &.#{$namespace}-child {
-        .#{$namespace}-form-standard {
-          display: none;
-        }
-      }
-    }
 
     //FOOTER
     .#{$namespace}-form-footer {
       background: $gray-lightest;
       padding: 10px;
       border-radius: 0px 0px 3px 3px;
-
-      .#{$namespace}-form-submit, .#{$namespace}-form-cancel {
-        border-radius: 3px;
-        padding: 0px 10px;
-        border: none;
-        display: inline-block;
-        font-size: $basefont;
-        cursor: pointer;
-      }
-      .#{$namespace}-form-submit, .#{$namespace}-form-cancel {
-        background: $teal;
-        color: $white;
-        height: 30px;
-      }
-      .#{$namespace}-form-cancel {
-        background: $gray-light;
-        color: $gray;
-        line-height: 30px;
-      }
     }
-
   }
 }
