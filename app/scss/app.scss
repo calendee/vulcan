@@ -53,6 +53,11 @@ body {
   font-family: $default-font;
 
   //////////////////////////////////////////////////////////
+  // BUTTONS  ///////////////////////////////////////////////
+  //////////////////////////////////////////////////////////
+
+
+  //////////////////////////////////////////////////////////
   // HEADER  ///////////////////////////////////////////////
   //////////////////////////////////////////////////////////
   .#{$namespace}-header {
@@ -85,8 +90,8 @@ body {
         text-align: center;
         color: $red;
         line-height: 40px;
-        font-weight: normal;
-        font-size: $basefont + 8;
+        font-weight: 100;
+        font-size: $basefont + 4;
       }
     }
 
@@ -103,7 +108,7 @@ body {
       padding: 0px 10px;
       outline: none;
 
-      &:hover, &:active, &:focus {
+      &:active, &:focus {
         background: $white;
         color: $navy;
         box-shadow: inset 0px 2px 5px rgba(0, 0, 0, .4);
@@ -290,9 +295,80 @@ body {
     }
   }
 
+  //////////////////////////////////////////////////////////
+  // LOGIN FORM  ///////////////////////////////////////////
+  //////////////////////////////////////////////////////////
+  .#{$namespace}-login-form {
+    h2 {
+      text-align: center;
+      margin: 20px 0px 0px 0px;
+      padding: 0px;
+      color: $red;
+      font-size: $basefont * 4;
+      line-height: auto;
+      font-family: $default-font;
+      text-transform: uppercase;
+      font-weight: 100;
+    }
+    p {
+      text-align: center;
+      margin: 0px 0px 20px 0px;
+      padding: 0px;
+      color: $cool;
+      font-size: $basefont + 4;
+      line-height: $baseline;
+      font-family: $default-font;
+      font-weight: 300;
+      text-transform: uppercase;
+    }
+
+    ul {
+      list-style-type: none;
+      margin: 0px;
+      padding: 0px 40px;
+
+      li {
+        margin-bottom: 30px;
+
+        label {
+          display: block;
+          font-family: $default-font;
+          font-size: $basefont - 2;
+          margin-bottom: 5px;
+          color: $cool;
+          text-transform: uppercase;
+
+          em {
+            font-size: $basefont - 3;
+            font-style: normal;
+          }
+        }
+
+        input {
+          border-radius: 3px;
+          width: 100%;
+          box-sizing: border-box;
+          border: none;
+          background: $gray-lightest;
+          height: 40px;
+          font-size: $basefont + 2;
+          color: $navy-light;
+          margin: 0px;
+          padding: 0px 20px;
+          outline: none;
+
+          &:active, &:focus {
+            color: $navy;
+            box-shadow: inset 0px 2px 5px rgba(0, 0, 0, .4);
+          }
+        }
+      }
+    }
+  }
+
 
   //////////////////////////////////////////////////////////
-  // FORM  /////////////////////////////////////////////////
+  // EDIT FORM  ////////////////////////////////////////////
   //////////////////////////////////////////////////////////
   .#{$namespace}-form-overlay {
     position: absolute;

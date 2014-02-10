@@ -39,13 +39,16 @@ module.exports = React.createClass({
 
   handleSubmit: function(e) {
     e.preventDefault();
-    var url = this.refs.url.getDOMNode().value.trim();
+    var field = this.refs.url.getDOMNode();
+    var url = field.value.trim();
 
     if(url) {
       this.props.onHeaderAction({
         type: 'url',
         url: url
       });
+
+      field.blur();
     }
   },
 

@@ -1,8 +1,9 @@
 /** @jsx React.DOM */
+var AppMixins = require('./mixins');
 
 //LOGIN FORM CLASS
-
 module.exports = React.createClass({
+  mixins: [AppMixins],
 
   handleSubmit: function(e) {
     e.preventDefault();
@@ -23,10 +24,12 @@ module.exports = React.createClass({
   },
 
   render: function() {
+    var pclass = this.prefixClass;
+
     return  (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className={pclass('login-form')}>
         <h2>Vulcan</h2>
-        <p>The Firebase Data Inspector</p>
+        <p>Firebase Data Inspector</p>
 
         <ul>
           <li>
