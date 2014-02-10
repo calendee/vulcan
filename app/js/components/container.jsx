@@ -16,7 +16,13 @@ module.exports = React.createClass({
       url: '',
       token: '',
       formAction: null,
-      node: null
+      node: null,
+      pinned: {
+        top: false,
+        left: false,
+        right: true,
+        bottom: true
+      }
     };
   },
 
@@ -121,9 +127,18 @@ module.exports = React.createClass({
 
   render: function() {
     var pclass = this.prefixClass;
+    var cx = React.addons.classSet;
+
+    var classes = cx({
+      'forge-stealth-pinned-top': this.state.pinned.top,
+      'forge-stealth-pinned-bottom': this.state.pinned.bottom,
+      'forge-stealth-pinned-left': this.state.pinned.left,
+      'forge-stealth-pinned-right': this.state.pinned.right,
+      'forge-stealth-pinned': true
+    });
 
     return (
-      <div>
+      <div className={classes}>
         <AppHeader onHeaderAction={this.headerAction} url={this.state.url} showDropdown={false}/>
 
         <div className={pclass("body")} ref="appBody">

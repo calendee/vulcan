@@ -42,30 +42,34 @@ body {
 }
 
 ##{$namespace} {
-  border-radius: 3px 3px 0px 0px;
-  box-shadow: 0px 0px 50px rgba(0, 0, 0, .4);
-  background-color: $white;
-  position: fixed;
-  z-index: 99999999;
-  width: 500px;
-  font-family: $default-font;
 
-  &.#{$namespace}-pinned-all {
+
+  .#{$namespace}-pinned {
+    position: fixed;
+    z-index: 99999999;
+    width: 500px;
+    border-radius: 3px 3px 0px 0px;
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, .4);
+    background-color: $white;
+    font-family: $default-font;
+  }
+
+  .#{$namespace}-pinned-all {
     top: 0px;
     bottom: 0px;
     right: 0px;
     left: 0px;
   }
-  &.#{$namespace}-pinned-top {
+  .#{$namespace}-pinned-top {
     top: 0px;
   }
-  &.#{$namespace}-pinned-bottom {
+  .#{$namespace}-pinned-bottom {
     bottom: 0px;
   }
-  &.#{$namespace}-pinned-left {
+  .#{$namespace}-pinned-left {
     left: 0px;
   }
-  &.#{$namespace}-pinned-right {
+  .#{$namespace}-pinned-right {
     right: 0px;
   }
 
