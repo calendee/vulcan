@@ -89,6 +89,8 @@ body {
     font-weight: 200;
     transition: all .2s ease-out;
     outline: none;
+    margin-right: 10px;
+    cursor: pointer;
 
     &:hover {
       background: lighten($teal, 10%);
@@ -99,6 +101,33 @@ body {
       box-shadow: inset 0px 1px 3px rgba(0, 0, 0, .3);
       background: darken($teal, 5%);
       color: darken($teal, 15%);;
+      text-shadow: 0px 1px 0px rgba(255, 255, 255, .5);
+    }
+  }
+
+  .#{$namespace}-button-secondary {
+    border-radius: 3px;
+    display: inline-block;
+    border: none;
+    background: $gray-light;
+    line-height: 40px;
+    color: $white;
+    padding: 0px 20px;
+    font-size: $basefont + 4;
+    font-weight: 200;
+    transition: all .2s ease-out;
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+      background: lighten($gray-light, 10%);
+    }
+
+    &:active {
+      transition: none;
+      box-shadow: inset 0px 1px 3px rgba(0, 0, 0, .3);
+      background: darken($gray-light, 5%);
+      color: darken($gray-light, 15%);;
       text-shadow: 0px 1px 0px rgba(255, 255, 255, .5);
     }
   }

@@ -28,18 +28,12 @@ module.exports = React.createClass({
   },
 
   componentWillMount: function() {
-    EventHub.subscribe('add', this.addNode);
-    EventHub.subscribe('edit', this.editNode);
+    EventHub.subscribe('add', this.showForm);
+    EventHub.subscribe('priority', this.showForm);
+    EventHub.subscribe('edit', this.showForm);
   },
 
-  editNode: function(name, node) {
-    this.setState({
-      formAction: name,
-      node: node
-    });
-  },
-
-  addNode: function(name, node) {
+  showForm: function(name, node) {
     this.setState({
       formAction: name,
       node: node
@@ -130,6 +124,7 @@ module.exports = React.createClass({
     var pclass = this.prefixClass;
     var cx = React.addons.classSet;
 
+    //OPTIONS FOR PINNING STATE
     var classes = cx({
       'forge-stealth-pinned-top': this.state.pinned.top,
       'forge-stealth-pinned-bottom': this.state.pinned.bottom,

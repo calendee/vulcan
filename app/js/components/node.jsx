@@ -42,7 +42,6 @@ var Node = React.createClass({
 
   //CALLED WHEN ITEM IS BEING REMOVED
   componentWillUnmount: function() {
-    console.log('unmount');
     //REMOVE ALL EVENTS
     this.props.firebaseRef.off();
   },
@@ -226,6 +225,12 @@ var Node = React.createClass({
     EventHub.publish('add', this);
   },
 
+  editPriority: function(e) {
+    e.preventDefault();
+
+    EventHub.publish('priority', this);
+  },
+
   render: function() {
     var pclass = this.prefixClass;
 
@@ -246,7 +251,7 @@ var Node = React.createClass({
               return (
                 <div className={pclass('options')}>
                   <button onClick={this.addNode}>Add</button>
-                  <button onClick={this.addNode}>Edit</button>
+                  <button onClick={this.editPriority}>Priority</button>
                   <button onClick={this.removeNode}>Remove</button>
                 </div>
               )
