@@ -492,12 +492,41 @@ body {
 
     .#{$namespace}-form-header {
       border-radius: 3px 3px 0px 0px;
-      background: $navy-darkest;
-      padding: 10px;
-      line-height: 10px;
-      color: $white;
-      text-align: center;
-      font-size: $basefont - 2;
+      background-color: $gray-lightest;
+
+      h3 {
+        color: $cool;
+        text-align: center;
+        font-size: $basefont - 2;
+        font-weight: 300;
+        line-height: 30px;
+        margin: 0px;
+        padding: 0px;
+
+        strong {
+          font-weight: bold;
+        }
+      }
+
+      .#{$namespace}-form-nav {
+        background: $navy-dark;
+
+        a {
+          display: inline-block;
+          line-height: 50px;
+          color: $navy-lightest;
+          text-decoration: none;
+          text-align: center;
+          padding: 0px 20px;
+          font-size: $basefont - 2;
+          cursor: pointer;
+
+          &.#{$namespace}-selected {
+            background: $navy-darkest;
+            color: $white;
+          }
+        }
+      }
     }
 
     //FORM BODY

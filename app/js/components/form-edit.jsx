@@ -129,7 +129,7 @@ module.exports = React.createClass({
             if(this.props.action === 'priority') {
               return (
                 <div>
-                  <header className={pclass('form-header')}>Editing Priority for {this.state.name}</header>
+                  <header className={pclass('form-header')}><h3>Editing Priority for {this.state.name}</h3></header>
                   <ul>
                     <li>
                       <label>Priority</label>
@@ -147,7 +147,7 @@ module.exports = React.createClass({
             if(this.props.action === 'edit') {
               return (
                 <div>
-                  <header className={pclass('form-header')}>Editing {this.state.name}</header>
+                  <header className={pclass('form-header')}><h3>Editing {this.state.name}</h3></header>
                   <ul>
                     <li>
                       <label>{this.state.name}</label>
@@ -169,13 +169,13 @@ module.exports = React.createClass({
             //HEADER NAV
             if(this.props.action === 'add') {
               return (
-                <header className={pclass('form-header')}>
-                  <h3>Adding Child to {this.state.name}</h3>
+                <header className={pclass('form-header')} >
+                  <h3>Adding Child to <strong>{this.state.name}</strong> Node</h3>
 
                   <nav className={pclass('form-nav')}>
-                    <a onClick={this.addChildMode}>Child</a>
-                    <a onClick={this.addBranchMode}>Branch</a>
-                    <a onClick={this.addJsonMode}>JSON</a>
+                    <a onClick={this.addChildMode}>Add Child</a>
+                    <a onClick={this.addBranchMode}>Add Branch</a>
+                    <a onClick={this.addJsonMode}>Add JSON</a>
                   </nav>
                 </header>
               )
@@ -254,7 +254,7 @@ module.exports = React.createClass({
           }.bind(this)()}
 
           <footer  className={pclass('form-footer')}>
-            <input type="submit" value="Done"  className={pclass('button-primary')} />
+            <input type="submit" value="Save"  className={pclass('button-primary')} />
             <a className={pclass('button-secondary')} onClick={this.closeForm}>Cancel</a>
           </footer>
         </form>
