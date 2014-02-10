@@ -54,7 +54,9 @@ module.exports = React.createClass({
 
     return (
       <div className="forge-stealth-header">
-        <h1>Vulcan</h1>
+        <div className={pclass('logo')}>
+          <h1>V</h1>
+        </div>
 
         {function(){
           if(this.props.url) {

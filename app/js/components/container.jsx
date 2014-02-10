@@ -6,15 +6,10 @@ var EditForm = require('./form-edit');
 var EventHub = require('./eventhub');
 var AppMixins = require('./mixins');
 
-
 module.exports = React.createClass({
   mixins: [AppMixins],
 
   getInitialState: function() {
-    //PUB SUB EVENTS
-    EventHub.subscribe('add', this.addNode);
-    EventHub.subscribe('edit', this.editNode);
-
     return {
       status: 'new',
       firebaseRef: null,
@@ -23,6 +18,11 @@ module.exports = React.createClass({
       formAction: null,
       node: null
     };
+  },
+
+  componentWillMount: function() {
+    EventHub.subscribe('add', this.addNode);
+    EventHub.subscribe('edit', this.editNode);
   },
 
   editNode: function(name, node) {
@@ -46,37 +46,36 @@ module.exports = React.createClass({
     });
   },
 
-
   login: function(data) {
     var firebase = new Firebase(data.url);
     var token = data.token || this.state.token;
 
-    //AUTHENTICATED FIREBASE
+    //AUTHENTICATE
     if(token) {
-      firebase.auth(token, function(error, result) {
-        if(error) {
-          this.setState({ status: 'error' });
-        }
-        else {
-          this.setState({
-            url: data.url,
-            token: token,
-            firebaseRef: firebase
-          });
-        }
-      }.bind(this));
+      this.authenticate(firebase, token);
     }
-    // STANDARD FIREBASE
     else {
-      this.setState({
-        url: data.url,
-        firebaseRef: firebase
-      });
+      this.setState({url: data.url, firebaseRef: firebase });
     }
   },
 
+  authenticate: function(firebase, token) {
+    firebase.auth(token, function(error, result) {
+      if(error) {
+        this.setState({ status: 'error' });
+      }
+      else {
+        this.setState({
+          url: data.url,
+          token: token,
+          firebaseRef: firebase
+        });
+      }
+    }.bind(this));
+  },
+
   logout: function() {
-    //UNAUTH USER
+    //UNAUTHENTICATE
     this.state.firebaseRef.unauth();
 
     this.setState({
@@ -92,7 +91,7 @@ module.exports = React.createClass({
   changeURL: function(data) {
     var firebase = new Firebase(data.url);
 
-    //RESET DATA
+    //RESET
     this.setState({
       formAction: null,
       node: null,
@@ -101,10 +100,8 @@ module.exports = React.createClass({
       url: '',
       token: ''
     },
-    //NOW USE NEW FIREBASE REF
     function() {
-      React.unmountComponentAtNode(this.refs.appBody.getDOMNode());
-
+      //USE NEW FIREBASE REF
       this.setState({
         url: data.url,
         firebaseRef: firebase
@@ -153,5 +150,4 @@ module.exports = React.createClass({
       </div>
     );
   }
-
 });

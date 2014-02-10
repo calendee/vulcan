@@ -1,7 +1,6 @@
 /** @jsx React.DOM */
 var AppMixins = require('./mixins');
 
-
 module.exports = React.createClass({
   mixins: [AppMixins],
 

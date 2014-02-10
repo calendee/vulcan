@@ -25,6 +25,9 @@ module.exports = React.createClass({
   render: function() {
     return  (
       <form onSubmit={this.handleSubmit}>
+        <h2>Vulcan</h2>
+        <p>The Firebase Data Inspector</p>
+
         <ul>
           <li>
             <label ref="urlLabel">Firebase URL</label>
