@@ -8,7 +8,6 @@ var Node = React.createClass({
 
   //CALLED BEFORE VERY FIRST INIT, FIRST THING THAT GETS CALLED!
   getInitialState: function() {
-    this.numChildrenRendered = 0;
     this.firstRender = true;
 
     //FLAGS TO TRACK THE INTERNAL STATE OF THINGS.
@@ -42,7 +41,9 @@ var Node = React.createClass({
   },
 
   //CALLED WHEN ITEM IS BEING REMOVED
-  componentWillUnMount: function() {
+  componentWillUnmount: function() {
+    console.log('unmount');
+    //REMOVE ALL EVENTS
     this.props.firebaseRef.off();
   },
 
@@ -59,7 +60,7 @@ var Node = React.createClass({
 
   resetStatus: function() {
     if(this.state.status !== 'normal' && this.state.status !== 'removed') {
-      setTimeout(function() {
+      this.timeout = setTimeout(function() {
           this.setState({status: 'normal'});
       }.bind(this), 1000);
     }
@@ -156,8 +157,6 @@ var Node = React.createClass({
   },
 
   expandList: function() {
-    this.numChildrenRendered = 0;
-
     //ADD ALL EVENTS
     ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
       this.props.firebaseRef.on(event, this.listeners[event].bind(this));
@@ -170,7 +169,7 @@ var Node = React.createClass({
   collapseList: function() {
     //REMOVE ALL EVENTS
     ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
-      this.props.firebaseRef.off(event, this.listeners[event].bind(this));
+      this.props.firebaseRef.off(event);
     }, this);
 
     //SET STATE TO NOT EXPANDED
