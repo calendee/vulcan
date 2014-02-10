@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+
+  "name": "Firebase Data Inspector",
+  "description": "Tool for debugging Firebase applications.",
+  "version": "1.0.0",
+
+  "icons": {
+    "16":  "images/icon16.png",
+    "48":  "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "permissions": [
+    "<all_urls>"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "devtools_page": "devtools.html"
+}

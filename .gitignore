@@ -3,3 +3,5 @@ node_modules/
 tmp/
 production/
 .sass-cache
+chrome-extension/panes/*
+!/chrome-extension/panes/index.html

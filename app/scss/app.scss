@@ -52,14 +52,16 @@ body {
     box-shadow: 0px 0px 50px rgba(0, 0, 0, .4);
     background-color: $white;
     font-family: $default-font;
+
+    &.#{$namespace}-pinned-all {
+      top: 0px;
+      bottom: 0px;
+      right: 0px;
+      left: 0px;
+      width: auto;
+    }
   }
 
-  .#{$namespace}-pinned-all {
-    top: 0px;
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
-  }
   .#{$namespace}-pinned-top {
     top: 0px;
   }

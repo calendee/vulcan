@@ -72,6 +72,14 @@ module.exports = function(grunt) {
           src: ['**/*'],
           dest: 'production/images'
         }]
+      },
+      chrome: {
+        files: [{
+          expand: true,
+          cwd: 'production',
+          src: ['**/*', '!index.html'],
+          dest: 'chrome-extension/panes'
+        }]
       }
     },
 
@@ -124,6 +132,8 @@ module.exports = function(grunt) {
   });
 
   // Default task(s).
-  grunt.registerTask('default', ['sass', 'autoprefixer', 'react', 'browserify', 'copy', 'clean', 'connect', 'watch']);
+  grunt.registerTask('build', ['sass', 'autoprefixer', 'react', 'browserify', 'copy:html', 'copy:bower', 'copy:images', 'clean']);
+  grunt.registerTask('chrome', ['build', 'copy:chrome']);
+  grunt.registerTask('default', ['build', 'connect', 'watch']);
 
 };

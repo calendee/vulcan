@@ -10,6 +10,7 @@ module.exports = React.createClass({
   mixins: [AppMixins],
 
   getInitialState: function() {
+    var options = (this.props.options && this.props.options.container) ? this.props.options.container : {};
     return {
       status: 'new',
       firebaseRef: null,
@@ -17,7 +18,7 @@ module.exports = React.createClass({
       token: '',
       formAction: null,
       node: null,
-      pinned: {
+      pinned: options.pinned || {
         top: false,
         left: false,
         right: true,
@@ -134,6 +135,7 @@ module.exports = React.createClass({
       'forge-stealth-pinned-bottom': this.state.pinned.bottom,
       'forge-stealth-pinned-left': this.state.pinned.left,
       'forge-stealth-pinned-right': this.state.pinned.right,
+      'forge-stealth-pinned-all': this.state.pinned.top && this.state.pinned.bottom && this.state.pinned.left && this.state.pinned.right,
       'forge-stealth-pinned': true
     });
 
