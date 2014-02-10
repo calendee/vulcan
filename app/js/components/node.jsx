@@ -1,9 +1,10 @@
 /** @jsx React.DOM */
-var Transmitter = require('./transmitter');
+var EventHub = require('./eventhub');
 var ReactTransitionGroup = React.addons.TransitionGroup;
-
+var AppMixins = require('./mixins');
 
 var Node = React.createClass({
+  mixins: [AppMixins],
 
   //CALLED BEFORE VERY FIRST INIT, FIRST THING THAT GETS CALLED!
   getInitialState: function() {
@@ -207,16 +208,7 @@ var Node = React.createClass({
     return this.state.expanded ? '-' : '+';
   },
 
-  prefixClass: function(name) {
-    var prefix = 'forge-stealth';
-    // Convert the name to an array
-    if (!Array.isArray(name)) {
-      name = name.split(' ');
-    }
-    return name.reduce(function(classString, className) {
-      return classString + ' ' + prefix + '-' + className;
-    }, '').replace(/^\s|\s$/g, '');
-  },
+
 
   removeNode: function(e) {
     e.preventDefault();
@@ -226,13 +218,13 @@ var Node = React.createClass({
   editNode: function(e) {
     e.preventDefault();
 
-    Transmitter.publish('edit', this);
+    EventHub.publish('edit', this);
   },
 
   addNode: function(e) {
     e.preventDefault();
 
-    Transmitter.publish('add', this);
+    EventHub.publish('add', this);
   },
 
   render: function() {
@@ -255,6 +247,7 @@ var Node = React.createClass({
               return (
                 <div className={pclass('options')}>
                   <button onClick={this.addNode}>Add</button>
+                  <button onClick={this.addNode}>Edit</button>
                   <button onClick={this.removeNode}>Remove</button>
                 </div>
               )

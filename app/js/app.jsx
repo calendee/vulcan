@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-var Wrapper = require('./components/wrapper');
+var Wrapper = require('./components/container');
 
 var initialize = function () {
 

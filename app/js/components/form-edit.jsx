@@ -1,43 +1,13 @@
 /** @jsx React.DOM */
-var Transmitter = require('./transmitter');
+var AppMixins = require('./mixins');
+
 
 module.exports = React.createClass({
-
-  getInitialState: function() {
-    return {
-      mode: 'standard',
-      key: '',
-      nodeValue: '',
-      parentKey: ''
-    };
-  },
-
-  componentWillReceiveProps: function(nextProps) {
-    console.log('props hit');
-    if(nextProps.node) {
-      var node = nextProps.node.state;
-      var action = nextProps.action;
-      var key = '';
-      var nodeValue = '';
-      var priority = '';
-
-      if(action === 'edit') {
-        key = node.name;
-        nodeValue = node.value;
-        priority = node.priority;
-      }
-
-      this.setState({
-        key: key,
-        nodeValue:  nodeValue,
-        parentKey: '',
-        priority: priority
-      })
-    }
-  },
+  mixins: [AppMixins],
 
   handleSubmit: function(e) {
     e.preventDefault();
+
     var form = e.currentTarget;
     var firebaseRef = this.props.node.props.firebaseRef;
     var key = form.key.value;
@@ -54,20 +24,8 @@ module.exports = React.createClass({
   },
 
   closeForm: function() {
-    Transmitter.publish('closeForm');
+    this.props.onComplete();
   },
-
-  prefixClass: function(name) {
-    var prefix = 'forge-stealth';
-    // Convert the name to an array
-    if (!Array.isArray(name)) {
-      name = name.split(' ');
-    }
-    return name.reduce(function(classString, className) {
-      return classString + ' ' + prefix + '-' + className;
-    }, '').replace(/^\s|\s$/g, '');
-  },
-
 
   render: function() {
     var pclass = this.prefixClass;
@@ -75,6 +33,7 @@ module.exports = React.createClass({
     return (
       <div>
         <div className={pclass('form-overlay')}></div>
+
         <form onSubmit={this.handleSubmit} className={pclass(['form', this.props.action])}>
           <header className={pclass('form-header')}>
             <a>Value</a>
@@ -83,7 +42,7 @@ module.exports = React.createClass({
           </header>
 
           {/* JSON FORM */}
-          <div className={pclass(['form-body', this.state.mode])}>
+          <div className={pclass(['form-body', this.props.action])}>
 
             {/* STANDARD FORM */}
             <div className={pclass('form-standard')}>
