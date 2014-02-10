@@ -70,7 +70,12 @@ body {
       width: auto;
 
       .#{$namespace}-body {
-        height: auto;
+        position: absolute;
+        top: 60px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        z-index: 1;
       }
     }
   }
