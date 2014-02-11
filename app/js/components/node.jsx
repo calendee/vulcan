@@ -249,6 +249,7 @@ var Node = React.createClass({
             if(this.state.hasChildren) {
               return (
                 <div className={pclass('options')}>
+                  <div className={pclass('options-arrow')}></div>
                   <button className={pclass('button-add')} onClick={this.addNode}>Add</button>
                   <button className={pclass('button-edit')} onClick={this.editPriority}>Priority</button>
                   <button className={pclass('button-remove')} onClick={this.removeNode}>Remove</button>
@@ -258,6 +259,7 @@ var Node = React.createClass({
             else {
               return (
                 <div className={pclass('options')}>
+                  <div className={pclass('options-arrow')}></div>
                   <button className={pclass('button-edit')} onClick={this.editNode}>Edit</button>
                   <button className={pclass('button-remove')} onClick={this.removeNode}>Remove</button>
                 </div>
