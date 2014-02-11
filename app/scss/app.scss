@@ -45,7 +45,6 @@ body {
   .#{$namespace}-left {
     float: left;
   }
-
   .#{$namespace}-right {
     float: right;
   }
@@ -147,6 +146,87 @@ body {
       box-shadow: inset 0px 1px 3px rgba(0, 0, 0, .3);
       background: darken($gray-light, 5%);
       color: darken($gray-light, 15%);;
+      text-shadow: 0px 1px 0px rgba(255, 255, 255, .5);
+    }
+  }
+
+  .#{$namespace}-button-add {
+    border-radius: 3px;
+    border: none;
+    background: $teal;
+    height: 20px;
+    color: $white;
+    padding: 0px 10px;
+    font-size: $basefont - 2;
+    font-weight: 200;
+    transition: all .2s ease-out;
+    outline: none;
+    margin-right: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background: lighten($teal, 10%);
+    }
+
+    &:active {
+      transition: none;
+      box-shadow: inset 0px 1px 3px rgba(0, 0, 0, .3);
+      background: darken($teal, 5%);
+      color: darken($teal, 15%);;
+      text-shadow: 0px 1px 0px rgba(255, 255, 255, .5);
+    }
+  }
+
+  .#{$namespace}-button-edit {
+    border-radius: 3px;
+    border: none;
+    background: $blue;
+    height: 20px;
+    color: $white;
+    padding: 0px 10px;
+    font-size: $basefont - 2;
+    font-weight: 200;
+    transition: all .2s ease-out;
+    outline: none;
+    margin-right: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background: lighten($blue, 10%);
+    }
+
+    &:active {
+      transition: none;
+      box-shadow: inset 0px 1px 3px rgba(0, 0, 0, .3);
+      background: darken($blue, 5%);
+      color: darken($blue, 15%);;
+      text-shadow: 0px 1px 0px rgba(255, 255, 255, .5);
+    }
+  }
+
+  .#{$namespace}-button-remove {
+    border-radius: 3px;
+    border: none;
+    background: $red;
+    height: 20px;
+    color: $white;
+    padding: 0px 10px;
+    font-size: $basefont - 2;
+    font-weight: 200;
+    transition: all .2s ease-out;
+    outline: none;
+    margin-right: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background: lighten($red, 10%);
+    }
+
+    &:active {
+      transition: none;
+      box-shadow: inset 0px 1px 3px rgba(0, 0, 0, .3);
+      background: darken($red, 5%);
+      color: darken($red, 15%);;
       text-shadow: 0px 1px 0px rgba(255, 255, 255, .5);
     }
   }
@@ -368,16 +448,23 @@ body {
 
           //HOVER OPTIONS
           .#{$namespace}-options {
+            box-shadow: 0px 2px 20px rgba(0, 0, 0, .3);
+            background: $navy-dark;
+            padding: 5px;
             border-radius: 3px;
             display: none;
             position: absolute;
             top: 0px;
             z-index: 1;
+
+            .#{$namespace}-options-arrow {
+
+            }
           }
 
           //PRIORITY
           .#{$namespace}-priority {
-            background: $teal;
+            background: $blue;
             color: $white;
             border-radius: 3px;
             line-height: $baseline;

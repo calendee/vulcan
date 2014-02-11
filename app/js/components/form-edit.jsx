@@ -68,6 +68,8 @@ module.exports = React.createClass({
       this.state.firebaseRef.child(parentKey).setWithPriority(childData, parentPriority, function() {
         //UPDATE CHILD PRIORITY
         this.state.firebaseRef.child(parentKey).child(key).setPriority(priority);
+              this.closeForm();
+
       }.bind(this));
     }
   },
@@ -78,8 +80,8 @@ module.exports = React.createClass({
     var priority = form.priority.value.trim() || null;
 
     if(json && key) {
-      console.log(json);
       this.state.firebaseRef.child(key).setWithPriority(json, priority);
+      this.closeForm();
     }
   },
 
@@ -87,7 +89,7 @@ module.exports = React.createClass({
     var priority = form.priority.value.trim() || null;
     var value = form.value.value.trim();
 
-    if(value) {
+    if(value !== undefined && value !== '') {
       this.state.firebaseRef.setWithPriority(value, priority);
       this.closeForm();
     }

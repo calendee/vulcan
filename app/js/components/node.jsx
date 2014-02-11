@@ -21,7 +21,6 @@ var Node = React.createClass({
       children: [],
       name: '',
       value: null,
-      status: this.props.status, //normal, changed, removed, updated
       expanded: false,
       firebaseRef: null,
       priority: null
@@ -250,17 +249,17 @@ var Node = React.createClass({
             if(this.state.hasChildren) {
               return (
                 <div className={pclass('options')}>
-                  <button onClick={this.addNode}>Add</button>
-                  <button onClick={this.editPriority}>Priority</button>
-                  <button onClick={this.removeNode}>Remove</button>
+                  <button className={pclass('button-add')} onClick={this.addNode}>Add</button>
+                  <button className={pclass('button-edit')} onClick={this.editPriority}>Priority</button>
+                  <button className={pclass('button-remove')} onClick={this.removeNode}>Remove</button>
                 </div>
               )
             }
             else {
               return (
                 <div className={pclass('options')}>
-                  <button onClick={this.editNode}>Edit</button>
-                  <button onClick={this.removeNode}>Remove</button>
+                  <button className={pclass('button-edit')} onClick={this.editNode}>Edit</button>
+                  <button className={pclass('button-remove')} onClick={this.removeNode}>Remove</button>
                 </div>
               )
             }
@@ -269,7 +268,7 @@ var Node = React.createClass({
 
           {/* PRIORITY */}
           {function(){
-            if(this.state.priority !== null) {
+            if(this.state.priority) {
               return <em className={pclass('priority')}>{this.state.priority}</em>
             }
           }.bind(this)()}
