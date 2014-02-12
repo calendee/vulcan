@@ -25,5 +25,5 @@ To use Vulcan as a chrom plugin:
 ## Development
 We use grunt for our build process. You can use the following commmands:
 
-- *grunt server* - builds the web environment and runs the server on localhost:8000 with live reload.
-- *grunt* - builds both web and chrome extension production ready files.
+- **grunt server** - builds the web environment and runs the server on localhost:8000 with live reload.
+- **grunt** - builds both web and chrome extension production ready files.
