@@ -74,10 +74,10 @@ module.exports = React.createClass({
                     if(this.state.showDropdown) {
                       return (
                         <ul className={pclass('dropdown-list')}>
-                          <li><a onClick={this.minimize}>Minimize</a></li>
-                          <li><a onClick={this.expandAll}>Expand All</a></li>
-                          <li><a onClick={this.collapseAll}>Collapse All</a></li>
-                          <li><a onClick={this.logout}>Logout</a></li>
+                          <li><a href="#" onClick={this.minimize}>Minimize</a></li>
+                          <li><a href="#" onClick={this.expandAll}>Expand All</a></li>
+                          <li><a href="#" onClick={this.collapseAll}>Collapse All</a></li>
+                          <li><a href="#" onClick={this.logout}>Logout</a></li>
                         </ul>
                       )
                     }

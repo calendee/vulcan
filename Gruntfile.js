@@ -131,9 +131,12 @@ module.exports = function(grunt) {
 
   });
 
-  // Default task(s).
   grunt.registerTask('build', ['sass', 'autoprefixer', 'react', 'browserify', 'copy:html', 'copy:bower', 'copy:images', 'clean']);
   grunt.registerTask('chrome', ['build', 'copy:chrome']);
-  grunt.registerTask('default', ['build', 'connect', 'watch']);
 
+  //DEVELOPMENT FOR WEB PLATFORM
+  grunt.registerTask('server', ['build', 'connect', 'watch']);
+
+  //DEFAULT TASK ($ grunt) builds app and chrome extention
+  grunt.registerTask('default', ['sass', 'autoprefixer', 'react', 'browserify', 'copy:html', 'copy:bower', 'copy:images', 'clean', 'copy:chrome']);
 };

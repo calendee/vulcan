@@ -297,7 +297,7 @@ body {
       background: lighten($navy-darkest, 2%);
       top: 0px;
       right: 0px;
-      z-index: 1;
+      z-index: 10;
       cursor: pointer;
 
       .#{$namespace}-dropdown-link {
@@ -352,6 +352,7 @@ body {
           color: $navy-lightest;
           cursor: pointer;
           background: $navy;
+          text-decoration: none;
 
           &:hover {
             background: $navy-darkest;
