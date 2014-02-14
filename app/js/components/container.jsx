@@ -48,6 +48,9 @@ module.exports = React.createClass({
   },
 
   login: function(data) {
+    //CLEAR ERROR MESSAGES
+    this.setState({ loginError: null });
+
     var firebase = new Firebase(data.url);
     var token = data.token || this.state.token;
 
@@ -63,7 +66,7 @@ module.exports = React.createClass({
   authenticate: function(firebase, token) {
     firebase.auth(token, function(error, result) {
       if(error) {
-        this.setState({ status: 'error' });
+        this.setState({ loginError: error });
       }
       else {
         this.setState({
@@ -148,7 +151,7 @@ module.exports = React.createClass({
               )
             }
             else {
-              return <LoginForm onLogin={this.login} url="https://airwolfe.firebaseio.com/" />
+              return <LoginForm errors={this.state.loginError} onLogin={this.login} url="https://airwolfe.firebaseio.com/" />
             }
           }.bind(this)()}
         </div>

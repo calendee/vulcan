@@ -10,8 +10,6 @@ module.exports = React.createClass({
     var url = this.refs.url.getDOMNode().value.trim();
     var token = this.refs.token.getDOMNode().value.trim();
 
-    console.log(url);
-
     if(url) {
       this.props.onLogin({
         url: url,
@@ -30,6 +28,12 @@ module.exports = React.createClass({
       <form onSubmit={this.handleSubmit} className={pclass('login-form')}>
         <h2>Vulcan</h2>
         <p>Firebase Data Inspector</p>
+
+        {function(){
+          if(this.props.errors) {
+            return <div class="alert alert-error">{this.props.errors.message}</div>
+          }
+        }.bind(this)()}
 
         <ul>
           <li>
