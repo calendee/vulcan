@@ -6,14 +6,31 @@ var AppMixins = require('./mixins');
 var Node = React.createClass({
   mixins: [AppMixins],
 
-  //CALLED BEFORE VERY FIRST INIT, FIRST THING THAT GETS CALLED!
+  listeners: {
+    value: function(snapshot) {
+      this.update(snapshot);
+      this.firstRender = false;
+    },
+    child_changed: function(snapshot, prevChildName) {
+      this.flags[snapshot.name()] = 'changed';
+    },
+    child_added: function(snapshot, previousName) {
+      if(this.firstRender === false && this.state.expanded) {
+        this.flags[snapshot.name()] = 'added';
+      }
+    },
+    child_removed: function(snapshot) {
+      this.flags[snapshot.name()] = 'removed';
+    },
+    child_moved: function(snapshot, previousName) {
+      this.flags[snapshot.name()] = 'moved';
+    }
+  },
+
+  //CALLED BEFORE VERY FIRST INIT
   getInitialState: function() {
     this.firstRender = true;
-
-    //FLAGS TO TRACK THE INTERNAL STATE OF THINGS.
-    this.flags = {
-      //nodename: 'added'
-    };
+    this.flags = {}; //USED TO TRACK STATE OF RECENTLY CHANGE NODE
 
     return {
       hasChildren: false,
@@ -22,12 +39,11 @@ var Node = React.createClass({
       name: '',
       value: null,
       expanded: false,
-      firebaseRef: null,
-      priority: null
+      firebaseRef: null
     };
   },
 
-  //ONLY CALLED ON FIRST INIT
+  //CALLED ONCE ON FIRST INIT
   componentWillMount: function() {
     this.props.firebaseRef.on('value', this.listeners.value.bind(this));
 
@@ -39,27 +55,15 @@ var Node = React.createClass({
     }
   },
 
-  //CALLED WHEN ITEM IS BEING REMOVED
   componentWillUnmount: function() {
-    //REMOVE ALL EVENTS
     this.props.firebaseRef.off();
   },
 
-  //LISTEN FOR CHANGES ON PROPERTIES AND UPDATE STATE
-  componentWillReceiveProps: function(nextProps) {
-    //IF STATUS IS DIFFERENT
-    this.setState({status: nextProps.status});
-  },
-
-  //CALL RIGHT AFTER ELEMENT IS UPDATED
   componentDidUpdate: function() {
-    this.resetStatus();
-  },
-
-  resetStatus: function() {
-    if(this.state.status !== 'normal' && this.state.status !== 'removed') {
+    //RESET STATUS TO NORMAL
+    if(this.props.status !== 'normal' && this.props.status !== 'removed') {
       this.timeout = setTimeout(function() {
-          this.setState({status: 'normal'});
+        this.props.onResetStatus(this);
       }.bind(this), 1000);
     }
   },
@@ -69,7 +73,6 @@ var Node = React.createClass({
     var children = [];
     var expanded = (options.expanded !== undefined) ? options.expanded : this.state.expanded;
     var name = snapshot.name();
-    var status = this.state.status;
 
     //ROOT NODE ONLY
     if(this.props.root) {
@@ -85,7 +88,6 @@ var Node = React.createClass({
         name = refName.replace(realRoot + '/', ''); //CHANGE TO REAL NAME OF FIREBASE AT SOME POINT
       }
       expanded = true;
-      status = 'changed';
     }
 
     //I HAVE CHILDREN, CREATE THEM
@@ -112,100 +114,25 @@ var Node = React.createClass({
       children: children,
       expanded: expanded,
       name: name,
-      status: status,
-      value: snapshot.val(),
-      priority: snapshot.getPriority()
+      value: snapshot.val()
     });
   },
-
-  createChildren: function(snapshot) {
-    var children = [];
-
-    snapshot.forEach(function(child){
-      var status = 'normal';
-
-      //GET THE STATUS FLAG FOR THIS NODE
-      if(this.flags[child.name()]) {
-
-        //SET NEW STATUS
-        status = this.flags[child.name()];
-
-        //NOW DELETE THE FLAG
-        delete this.flags[child.name()];
-      }
-
-      //CREATE A NODE
-      var node = <Node key={child.name()} firebaseRef={child.ref()} snapshot={child} status={status}/>;
-      //ADD TO DICTIONARY AND ARRAY
-      children.push(node);
-    }.bind(this));
-
-    return children;
-  },
-
 
   //USER INITIATED METHODS
   toggle: function() {
     if(this.state.expanded) {
-      this.collapseList();
+      this._removeEvents();
+      this.update(this.state.snapshot, {expanded: false});
     }
     else {
-      this.expandList();
-    }
-  },
-
-  expandList: function() {
-    //ADD ALL EVENTS
-    ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
-      this.props.firebaseRef.on(event, this.listeners[event].bind(this));
-    }, this);
-
-    //SET STATE TO EXPANDED
-    this.update(this.state.snapshot, {expanded: true});
-  },
-
-  collapseList: function() {
-    //REMOVE ALL EVENTS
-    ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
-      this.props.firebaseRef.off(event);
-    }, this);
-
-    //SET STATE TO NOT EXPANDED
-    this.update(this.state.snapshot, {expanded: false});
-  },
-
-  listeners: {
-
-    //Called when all other events have completed
-    value: function(snapshot) {
-      this.update(snapshot);
-      this.firstRender = false;
-    },
-
-    child_changed: function(snapshot, prevChildName) {
-      this.flags[snapshot.name()] = 'changed';
-    },
-
-    //called many times
-    child_added: function(snapshot, previousName) {
-      if(this.firstRender === false && this.state.expanded) {
-        this.flags[snapshot.name()] = 'added';
-      }
-    },
-
-    child_removed: function(snapshot) {
-      this.flags[snapshot.name()] = 'removed';
-    },
-    child_moved: function(snapshot, previousName) {
-      this.flags[snapshot.name()] = 'moved';
+      this._addEvents();
+      this.update(this.state.snapshot, {expanded: true});
     }
   },
 
   getToggleText: function() {
     return this.state.expanded ? '-' : '+';
   },
-
-
 
   removeNode: function(e) {
     e.preventDefault();
@@ -214,27 +141,63 @@ var Node = React.createClass({
 
   editNode: function(e) {
     e.preventDefault();
-
     EventHub.publish('edit', this);
   },
 
   addNode: function(e) {
     e.preventDefault();
-
     EventHub.publish('add', this);
   },
 
   editPriority: function(e) {
     e.preventDefault();
-
     EventHub.publish('priority', this);
+  },
+
+  resetStatus: function(node) {
+    console.log('reset status');
+    //FORCE A RERENDER TO RESET ALL STATUS BACK TO NORMAL
+    this.update(this.state.snapshot);
+  },
+
+  _removeEvents: function() {
+    ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
+      this.props.firebaseRef.off(event);
+    }, this);
+  },
+
+  _addEvents: function() {
+    ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
+      this.props.firebaseRef.on(event, this.listeners[event].bind(this));
+    }, this);
+  },
+
+  createChildren: function(snapshot) {
+    var children = [];
+
+    snapshot.forEach(function(child){
+      var status = 'normal';
+
+      //SEE IF NODE HAS A STATUS & DELETE FLAG
+      if(this.flags[child.name()]) {
+        status = this.flags[child.name()];
+        delete this.flags[child.name()];
+      }
+
+      //CREATE A NODE
+      var node = <Node onResetStatus={this.resetStatus} key={child.name()} firebaseRef={child.ref()} snapshot={child} status={status} priority={child.getPriority()}/>;
+
+      children.push(node);
+    }.bind(this));
+
+    return children;
   },
 
   render: function() {
     var pclass = this.prefixClass;
 
     return (
-      <li ref="alex" className={pclass('node')}>
+      <li className={pclass('node')}>
         {function(){
           //SHOW BUTTON
           if(this.state.hasChildren && !this.props.root) {
@@ -242,7 +205,7 @@ var Node = React.createClass({
           }
         }.bind(this)()}
 
-        <div className={pclass(['container', this.state.status])}>
+        <div className={pclass(['container', this.props.status])}>
 
           {/* HOVER OPTIONS */}
           {function(){
@@ -270,8 +233,8 @@ var Node = React.createClass({
 
           {/* PRIORITY */}
           {function(){
-            if(this.state.priority) {
-              return <em className={pclass('priority')}>{this.state.priority}</em>
+            if(this.props.priority) {
+              return <em className={pclass('priority')}>{this.props.priority}</em>
             }
           }.bind(this)()}
 

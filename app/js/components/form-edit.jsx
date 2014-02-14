@@ -12,7 +12,7 @@ module.exports = React.createClass({
       hasChildren: node.state.numChildren,
       name: node.state.name,
       value: node.state.value,
-      priority: node.state.priority,
+      priority: node.props.priority,
       firebaseRef: node.props.firebaseRef,
       addMode: 'child' //child, branch, json
     };
