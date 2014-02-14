@@ -49,7 +49,7 @@ module.exports = React.createClass({
 
   login: function(data) {
     //CLEAR ERROR MESSAGES
-    this.setState({ loginError: null });
+    this.setState({loginError: null});
 
     var firebase = new Firebase(data.url);
     var token = data.token || this.state.token;

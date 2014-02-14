@@ -262,7 +262,6 @@ var Node = React.createClass({
           }.bind(this)()}
         </div>
 
-
         {function(){
           //1. TREE OF CHILDREN
           if(this.state.hasChildren && this.state.expanded) {
