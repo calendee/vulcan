@@ -46,6 +46,7 @@ var Node = React.createClass({
       name: '',
       value: null,
       expanded: false,
+      collapseAll: false,
       expandAll: false,
       firebaseRef: null
     };
@@ -54,8 +55,6 @@ var Node = React.createClass({
   //CALLED ONCE ON FIRST INIT
   componentWillMount: function() {
     this.props.firebaseRef.on('value', this.listeners.value.bind(this));
-    EventHub.subscribe('collapse', this.collapse);
-    EventHub.subscribe('expand', this.expand);
 
     //ONLY USED FOR ROOT NODE EVENTS
     if(this.props.root) {
@@ -81,26 +80,21 @@ var Node = React.createClass({
   //USER INITIATED METHODS
   toggle: function() {
     if(this.state.expanded) {
-      this.collapse();
+      this._collapse();
     }
     else {
-      this.expand();
+      this._expand();
     }
   },
 
-  expand: function() {
-    if(!this.props.root && this.state.hasChildren) {
-      this._addEvents();
-      this.update(this.state.snapshot, {expanded: true});
-    }
-
+  _expand: function() {
+    this._addEvents();
+    this.update(this.state.snapshot, {expanded: true});
   },
 
-  collapse: function() {
-    if(!this.props.root && this.state.hasChildren) {
-      this._removeEvents();
-      this.update(this.state.snapshot, {expanded: false});
-    }
+  _collapse: function() {
+    this._removeEvents();
+    this.update(this.state.snapshot, {expanded: false});
   },
 
   getToggleText: function() {
