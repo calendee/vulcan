@@ -9,7 +9,9 @@ var Root = React.createClass({
   getInitialState: function() {
     return {
       status: 'normal',
-      priority: null
+      priority: null,
+      expandAll: false,
+      collapseAll: false
     };
   },
 
@@ -26,7 +28,15 @@ var Root = React.createClass({
 
     return (
       <ul className={pclass("root-list")}>
-        <Node key="root" root={true} onChange={this.updateStatus} onResetStatus={this.resetStatus}  firebaseRef={this.props.firebaseRef}  status={this.state.status} priority={this.state.priority} />
+        <Node
+          key="root"
+          root={true}
+          onChange={this.updateStatus}
+          onResetStatus={this.resetStatus}
+          firebaseRef={this.props.firebaseRef}
+          status={this.state.status}
+          priority={this.state.priority}
+        />
       </ul>
     )
   }

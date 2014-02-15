@@ -122,7 +122,6 @@ var Node = React.createClass({
   },
 
   resetStatus: function(node) {
-    console.log('reset status');
     //FORCE A RERENDER TO RESET ALL STATUS BACK TO NORMAL
     this.update(this.state.snapshot);
   },
