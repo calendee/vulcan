@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 var AppHeader = require('./header');
-var Node = require('./node');
+var Root = require('./root');
 var LoginForm = require('./form-login');
 var EditForm = require('./form-edit');
 var EventHub = require('./eventhub');
@@ -78,6 +78,14 @@ module.exports = React.createClass({
     }.bind(this));
   },
 
+  collapseAll: function() {
+    EventHub.publish('collapse');
+  },
+
+  expandAll: function() {
+    EventHub.publish('expand');
+  },
+
   logout: function() {
     //UNAUTHENTICATE
     this.state.firebaseRef.unauth();
@@ -144,11 +152,7 @@ module.exports = React.createClass({
         <div className={pclass("body")} ref="appBody">
           {function(){
             if(this.state.firebaseRef) {
-              return (
-                <ul className={pclass("root-list")}>
-                  <Node root={true} firebaseRef={this.state.firebaseRef} status="normal" />
-                </ul>
-              )
+              return <Root firebaseRef={this.state.firebaseRef} />
             }
             else {
               return <LoginForm errors={this.state.loginError} onLogin={this.login} url="https://airwolfe.firebaseio.com/" />
@@ -159,7 +163,7 @@ module.exports = React.createClass({
 
         {function(){
           if(this.state.firebaseRef && this.state.formAction){
-            return <EditForm node={this.state.node} action={this.state.formAction} onComplete={this.closeForm} />
+            return <EditForm node={this.state.node} action={this.state.formAction} onComplete={this.closeForm} status="changed"/>
           }
         }.bind(this)()}
       </div>

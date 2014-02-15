@@ -10,6 +10,13 @@ var Node = React.createClass({
     value: function(snapshot) {
       this.update(snapshot);
       this.firstRender = false;
+
+      if(this.props.root) {
+        this.props.onChange({
+          priority: snapshot.getPriority(),
+          status: 'changed'
+        });
+      }
     },
     child_changed: function(snapshot, prevChildName) {
       this.flags[snapshot.name()] = 'changed';
@@ -46,12 +53,12 @@ var Node = React.createClass({
   //CALLED ONCE ON FIRST INIT
   componentWillMount: function() {
     this.props.firebaseRef.on('value', this.listeners.value.bind(this));
+    EventHub.subscribe('collapse', this.collapse);
+    EventHub.subscribe('expand', this.expand);
 
     //ONLY USED FOR ROOT NODE EVENTS
     if(this.props.root) {
-      ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
-        this.props.firebaseRef.on(event, this.listeners[event].bind(this));
-      }, this);
+      this._addEvents();
     }
   },
 
@@ -68,66 +75,24 @@ var Node = React.createClass({
     }
   },
 
-  update: function(snapshot, options) {
-    options = options || {};
-    var children = [];
-    var expanded = (options.expanded !== undefined) ? options.expanded : this.state.expanded;
-    var name = snapshot.name();
-
-    //ROOT NODE ONLY
-    if(this.props.root) {
-      var realRoot = this.props.firebaseRef.root().toString();
-      var refName = this.props.firebaseRef.toString();
-
-      //IF WE'RE AT THE ROOT, JUST STRIP META INFO
-      if(refName === realRoot) {
-        name = refName.replace('https://', '').replace('.firebaseio.com', ''); //CHANGE TO REAL NAME OF FIREBASE AT SOME POINT
-      }
-      // STRIP THE ROOT DOMAIN AND SHOW THE CURRENT LOCATION NAME
-      else {
-        name = refName.replace(realRoot + '/', ''); //CHANGE TO REAL NAME OF FIREBASE AT SOME POINT
-      }
-      expanded = true;
-    }
-
-    //I HAVE CHILDREN, CREATE THEM
-    if(snapshot.hasChildren() && expanded) {
-      //ITEM HAS BEEN REMOVED
-      if(this.state.numChildren > snapshot.numChildren()) {
-        children = this.createChildren(this.state.snapshot);
-
-        setTimeout(function(){
-          this.setState({children: this.createChildren(snapshot)});
-        }.bind(this), 1000);
-      }
-      //GET NEW LIST OF CHILDREN
-      else {
-        children = this.createChildren(snapshot);
-      }
-    }
-
-    //SET THE NEW STATE
-    this.setState({
-      snapshot: snapshot,
-      hasChildren: snapshot.hasChildren(),
-      numChildren: snapshot.numChildren(),
-      children: children,
-      expanded: expanded,
-      name: name,
-      value: snapshot.val()
-    });
-  },
-
   //USER INITIATED METHODS
   toggle: function() {
     if(this.state.expanded) {
-      this._removeEvents();
-      this.update(this.state.snapshot, {expanded: false});
+      this.collapse();
     }
     else {
-      this._addEvents();
-      this.update(this.state.snapshot, {expanded: true});
+      this.expand();
     }
+  },
+
+  expand: function() {
+    this._addEvents();
+    this.update(this.state.snapshot, {expanded: true});
+  },
+
+  collapse: function() {
+    this._removeEvents();
+    this.update(this.state.snapshot, {expanded: false});
   },
 
   getToggleText: function() {
@@ -170,6 +135,55 @@ var Node = React.createClass({
     ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
       this.props.firebaseRef.on(event, this.listeners[event].bind(this));
     }, this);
+  },
+
+  update: function(snapshot, options) {
+    options = options || {};
+    var children = [];
+    var expanded = (options.expanded !== undefined) ? options.expanded : this.state.expanded;
+    var name = snapshot.name();
+
+    //ROOT NODE ONLY
+    if(this.props.root) {
+      var rootName = this.props.firebaseRef.root().toString();
+      var refName = this.props.firebaseRef.toString();
+
+      if(refName === rootName) {
+        name = refName.replace('https://', '').replace('.firebaseio.com', ''); //THIS IS THE ROOT NODE
+      }
+      else {
+        name = refName.replace(rootName + '/', ''); //USING A CHILD NODE, STRIP EVERYTHING AWAY BUT NAME
+      }
+
+      expanded = true;
+    }
+
+    //I HAVE CHILDREN, CREATE THEM
+    if(snapshot.hasChildren() && expanded) {
+      //ITEM HAS BEEN REMOVED
+      if(this.state.numChildren > snapshot.numChildren()) {
+        children = this.createChildren(this.state.snapshot);
+
+        setTimeout(function(){
+          this.setState({children: this.createChildren(snapshot)});
+        }.bind(this), 1000);
+      }
+      //GET NEW LIST OF CHILDREN
+      else {
+        children = this.createChildren(snapshot);
+      }
+    }
+
+    //SET THE NEW STATE
+    this.setState({
+      snapshot: snapshot,
+      hasChildren: snapshot.hasChildren(),
+      numChildren: snapshot.numChildren(),
+      children: children,
+      expanded: expanded,
+      name: name,
+      value: snapshot.val()
+    });
   },
 
   createChildren: function(snapshot) {
@@ -257,7 +271,7 @@ var Node = React.createClass({
             }
             else if(this.state.value === null) {
               //3. VALUE (NULL) ROOT
-              return <em className={pclass('value')}>null</em>
+              return <em className={pclass('value')}>One moment...</em>
             }
           }.bind(this)()}
         </div>
