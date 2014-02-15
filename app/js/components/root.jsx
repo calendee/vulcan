@@ -18,7 +18,6 @@ var Root = React.createClass({
   },
 
   updateStatus: function(data) {
-    console.log(data);
     this.setState(data);
   },
 

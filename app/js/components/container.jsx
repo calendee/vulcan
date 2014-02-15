@@ -79,10 +79,12 @@ module.exports = React.createClass({
   },
 
   collapseAll: function() {
+    console.log('collapse');
     EventHub.publish('collapse');
   },
 
   expandAll: function() {
+    console.log('expand');
     EventHub.publish('expand');
   },
 
@@ -122,6 +124,8 @@ module.exports = React.createClass({
   },
 
   headerAction: function(action) {
+    console.log(action);
+
     switch(action.type) {
       case 'minimize':  this.minimize();                 break;
       case 'collapse':  this.collapseAll();              break;

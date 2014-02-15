@@ -46,6 +46,7 @@ var Node = React.createClass({
       name: '',
       value: null,
       expanded: false,
+      expandAll: false,
       firebaseRef: null
     };
   },
@@ -64,6 +65,8 @@ var Node = React.createClass({
 
   componentWillUnmount: function() {
     this.props.firebaseRef.off();
+    EventHub.unsubscribe('collapse');
+    EventHub.unsubscribe('expand');
   },
 
   componentDidUpdate: function() {
@@ -86,13 +89,18 @@ var Node = React.createClass({
   },
 
   expand: function() {
-    this._addEvents();
-    this.update(this.state.snapshot, {expanded: true});
+    if(!this.props.root && this.state.hasChildren) {
+      this._addEvents();
+      this.update(this.state.snapshot, {expanded: true});
+    }
+
   },
 
   collapse: function() {
-    this._removeEvents();
-    this.update(this.state.snapshot, {expanded: false});
+    if(!this.props.root && this.state.hasChildren) {
+      this._removeEvents();
+      this.update(this.state.snapshot, {expanded: false});
+    }
   },
 
   getToggleText: function() {
