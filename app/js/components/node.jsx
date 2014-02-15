@@ -9,14 +9,15 @@ var Node = React.createClass({
   listeners: {
     value: function(snapshot) {
       this.update(snapshot);
-      this.firstRender = false;
 
-      if(this.props.root) {
+      if(this.props.root && !this.firstRender) {
         this.props.onChange({
           priority: snapshot.getPriority(),
           status: 'changed'
         });
       }
+
+      this.firstRender = false;
     },
     child_changed: function(snapshot, prevChildName) {
       this.flags[snapshot.name()] = 'changed';
@@ -46,8 +47,6 @@ var Node = React.createClass({
       name: '',
       value: null,
       expanded: false,
-      collapseAll: false,
-      expandAll: false,
       firebaseRef: null
     };
   },
@@ -64,8 +63,6 @@ var Node = React.createClass({
 
   componentWillUnmount: function() {
     this.props.firebaseRef.off();
-    EventHub.unsubscribe('collapse');
-    EventHub.unsubscribe('expand');
   },
 
   componentDidUpdate: function() {
@@ -148,6 +145,7 @@ var Node = React.createClass({
     if(this.props.root) {
       var rootName = this.props.firebaseRef.root().toString();
       var refName = this.props.firebaseRef.toString();
+      expanded = true;
 
       if(refName === rootName) {
         name = refName.replace('https://', '').replace('.firebaseio.com', ''); //THIS IS THE ROOT NODE
@@ -155,11 +153,8 @@ var Node = React.createClass({
       else {
         name = refName.replace(rootName + '/', ''); //USING A CHILD NODE, STRIP EVERYTHING AWAY BUT NAME
       }
-
-      expanded = true;
     }
 
-    //I HAVE CHILDREN, CREATE THEM
     if(snapshot.hasChildren() && expanded) {
       //ITEM HAS BEEN REMOVED
       if(this.state.numChildren > snapshot.numChildren()) {

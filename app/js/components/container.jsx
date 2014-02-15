@@ -56,21 +56,21 @@ module.exports = React.createClass({
 
     //AUTHENTICATE
     if(token) {
-      this.authenticate(firebase, token);
+      this.authenticate(firebase, token, data.url);
     }
     else {
-      this.setState({url: data.url, firebaseRef: firebase });
+      this.setState({url: data.url, firebaseRef: firebase});
     }
   },
 
-  authenticate: function(firebase, token) {
+  authenticate: function(firebase, token, url) {
     firebase.auth(token, function(error, result) {
       if(error) {
         this.setState({ loginError: error });
       }
       else {
         this.setState({
-          url: data.url,
+          url: url,
           token: token,
           firebaseRef: firebase
         });
@@ -78,12 +78,16 @@ module.exports = React.createClass({
     }.bind(this));
   },
 
+  minimize: function() {
+
+  },
+
   collapseAll: function() {
-    console.log('collapse all');
+    EventHub.publish('collapse');
   },
 
   expandAll: function() {
-    console.log('expand all');
+    EventHub.publish('expand');
   },
 
   logout: function() {
