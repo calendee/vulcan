@@ -135,7 +135,7 @@ module.exports = function(grunt) {
   grunt.registerTask('chrome', ['build', 'copy:chrome']);
 
   //DEVELOPMENT FOR WEB PLATFORM
-  grunt.registerTask('server', ['build', 'connect', 'watch']);
+  grunt.registerTask('server', ['build', 'copy:chrome', 'connect', 'watch']);
 
   //DEFAULT TASK ($ grunt) builds app and chrome extention
   grunt.registerTask('default', ['sass', 'autoprefixer', 'react', 'browserify', 'copy:html', 'copy:bower', 'copy:images', 'clean', 'copy:chrome']);

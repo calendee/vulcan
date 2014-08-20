@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+var React = require('react/addons');
 var AppMixins = require('./mixins');
 
 module.exports = React.createClass({
@@ -124,10 +125,10 @@ module.exports = React.createClass({
 
     //OPTIONS FOR PINNING STATE
     var navClasses = cx({
-      'forge-stealth-form-nav': true,
-      'forge-stealth-nav-child-selected': this.state.addMode === 'child',
-      'forge-stealth-nav-branch-selected': this.state.addMode === 'branch',
-      'forge-stealth-nav-json-selected': this.state.addMode === 'json'
+      'vulcan-form-nav': true,
+      'vulcan-nav-child-selected': this.state.addMode === 'child',
+      'vulcan-nav-branch-selected': this.state.addMode === 'branch',
+      'vulcan-nav-json-selected': this.state.addMode === 'json'
     });
 
     return (

@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+var React = require('react/addons');
 var AppHeader = require('./header');
 var Root = require('./root');
 var LoginForm = require('./form-login');
@@ -83,11 +84,11 @@ module.exports = React.createClass({
   },
 
   collapseAll: function() {
-    EventHub.publish('collapse');
+    EventHub.publish('collapseAll');
   },
 
   expandAll: function() {
-    EventHub.publish('expand');
+    EventHub.publish('expandAll');
   },
 
   logout: function() {
@@ -141,12 +142,12 @@ module.exports = React.createClass({
 
     //OPTIONS FOR PINNING STATE
     var classes = cx({
-      'forge-stealth-pinned-top': this.state.pinned.top,
-      'forge-stealth-pinned-bottom': this.state.pinned.bottom,
-      'forge-stealth-pinned-left': this.state.pinned.left,
-      'forge-stealth-pinned-right': this.state.pinned.right,
-      'forge-stealth-pinned-all': this.state.pinned.top && this.state.pinned.bottom && this.state.pinned.left && this.state.pinned.right,
-      'forge-stealth-pinned': true
+      'vulcan-pinned-top': this.state.pinned.top,
+      'vulcan-pinned-bottom': this.state.pinned.bottom,
+      'vulcan-pinned-left': this.state.pinned.left,
+      'vulcan-pinned-right': this.state.pinned.right,
+      'vulcan-pinned-all': this.state.pinned.top && this.state.pinned.bottom && this.state.pinned.left && this.state.pinned.right,
+      'vulcan-pinned': true
     });
 
     return (

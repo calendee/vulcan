@@ -1,6 +1,6 @@
 module.exports = {
   prefixClass: function(name) {
-    var prefix = 'forge-stealth';
+    var prefix = 'vulcan';
     // Convert the name to an array
     if (!Array.isArray(name)) {
       name = name.split(' ');

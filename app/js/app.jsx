@@ -1,4 +1,7 @@
 /** @jsx React.DOM */
+var React = require('react/addons');
+window.React = React;
+//require('react-raf-batching').inject();
 var Wrapper = require('./components/container');
 
 var initialize = function (options) {
@@ -6,7 +9,7 @@ var initialize = function (options) {
   options = options || {};
 
   var container = document.createElement('div');
-      container.id = 'forge-stealth';
+      container.id = 'vulcan';
 
   document.body.appendChild(container);
 

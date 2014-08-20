@@ -1,45 +1,10 @@
-//////////////////////////////////////////////////////////
-// VARS //////////////////////////////////////////////////
-//////////////////////////////////////////////////////////
-$namespace: 'forge-stealth';
-$default-font: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-$baseline: 28px;
-$basefont: 14px;
-
-//////////////////////////////////////////////////////////
-// COLORS  ///////////////////////////////////////////////
-//////////////////////////////////////////////////////////
-$black: #000;
-$gray: #322f31;
-$gray-light: #ccc9c3;
-$gray-lightest: #f7f7f7;
-$white: #FFF;
-$cool: #7b8386;
-$yellow-dark: #fec324;
-$yellow: #ffe36a;
-$yellow-light: #fff697;
-$yellow-lightest: #fffbf3;
-$green: #acfd5b;
-$blue: #50b1ff;
-$purple: #b650ff;
-$red: #ff6450;
-$navy-darkest: #292d33;
-$navy-dark: #373d44;
-$navy: #3d444b;
-$navy-light: #51585e;
-$navy-lightest: #9298a0;
-$pearl-darkest: #c8ccd8;
-$pearl-darker: #d2d4e0;
-$pearl-dark: #e7e8ef;
-$pearl: #f2f3f7;
-$teal: #33cd7b;
-$royal: #8339ce;
+@import 'base';
+@import 'layout';
+@import 'modules';
+@import 'state';
 
 
-body {
-  background: teal;
-  background-size: cover;
-}
+
 
 ##{$namespace} {
   .#{$namespace}-left {

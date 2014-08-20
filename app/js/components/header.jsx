@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+var React = require('react/addons');
 var AppMixins = require('./mixins');
 
 module.exports = React.createClass({
@@ -56,7 +57,7 @@ module.exports = React.createClass({
     pclass = this.prefixClass;
 
     return (
-      <div className="forge-stealth-header">
+      <div className={pclass('header')}>
         <div className={pclass('logo')}>
           <h1>V</h1>
         </div>
@@ -64,7 +65,7 @@ module.exports = React.createClass({
         {function(){
           if(this.props.url) {
             return (
-              <form className="forge-stealth-header-extras" onSubmit={this.handleSubmit}>
+              <form className={pclass("header-extras")} onSubmit={this.handleSubmit}>
                 <input type="text" defaultValue={this.props.url} ref="url" />
 
                 <div className={pclass('dropdown')} onClick={this.toggle}>

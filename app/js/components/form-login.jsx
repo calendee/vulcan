@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+var React = require('react/addons');
 var AppMixins = require('./mixins');
 
 //LOGIN FORM CLASS
@@ -23,17 +24,14 @@ module.exports = React.createClass({
 
   render: function() {
     var pclass = this.prefixClass;
+    var alert = this.props.errors ? <div class="alert alert-error">{this.props.errors.message}</div> : '';
 
     return  (
       <form onSubmit={this.handleSubmit} className={pclass('login-form')}>
         <h2>Vulcan</h2>
         <p>Firebase Data Inspector</p>
 
-        {function(){
-          if(this.props.errors) {
-            return <div class="alert alert-error">{this.props.errors.message}</div>
-          }
-        }.bind(this)()}
+        {alert}
 
         <ul>
           <li>

@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+var React = require('react/addons');
 var EventHub = require('./eventhub');
 var ReactTransitionGroup = React.addons.TransitionGroup;
 var AppMixins = require('./mixins');
@@ -8,7 +9,10 @@ var Node = React.createClass({
 
   listeners: {
     value: function(snapshot) {
-      this.update(snapshot);
+      this.update(snapshot, {
+        expandAll: this.props.expandAll,
+        collapseAll: this.props.collapseAll
+      });
 
       if(this.props.root && !this.firstRender) {
         this.props.onChange({
@@ -46,7 +50,7 @@ var Node = React.createClass({
       children: [],
       name: '',
       value: null,
-      expanded: false,
+      expanded: this.props.expandAll === true ? true : false,
       firebaseRef: null
     };
   },
@@ -74,6 +78,24 @@ var Node = React.createClass({
     }
   },
 
+  componentWillReceiveProps: function (nextProps) {
+    if (nextProps.expandAll === true) {
+      this.update(this.state.snapshot, {
+        expanded: true,
+        expandAll: nextProps.expandAll
+      });
+    }
+    else if (nextProps.collapseAll === true && this.props.root) {
+      this.update(this.state.snapshot, {
+        expandAll: nextProps.expandAll,
+        collapseAll: nextProps.collapseAll
+      });
+    }
+    else if (nextProps.collapseAll === true && !this.props.root) {
+      this._collapse();
+    }
+  },
+
   //USER INITIATED METHODS
   toggle: function() {
     if(this.state.expanded) {
@@ -86,12 +108,20 @@ var Node = React.createClass({
 
   _expand: function() {
     this._addEvents();
-    this.update(this.state.snapshot, {expanded: true});
+    this.update(this.state.snapshot, {
+      expanded: true,
+      expandAll: this.props.expandAll,
+      collapseAll: this.props.collapseAll
+    });
   },
 
   _collapse: function() {
     this._removeEvents();
-    this.update(this.state.snapshot, {expanded: false});
+    this.update(this.state.snapshot, {
+      expanded: false,
+      expandAll: this.props.expandAll,
+      collapseAll: this.props.collapseAll
+    });
   },
 
   getToggleText: function() {
@@ -158,15 +188,17 @@ var Node = React.createClass({
     if(snapshot.hasChildren() && expanded) {
       //ITEM HAS BEEN REMOVED
       if(this.state.numChildren > snapshot.numChildren()) {
-        children = this.createChildren(this.state.snapshot);
-
+        children = this.createChildren(this.state.snapshot, options);
+        //DELAY THE STATE CHANGE FOR THE HIGHLIGHT
         setTimeout(function(){
-          this.setState({children: this.createChildren(snapshot)});
+          this.setState({
+            children: this.createChildren(snapshot, options)
+          });
         }.bind(this), 1000);
       }
       //GET NEW LIST OF CHILDREN
       else {
-        children = this.createChildren(snapshot);
+        children = this.createChildren(snapshot, options);
       }
     }
 
@@ -182,7 +214,10 @@ var Node = React.createClass({
     });
   },
 
-  createChildren: function(snapshot) {
+  createChildren: function(snapshot, options) {
+    options = options || {};
+    var expandAll = options.expandAll || false;
+    var collapseAll = options.collapseAll || false;
     var children = [];
 
     snapshot.forEach(function(child){
@@ -195,7 +230,18 @@ var Node = React.createClass({
       }
 
       //CREATE A NODE
-      var node = <Node onResetStatus={this.resetStatus} key={child.name()} firebaseRef={child.ref()} snapshot={child} status={status} priority={child.getPriority()}/>;
+      var node = (
+        <Node
+          key={child.name()}
+          firebaseRef={child.ref()}
+          snapshot={child}
+          expandAll={expandAll}
+          collapseAll={collapseAll}
+          onResetStatus={this.resetStatus}
+          status={status}
+          priority={child.getPriority()}
+        />
+      );
 
       children.push(node);
     }.bind(this));
