@@ -160,15 +160,14 @@ module.exports = React.createClass({
 
     }.bind(this);
 
-    var isMinimized = function(){
-      if (this.state.minimized) return true;
-      else return false;
+    var checkStateOfParent = function(stateKey){
+      return (this.state[stateKey]);
     }.bind(this);
 
-    var toggleMinimized = function(){
-      this.setState({
-        minimized: !this.state.minimized
-      });
+    var setStateOfParent = function(stateKey, val){
+      var newState = {};
+      newState[stateKey] = val;
+      this.setState(newState);
     }.bind(this);
 
     //OPTIONS FOR PINNING STATE
@@ -183,7 +182,7 @@ module.exports = React.createClass({
 
     return (
       <div className={classes}>
-        <AppHeader onHeaderAction={this.headerAction} url={this.state.url} showDropdown={false} isMinimized={isMinimized} toggleMinimized={toggleMinimized}/>
+        <AppHeader onHeaderAction={this.headerAction} url={this.state.url} showDropdown={false} checkStateOfParent={checkStateOfParent} setStateOfParent={setStateOfParent}/>
 
         <div className={computeClasses()} ref="appBody">
           {function(){
