@@ -34,8 +34,12 @@ module.exports = React.createClass({
   },
 
   toggle: function(e) {
-    e.preventDefault();
-    this.setState({showDropdown: !this.state.showDropdown})
+    if (this.props.isMinimized()){
+      this.props.toggleMinimized();
+    } else {
+      e.preventDefault();
+      this.setState({showDropdown: !this.state.showDropdown})
+    }
   },
 
   handleSubmit: function(e) {

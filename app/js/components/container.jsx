@@ -81,7 +81,9 @@ module.exports = React.createClass({
   },
 
   minimize: function() {
-    this.toggleHide();
+    if (!this.state.minimized){
+      this.toggleHide();
+    }
   },
 
   toggleHide: function(){
@@ -145,14 +147,30 @@ module.exports = React.createClass({
     var pclass = this.prefixClass;
     var cx = React.addons.classSet;
 
-    var checkMinimized = function(){
-      var minimized = "";
+    // compute classes for app body including show/hide
+    var computeClasses = function(){
+
+      var classes = "";
       if (this.state.minimized) {
-        minimized = "hide ";
+        classes += "hide ";
       }
-      return minimized;
+
+      classes += pclass("body");
+      return classes;
+
     }.bind(this);
-    
+
+    var isMinimized = function(){
+      if (this.state.minimized) return true;
+      else return false;
+    }.bind(this);
+
+    var toggleMinimized = function(){
+      this.setState({
+        minimized: !this.state.minimized
+      });
+    }.bind(this);
+
     //OPTIONS FOR PINNING STATE
     var classes = cx({
       'vulcan-pinned-top': this.state.pinned.top,
@@ -165,9 +183,9 @@ module.exports = React.createClass({
 
     return (
       <div className={classes}>
-        <AppHeader onHeaderAction={this.headerAction} url={this.state.url} showDropdown={false}/>
+        <AppHeader onHeaderAction={this.headerAction} url={this.state.url} showDropdown={false} isMinimized={isMinimized} toggleMinimized={toggleMinimized}/>
 
-        <div className={checkMinimized() + pclass("body")} ref="appBody">
+        <div className={computeClasses()} ref="appBody">
           {function(){
             if(this.state.firebaseRef) {
               return <Root firebaseRef={this.state.firebaseRef} />
