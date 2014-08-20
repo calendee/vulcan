@@ -19,6 +19,7 @@ module.exports = React.createClass({
       token: '',
       formAction: null,
       node: null,
+      minimized: false,
       pinned: options.pinned || {
         top: false,
         left: false,
@@ -80,7 +81,11 @@ module.exports = React.createClass({
   },
 
   minimize: function() {
+    this.toggleHide();
+  },
 
+  toggleHide: function(){
+    this.setState({minimized: !this.state.minimized});
   },
 
   collapseAll: function() {
@@ -140,6 +145,14 @@ module.exports = React.createClass({
     var pclass = this.prefixClass;
     var cx = React.addons.classSet;
 
+    var checkMinimized = function(){
+      var minimized = "";
+      if (this.state.minimized) {
+        minimized = "hide ";
+      }
+      return minimized;
+    }.bind(this);
+    
     //OPTIONS FOR PINNING STATE
     var classes = cx({
       'vulcan-pinned-top': this.state.pinned.top,
@@ -154,7 +167,7 @@ module.exports = React.createClass({
       <div className={classes}>
         <AppHeader onHeaderAction={this.headerAction} url={this.state.url} showDropdown={false}/>
 
-        <div className={pclass("body")} ref="appBody">
+        <div className={checkMinimized() + pclass("body")} ref="appBody">
           {function(){
             if(this.state.firebaseRef) {
               return <Root firebaseRef={this.state.firebaseRef} />
