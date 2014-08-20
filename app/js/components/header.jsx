@@ -34,11 +34,12 @@ module.exports = React.createClass({
   },
 
   toggle: function(e) {
+    e.preventDefault();
+
     if (this.props.checkStateOfParent("minimized")){
       // toggle state
       this.props.setStateOfParent("minimized", !this.props.checkStateOfParent("minimized"));
     } else {
-      e.preventDefault();
       this.setState({showDropdown: !this.state.showDropdown})
     }
   },
