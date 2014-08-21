@@ -313,7 +313,7 @@ var Node = React.createClass({
             }
             else if(this.state.value === null) {
               //3. VALUE (NULL) ROOT
-              return <em className={pclass('value')}>One moment...</em>
+              return <em className={pclass('value')}>null</em>
             }
           }.bind(this)()}
         </div>
