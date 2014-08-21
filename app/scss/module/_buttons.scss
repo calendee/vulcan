@@ -27,6 +27,7 @@ $button-types: ('primary' $teal #FFF)  ('action' $blue #FFF) ('secondary' $gray-
 #{$v}-button-small {
   font-size: $basefont - 2;
   height: 20px;
+  line-height: 20px;
   padding: 0px 10px;
 }
 
@@ -37,6 +38,7 @@ $button-types: ('primary' $teal #FFF)  ('action' $blue #FFF) ('secondary' $gray-
 #{$v}-button-large {
   font-size: $basefont + 4;
   height: 40px;
+  line-height: 40px;
   padding: 0px 20px;
 }
 

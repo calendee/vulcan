@@ -133,7 +133,7 @@ module.exports = React.createClass({
 
     return (
       <div>
-        <div className={pclass('form-overlay')}></div>
+        <div className={pclass('overlay')}></div>
         <form onSubmit={this.handleSubmit} className={pclass(['form', this.props.action])}>
 
           {function() {
@@ -301,8 +301,8 @@ module.exports = React.createClass({
           }.bind(this)()}
 
           <footer  className={pclass('form-footer')}>
-            <input type="submit" value="Save"  className={pclass('button button-small button-primary l-pad-right')} />
-            <a className={pclass('button button-small button-secondary')} onClick={this.closeForm}>Cancel</a>
+            <input type="submit" value="Save"  className={pclass('button button-large button-primary l-pad-right')} />
+            <a className={pclass('button button-large button-secondary')} onClick={this.closeForm}>Cancel</a>
           </footer>
         </form>
       </div>

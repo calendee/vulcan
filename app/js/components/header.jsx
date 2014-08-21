@@ -57,24 +57,25 @@ module.exports = React.createClass({
     pclass = this.prefixClass;
 
     return (
-      <div className={pclass('header')}>
-        <div className={pclass('logo')}>
-          <h1>V</h1>
+      <div className={pclass('toolbar')}>
+
+        <div className={pclass('toolbar-start')}>
+          <h1 className={pclass('logo')}>V</h1>
         </div>
 
         {function(){
           if(this.props.url) {
             return (
-              <form className={pclass("header-extras")} onSubmit={this.handleSubmit}>
-                <input type="text" defaultValue={this.props.url} ref="url" />
+              <form onSubmit={this.handleSubmit}>
+                <input className={pclass("toolbar-url")} type="text" defaultValue={this.props.url} ref="url" />
 
-                <div className={pclass('dropdown')} onClick={this.toggle}>
-                  <a href="#" className={pclass('dropdown-link')}></a>
+                <div className={pclass('toolbar-end')} onClick={this.toggle}>
+                  <a href="#" className={pclass('toolbar-arrow')}></a>
 
                   {function(){
                     if(this.state.showDropdown) {
                       return (
-                        <ul className={pclass('dropdown-list')}>
+                        <ul className={pclass('dropdown')}>
                           <li><a href="#" onClick={this.minimize}>Minimize</a></li>
                           <li><a href="#" onClick={this.expand}>Expand All</a></li>
                           <li><a href="#" onClick={this.collapse}>Collapse All</a></li>

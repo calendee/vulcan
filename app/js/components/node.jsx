@@ -261,7 +261,7 @@ var Node = React.createClass({
           }
         }.bind(this)()}
 
-        <div className={pclass(['container', this.props.status])}>
+        <div className={pclass(['container', "is-" + this.props.status])}>
 
           {/* HOVER OPTIONS */}
           {function(){

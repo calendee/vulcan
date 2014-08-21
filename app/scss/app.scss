@@ -1,8 +1,11 @@
 @import 'vars';
 @import 'layout';
 @import 'module/container';
+@import 'module/logo';
+@import 'module/toolbar';
 @import 'module/buttons';
-@import 'modules';
+@import 'module/overlay';
+@import 'module/dropdown';
 @import 'state';
 
 
@@ -71,24 +74,6 @@
           #{$v}-options {
             display: block;
           }
-        }
-
-        //STATUS UPDATES
-        &#{$v}-added {
-          color: darken($teal, 40%);
-          background-color: $teal;
-        }
-        &#{$v}-changed {
-          color: darken($yellow-dark, 40%);
-          background-color: $yellow-dark;
-        }
-        &#{$v}-moved {
-          color: darken($blue, 40%);
-          background-color: $blue;
-        }
-        &#{$v}-removed {
-          color: darken($red, 40%);
-          background-color: $red;
         }
 
         //HOVER OPTIONS
@@ -231,15 +216,6 @@
 //////////////////////////////////////////////////////////
 // EDIT FORM  ////////////////////////////////////////////
 //////////////////////////////////////////////////////////
-#{$v}-form-overlay {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  background-color: $navy-darkest;
-  opacity: .3;
-}
 #{$v}-form {
   box-shadow: 0px 2px 10px rgba(0, 0, 0, .3);
   border-radius: 3px;

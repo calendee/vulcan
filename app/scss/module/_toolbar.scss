@@ -1,0 +1,89 @@
+/**
+* APP TOOLBAR
+*
+*/
+
+#{$v}-toolbar {
+  border-radius: 3px 3px 0px 0px;
+  box-sizing: border-box;
+  background-color: $navy-darkest;
+  height: 60px;
+  position: relative;
+  padding: 10px 70px 10px 70px;
+
+  #{$v}-toolbar-start {
+    border-radius: 3px 0px 0px 0px;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    background: lighten($navy-darkest, 2%);
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+  }
+
+  #{$v}-toolbar-url {
+    border-radius: 3px;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    background: $navy-dark;
+    height: 40px;
+    font-size: $basefont + 2;
+    color: $navy-light;
+    margin: 0px;
+    padding: 0px 10px;
+    outline: none;
+
+    &:active, &:focus {
+      background: $white;
+      color: $navy;
+      box-shadow: inset 0px 2px 5px rgba(0, 0, 0, .4);
+    }
+  }
+
+
+  #{$v}-toolbar-end {
+    border-radius: 0px 3px 0px 0px;
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: lighten($navy-darkest, 2%);
+    top: 0px;
+    right: 0px;
+    z-index: 10;
+  }
+
+  #{$v}-toolbar-arrow {
+    color: $navy;
+    text-align: center;
+    line-height: 60px;
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:before, &:after {
+      top: 50%;
+      left: 50%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+    }
+
+    &:after {
+      border-color: rgba(61, 68, 75, 0);
+      border-top-color: lighten($navy-darkest, 2%);
+      border-width: 8px;
+      margin-left: -8px;
+    }
+    &:before {
+      border-color: rgba(81, 88, 94, 0);
+      border-top-color: $navy-light;
+      border-width: 9px;
+      margin-left: -9px;
+    }
+  }
+}
