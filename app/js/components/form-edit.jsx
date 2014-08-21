@@ -301,8 +301,8 @@ module.exports = React.createClass({
           }.bind(this)()}
 
           <footer  className={pclass('form-footer')}>
-            <input type="submit" value="Save"  className={pclass('button-primary')} />
-            <a className={pclass('button-secondary')} onClick={this.closeForm}>Cancel</a>
+            <input type="submit" value="Save"  className={pclass('button button-small button-primary l-pad-right')} />
+            <a className={pclass('button button-small button-secondary')} onClick={this.closeForm}>Cancel</a>
           </footer>
         </form>
       </div>

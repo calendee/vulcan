@@ -44,7 +44,7 @@ module.exports = React.createClass({
           </li>
         </ul>
 
-        <input type="submit" value="Sign In" className={pclass('button-primary')} />
+        <input type="submit" value="Sign In" className={pclass('button button-large button-primary')} />
       </form>
     )
   }

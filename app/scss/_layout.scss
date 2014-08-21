@@ -1,0 +1,59 @@
+/**
+* FLOATING LAYOUTS
+*
+*/
+#{$v}-l-left {
+    float: left;
+  }
+
+#{$v}-l-right {
+  float: right;
+}
+
+#{$v}-l-clear {
+  clear: both;
+}
+
+/**
+* PINNED LAYOUTS
+*
+*/
+#{$v}-l-pinned {
+  position: fixed;
+  z-index: 99999999;
+}
+
+#{$v}-pinned-all {
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  width: auto;
+}
+
+#{$v}-l-pinned-top {
+  top: 0px;
+}
+
+#{$v}-l-pinned-bottom {
+  bottom: 0px;
+}
+
+#{$v}-l-pinned-left {
+  left: 0px;
+}
+
+#{$v}-l-pinned-right {
+  right: 0px;
+}
+
+/**
+* SPACING
+*
+*/
+#{$v}-l-pad-right {
+  margin-right: 10px;
+}
+#{$v}-l-pad-left {
+  margin-left: 10px;
+}

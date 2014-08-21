@@ -1,0 +1,67 @@
+$button-types: ('primary' $teal #FFF)  ('action' $blue #FFF) ('secondary' $gray-light #FFF)('caution' $red #FFF);
+
+/**
+* BUTTON BASE
+*
+*/
+#{$v}-button {
+  border: none;
+  display: inline-block;
+  transition: all .2s ease-out;
+  border-radius: 3px;
+  cursor: pointer;
+  outline: none;
+  font-weight: 200;
+
+  &:active {
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, .5);
+    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, .3);
+    transition: none;
+  }
+}
+
+/**
+* BUTTON SMALL
+*
+*/
+#{$v}-button-small {
+  font-size: $basefont - 2;
+  height: 20px;
+  padding: 0px 10px;
+}
+
+/**
+* BUTTON LARGE
+*
+*/
+#{$v}-button-large {
+  font-size: $basefont + 4;
+  height: 40px;
+  padding: 0px 20px;
+}
+
+/**
+* BUTTON TYPES
+*
+* (primary, secondary, action, warning, etc.)
+*/
+@each $button-type in $button-types {
+  $button-name: nth($button-type, 1);
+  $button-background: nth($button-type, 2);
+  $button-color: nth($button-type, 3);
+
+  #{$v}-button-#{$button-name} {
+    background: $button-background;
+    color: $button-color;
+    margin-right: 10px;
+
+    &:hover {
+      background: lighten($button-background, 10%);
+    }
+
+    &:active {
+      background: darken($button-background, 5%);
+      color: darken($button-color, 15%);;
+    }
+  }
+}

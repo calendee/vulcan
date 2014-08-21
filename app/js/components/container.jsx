@@ -142,12 +142,13 @@ module.exports = React.createClass({
 
     //OPTIONS FOR PINNING STATE
     var classes = cx({
-      'vulcan-pinned-top': this.state.pinned.top,
-      'vulcan-pinned-bottom': this.state.pinned.bottom,
-      'vulcan-pinned-left': this.state.pinned.left,
-      'vulcan-pinned-right': this.state.pinned.right,
-      'vulcan-pinned-all': this.state.pinned.top && this.state.pinned.bottom && this.state.pinned.left && this.state.pinned.right,
-      'vulcan-pinned': true
+      'vulcan-l-pinned-top': this.state.pinned.top,
+      'vulcan-l-pinned-bottom': this.state.pinned.bottom,
+      'vulcan-l-pinned-left': this.state.pinned.left,
+      'vulcan-l-pinned-right': this.state.pinned.right,
+      'vulcan-l-pinned-all': this.state.pinned.top && this.state.pinned.bottom && this.state.pinned.left && this.state.pinned.right,
+      'vulcan-l-pinned': true,
+      'vulcan-app-container':true
     });
 
     return (
