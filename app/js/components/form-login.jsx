@@ -28,12 +28,12 @@ module.exports = React.createClass({
 
     return  (
       <form onSubmit={this.handleSubmit} className={pclass('login-form')}>
-        <h2>Vulcan</h2>
-        <p>Firebase Data Inspector</p>
+        <h2 class="title">Vulcan</h2>
+        <p class="sub-title">Firebase Data Inspector</p>
 
         {alert}
 
-        <ul>
+        <ul className={pclass(['form-fields', 'l-stacked'])}>
           <li>
             <label ref="urlLabel">Firebase URL</label>
             <input ref="url" type="text" name="url" defaultValue={this.props.url}/>

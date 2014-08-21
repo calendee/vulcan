@@ -3,68 +3,46 @@
 *
 */
 
-.form-fields {
-    list-style-type: none;
-    margin: 0px;
-    padding: 30px 30px 10px 30px;
+#{$v}-form-fields {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
 
-    li {
-      margin-bottom: 20px;
+  label {
+    display: block;
+    font-family: $default-font;
+    font-size: $basefont - 2;
+    margin-bottom: 5px;
+    color: $navy-lightest;
+    text-transform: uppercase;
 
-      #{$v}-key-box {
-        width: 70px;
-        margin-right: 10px;
-      }
-
-      #{$v}-parent-box {
-        width: 100px;
-        margin-right: 10px;
-      }
-
-      #{$v}-value-box {
-        width: 200px;
-      }
-
-      #{$v}-priority-box {
-        width: 70px;
-      }
-
-      label {
-        display: block;
-        font-family: $default-font;
-        font-size: $basefont - 2;
-        margin-bottom: 5px;
-        color: $navy-lightest;
-        text-transform: uppercase;
-
-        em {
-          font-size: $basefont - 3;
-          font-style: normal;
-        }
-      }
-
-
-      input, textarea{
-        border-radius: 3px;
-        width: 100%;
-        box-sizing: border-box;
-        border: none;
-        background: $gray-lightest;
-        height: 40px;
-        font-size: $basefont + 2;
-        color: $navy-light;
-        margin: 0px;
-        padding: 0px 20px;
-        outline: none;
-
-        &:active, &:focus {
-          color: $navy;
-          box-shadow: inset 0px 2px 5px rgba(0, 0, 0, .4);
-        }
-      }
-
-      textarea {
-        height: 100px;
-      }
+    > em {
+      font-size: $basefont - 3;
+      font-style: normal;
     }
   }
+
+  input, textarea{
+    border-radius: 3px;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    background: $gray-lightest;
+    height: 40px;
+    font-size: $basefont + 2;
+    color: $navy-light;
+    margin: 0px;
+    padding: 0px 20px;
+    outline: none;
+
+    &:active, &:focus {
+      color: $navy;
+      background: $yellow-lightest;
+      box-shadow: inset 0px 1px 2px rgba(0, 0, 0, .3);
+    }
+  }
+
+  textarea {
+    height: 100px;
+  }
+}

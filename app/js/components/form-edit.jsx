@@ -125,24 +125,24 @@ module.exports = React.createClass({
 
     //OPTIONS FOR PINNING STATE
     var navClasses = cx({
-      'vulcan-form-nav': true,
-      'vulcan-nav-child-selected': this.state.addMode === 'child',
-      'vulcan-nav-branch-selected': this.state.addMode === 'branch',
-      'vulcan-nav-json-selected': this.state.addMode === 'json'
+      'vulcan-modal-nav': true,
+      'vulcan-child-is-selected': this.state.addMode === 'child',
+      'vulcan-branch-is-selected': this.state.addMode === 'branch',
+      'vulcan-json-is-selected': this.state.addMode === 'json'
     });
 
     return (
       <div>
         <div className={pclass('overlay')}></div>
-        <form onSubmit={this.handleSubmit} className={pclass(['form', this.props.action])}>
+        <form onSubmit={this.handleSubmit} className={pclass(['modal', this.props.action])}>
 
           {function() {
             //EDIT PRIORITY
             if(this.props.action === 'priority') {
               return (
                 <div>
-                  <header className={pclass('form-header')}><h3>Editing Priority for {this.state.name}</h3></header>
-                  <ul>
+                  <header className={pclass('modal-header')}><h3>Editing Priority for {this.state.name}</h3></header>
+                  <ul className={pclass(['form-fields', 'l-stacked'])}>
                     <li>
                       <div className={pclass('priority-box')}>
                         <label>Priority</label>
@@ -161,8 +161,8 @@ module.exports = React.createClass({
             if(this.props.action === 'edit') {
               return (
                 <div>
-                  <header className={pclass('form-header')}><h3>Editing {this.state.name}</h3></header>
-                  <ul>
+                  <header className={pclass('modal-header')}><h3>Editing {this.state.name}</h3></header>
+                  <ul className={pclass(['form-fields', 'l-stacked'])}>
                     <li>
                       <div className={pclass(['value-box', 'left'])}>
                         <label>{this.state.name}:</label>
@@ -187,13 +187,13 @@ module.exports = React.createClass({
             //HEADER NAV
             if(this.props.action === 'add') {
               return (
-                <header className={pclass('form-header')} >
+                <header className={pclass('modal-header')} >
                   <h3>Adding Child to <strong>{this.state.name}</strong> Node</h3>
 
                   <nav className={navClasses}>
-                    <a className={pclass('form-nav-child')} onClick={this.addChildMode}>Add Child</a>
-                    <a className={pclass('form-nav-branch')} onClick={this.addBranchMode}>Add Branch</a>
-                    <a className={pclass('form-nav-json')} onClick={this.addJsonMode}>Add JSON</a>
+                    <a className={pclass('modal-tab modal-tab-child')} onClick={this.addChildMode}>Add Child</a>
+                    <a className={pclass('modal-tab modal-tab-branch')} onClick={this.addBranchMode}>Add Branch</a>
+                    <a className={pclass('modal-tab modal-tab-json')} onClick={this.addJsonMode}>Add JSON</a>
                   </nav>
                 </header>
               )
@@ -205,7 +205,7 @@ module.exports = React.createClass({
             //ADDING CHILD
             if(this.props.action === 'add' && this.state.addMode === 'child') {
               return (
-                <ul>
+                <ul className={pclass(['form-fields', 'l-stacked'])}>
                   <li>
                     <div className={pclass(['key-box', 'left'])}>
                       <label>Key</label>
@@ -234,7 +234,7 @@ module.exports = React.createClass({
             //ADDING BRANCH
             if(this.props.action === 'add' && this.state.addMode === 'branch') {
               return (
-                <ul>
+                <ul className={pclass(['form-fields', 'l-stacked'])}>
                   <li>
                     <div className={pclass(['parent-box', 'left'])}>
                       <label>Parent Key</label>
@@ -276,7 +276,7 @@ module.exports = React.createClass({
             //ADDING JSON
             if(this.props.action === 'add' && this.state.addMode === 'json') {
               return (
-                <ul>
+                <ul className={pclass(['form-fields', 'l-stacked'])}>
                   <li>
                     <div className={pclass(['key-box', 'left'])}>
                       <label>Key</label>
@@ -300,7 +300,7 @@ module.exports = React.createClass({
             }
           }.bind(this)()}
 
-          <footer  className={pclass('form-footer')}>
+          <footer  className={pclass('modal-footer')}>
             <input type="submit" value="Save"  className={pclass('button button-large button-primary l-pad-right')} />
             <a className={pclass('button button-large button-secondary')} onClick={this.closeForm}>Cancel</a>
           </footer>

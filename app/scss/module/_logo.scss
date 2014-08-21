@@ -17,3 +17,27 @@
   font-weight: 100;
   font-size: $basefont + 4;
 }
+
+#{$v}-title {
+  text-align: center;
+  margin: 20px 0px 0px 0px;
+  padding: 0px;
+  color: $red;
+  font-size: $basefont * 4;
+  line-height: auto;
+  font-family: $default-font;
+  text-transform: uppercase;
+  font-weight: 100;
+}
+
+#{$v}-sub-title {
+  text-align: center;
+  margin: 0px 0px 40px 0px;
+  padding: 0px;
+  color: $cool;
+  font-size: $basefont + 4;
+  line-height: $baseline;
+  font-family: $default-font;
+  font-weight: 300;
+  text-transform: uppercase;
+}

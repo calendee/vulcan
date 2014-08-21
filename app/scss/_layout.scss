@@ -51,9 +51,33 @@
 * SPACING
 *
 */
+#{$v}-l-stacked li {
+  display: block;
+  margin-bottom: 20px;
+}
+
 #{$v}-l-pad-right {
   margin-right: 10px;
 }
+
 #{$v}-l-pad-left {
   margin-left: 10px;
+}
+
+#{$v}-key-box {
+  width: 70px;
+  margin-right: 10px;
+}
+
+#{$v}-parent-box {
+  width: 100px;
+  margin-right: 10px;
+}
+
+#{$v}-value-box {
+  width: 200px;
+}
+
+#{$v}-priority-box {
+  width: 70px;
 }
