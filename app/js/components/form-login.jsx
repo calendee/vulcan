@@ -28,8 +28,8 @@ module.exports = React.createClass({
 
     return  (
       <form onSubmit={this.handleSubmit} className={pclass('login-form')}>
-        <h2 class="title">Vulcan</h2>
-        <p class="sub-title">Firebase Data Inspector</p>
+        <h2 className={pclass('title')}>Vulcan</h2>
+        <p className={pclass('sub-title')}>Firebase Data Inspector</p>
 
         {alert}
 
