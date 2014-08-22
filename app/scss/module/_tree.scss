@@ -3,15 +3,27 @@
 *
 */
 
-//////////////////////////////////////////////////////////
+#{$v}-root-list {
+    border: none !important;
+
+  > li {
+    padding-left: 20px !important;
+
+    &:before {
+      border: none !important;
+    }
+  }
+}
+
+////////////////////////////////////////////////////////
 // BODY  ///////////////////////////////////////////////
-//////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
 #{$v}-body {
   height: 400px;
   overflow: auto;
   padding: 20px;
 
-  ul#{$v}-child-list, ul#{$v}-root-list  {
+  #{$v}-child-list, #{$v}-root-list  {
     list-style-type: none;
     margin: 0px;
     padding: 0px;
