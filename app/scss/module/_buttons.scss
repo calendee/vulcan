@@ -1,4 +1,4 @@
-$button-types: ('primary' $teal #FFF)  ('action' $blue #FFF) ('secondary' $gray-light #FFF)('caution' $red #FFF);
+$button-types: ('primary' $teal #FFF)  ('action' $blue #FFF) ('secondary' darken($gray-lightest, 10%) #FFF)('caution' $red #FFF);
 
 /**
 * BUTTON BASE
@@ -69,6 +69,7 @@ $button-types: ('primary' $teal #FFF)  ('action' $blue #FFF) ('secondary' $gray-
     &:active {
       background: darken($button-background, 5%);
       color: darken($button-color, 15%);;
+      text-shadow: none;
     }
   }
 }

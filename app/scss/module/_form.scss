@@ -26,7 +26,7 @@
     width: 100%;
     box-sizing: border-box;
     border: none;
-    background: $gray-lightest;
+    background: darken($gray-lightest, 2%);
     color: $navy-light;
     margin: 0px;
     padding: 0px 10px;
