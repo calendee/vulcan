@@ -19,16 +19,15 @@
   */
   #{$v}-modal-header {
     border-radius: 3px 3px 0px 0px;
+    background: linear-gradient(lighten($navy-darkest, 5%), darken($navy-darkest, 15%));
 
     > h3 {
       border-radius: 3px 3px 0px 0px;
-      background: $gray-lightest;
-      box-shadow: 0px 1px 1px rgba(0, 0, 0, .2);
-      color: $cool;
+      color: lighten($navy-darkest, 20%);
       text-align: center;
-      font-size: $basefont - 2;
+      font-size: $basefont - 3;
       font-weight: 300;
-      line-height: 30px;
+      line-height: 25px;
       margin: 0px;
       padding: 0px;
 
@@ -45,27 +44,51 @@
   #{$v}-modal-nav {
     background: $navy-dark;
 
-    /**
-    * Tab States
-    *
-    */
+    // Tab States
     &#{$v}-child-is-selected a#{$v}-modal-tab-child,
     &#{$v}-branch-is-selected a#{$v}-modal-tab-branch,
     &#{$v}-json-is-selected a#{$v}-modal-tab-json {
-      background: $navy-darkest;
+      background: darken($navy-darkest, 5%);
       color: $white;
+
+      > i {
+        display: inline-block;
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        z-index: 1;
+        margin-left: -3px;
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 6px solid #FFF;
+      }
     }
 
     #{$v}-modal-tab {
       display: inline-block;
-      line-height: 50px;
+      line-height: 40px;
       color: $navy-lightest;
       text-decoration: none;
       text-align: center;
       padding: 0px 20px;
       font-size: $basefont - 2;
       cursor: pointer;
+      position: relative;
+
+      > i {
+        display: none;
+      }
     }
+  }
+
+  /**
+  * Modal Body
+  *
+  */
+  #{$v}-modal-body {
+    padding: 20px;
   }
 
   /**
@@ -76,5 +99,9 @@
     border-radius: 0px 0px 3px 3px;
     background: $gray-lightest;
     padding: 10px;
+
+    #{$v}-button {
+      min-width: 100px;
+    }
   }
 }

@@ -11,6 +11,7 @@
   position: relative;
   padding: 10px 70px 10px 70px;
 
+  // LEFT BOX
   #{$v}-toolbar-start {
     border-radius: 3px 0px 0px 0px;
     position: absolute;
@@ -23,6 +24,7 @@
     z-index: 1;
   }
 
+  // URL BAR
   #{$v}-toolbar-url {
     border-radius: 3px;
     width: 100%;
@@ -43,6 +45,7 @@
     }
   }
 
+  // RIGHT BOX
   #{$v}-toolbar-end {
     border-radius: 0px 3px 0px 0px;
     position: absolute;
@@ -54,6 +57,7 @@
     z-index: 10;
   }
 
+  //MENU ARROW
   #{$v}-toolbar-arrow {
     color: $navy;
     text-align: center;

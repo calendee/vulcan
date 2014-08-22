@@ -1,5 +1,22 @@
+@mixin clearfix {
+  *zoom: 1;
+
+  &:after, &:before {
+    content: '.';
+    clear: both;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    font-size: 0;
+    line-height: 0;
+    width: 0;
+    height: 0;
+  }
+}
+
+
 /**
-* FLOATING LAYOUTS
+* FLOATS & CLEARS
 *
 */
 #{$v}-l-left {
@@ -13,6 +30,11 @@
 #{$v}-l-clear {
   clear: both;
 }
+
+#{$v}-clearfix {
+  @include clearfix;
+}
+
 
 /**
 * PINNED LAYOUTS
@@ -63,6 +85,49 @@
 #{$v}-l-pad-left {
   margin-left: 10px;
 }
+
+
+/**
+* GRID
+*
+*/
+
+#{$v}-grid {
+  @include clearfix;
+
+  #{$v}-25-percent,
+  #{$v}-50-percent,
+  #{$v}-75-percent,
+  #{$v}-100-percent {
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
+    float: left;
+  }
+
+  #{$v}-25-percent {
+    width: 25%;
+  }
+
+  #{$v}-50-percent {
+    width: 50%;
+  }
+
+  #{$v}-75-percent {
+    width: 75%;
+  }
+
+  #{$v}-100-percent {
+    width: 100%;
+  }
+}
+
+
+/**
+* SPACING
+*
+*/
+
 
 #{$v}-key-box {
   width: 70px;

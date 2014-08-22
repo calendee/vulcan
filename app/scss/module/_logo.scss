@@ -18,6 +18,11 @@
   font-size: $basefont + 4;
 }
 
+/**
+* Main Title
+*
+*/
+
 #{$v}-title {
   text-align: center;
   margin: 20px 0px 0px 0px;
@@ -30,6 +35,10 @@
   font-weight: 100;
 }
 
+/**
+* Sub Title
+*
+*/
 #{$v}-sub-title {
   text-align: center;
   margin: 0px 0px 40px 0px;

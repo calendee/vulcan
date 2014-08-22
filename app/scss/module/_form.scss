@@ -9,15 +9,14 @@
   margin: 0px;
 
   label {
+    font-size: $basefont - 2;
     display: block;
     font-family: $default-font;
-    font-size: $basefont - 2;
     margin-bottom: 5px;
     color: $navy-lightest;
     text-transform: uppercase;
 
     > em {
-      font-size: $basefont - 3;
       font-style: normal;
     }
   }
@@ -28,12 +27,12 @@
     box-sizing: border-box;
     border: none;
     background: $gray-lightest;
-    height: 40px;
-    font-size: $basefont + 2;
     color: $navy-light;
     margin: 0px;
-    padding: 0px 20px;
+    padding: 0px 10px;
     outline: none;
+    height: 30px;
+    font-size: $basefont;
 
     &:active, &:focus {
       color: $navy;
@@ -45,4 +44,30 @@
   textarea {
     height: 100px;
   }
+}
+
+
+/**
+* LARGE FORM FIELDS
+*
+*/
+
+#{$v}-form-fields-large {
+  label  em {
+    font-size: $basefont - 2;
+  }
+
+  input, textarea{
+    height: 40px;
+    font-size: $basefont + 2;
+    padding: 0px 20px;
+  }
+}
+
+/**
+* LOGIN FORM
+*
+*/
+#{$v}-login-form {
+  padding: 0px 60px;
 }
