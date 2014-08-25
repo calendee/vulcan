@@ -39,6 +39,7 @@ module.exports = React.createClass({
       token: '',
       formAction: null,
       node: null,
+      minimized: false,
       pinned: pinnedOptions,
       isDevTools: isDevTools
     };
@@ -96,7 +97,13 @@ module.exports = React.createClass({
   },
 
   minimize: function() {
+    if (!this.state.minimized){
+      this.toggleHide();
+    }
+  },
 
+  toggleHide: function(){
+    this.setState({minimized: !this.state.minimized});
   },
 
   collapseAll: function() {
@@ -156,6 +163,29 @@ module.exports = React.createClass({
     var pclass = this.prefixClass;
     var cx = React.addons.classSet;
 
+    // compute classes for app body including show/hide
+    var computeClasses = function(){
+
+      var classes = "";
+      if (this.state.minimized) {
+        classes += "hide ";
+      }
+
+      classes += pclass("app-body");
+      return classes;
+
+    }.bind(this);
+
+    var checkStateOfParent = function(stateKey){
+      return (this.state[stateKey]);
+    }.bind(this);
+
+    var setStateOfParent = function(stateKey, val){
+      var newState = {};
+      newState[stateKey] = val;
+      this.setState(newState);
+    }.bind(this);
+
     //OPTIONS FOR PINNING STATE
     var classes = cx({
       'l-pinned-top': this.state.pinned.top,
@@ -170,9 +200,9 @@ module.exports = React.createClass({
 
     return (
       <div className={pclass(classes)}>
-        <AppHeader onHeaderAction={this.headerAction} isDevTools={this.state.isDevTools} url={this.state.url} showDropdown={false}/>
+        <AppHeader onHeaderAction={this.headerAction} isDevTools={this.state.isDevTools} url={this.state.url} showDropdown={false} checkStateOfParent={checkStateOfParent} setStateOfParent={setStateOfParent} />
 
-        <div className={pclass("app-body")} ref="appBody">
+        <div className={computeClasses()} ref="appBody">
           {function(){
             if(this.state.firebaseRef) {
               return <Root firebaseRef={this.state.firebaseRef} />
