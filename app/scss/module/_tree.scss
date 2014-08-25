@@ -1,0 +1,155 @@
+/**
+* TREE
+*
+* This file contains the styles for the recursive
+* node tree that represents Firebase data.
+*/
+
+
+/**
+* Root Node
+*
+*/
+#{$v}-root-list {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  border: none;
+
+  > li {
+    padding-left: 20px;
+
+    &:before {
+      border: none;
+    }
+  }
+}
+
+
+/**
+* Node with children
+*
+*/
+#{$v}-child-list {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  border-left: 1px dotted $gray-light;
+}
+
+
+
+/**
+* Standard Node
+*
+*/
+#{$v}-node {
+  margin: 0px 0px 10px 0px;
+  padding: 0px 0px 0px 30px;
+  position: relative;
+
+  //STEM
+  &:before {
+    display: block;
+    content: "";
+    width: 26px;
+    height: 1px;
+    border-bottom: 1px dotted $gray-light;
+    position: absolute;
+    left: 0px;
+    top: 15px;
+    z-index: 1;
+  }
+
+  //TOGGLE BUTTON
+  #{$v}-toggle {
+    background-color: $gray-lightest;
+    border-radius: 100px;
+    display: inline-block;
+    border: 1px solid $gray-light;
+    width: 16px;
+    line-height: 16px;
+    text-align: center;
+    margin: 0px 5px 0px -10px;
+    cursor: pointer;
+    font-size: 12px;
+    position: absolute;
+    top: 7px;
+    left: 0px;
+    z-index: 1;
+  }
+
+  //DATA ROW
+  #{$v}-container {
+    position: relative;
+    margin-left: -2px;
+    transition: all ease-out 500ms;
+    border-radius: 5px;
+    line-height: $baseline;
+
+    &:hover  {
+      #{$v}-options {
+        display: block;
+      }
+    }
+
+    //HOVER OPTIONS
+    #{$v}-options {
+      box-shadow: 0px 2px 20px rgba(0, 0, 0, .3);
+      background: $navy-dark;
+      padding: 0px 5px 5px 5px;
+      border-radius: 3px;
+      display: none;
+      position: absolute;
+      top: -30px;
+      z-index: 1;
+
+      #{$v}-options-arrow {
+        position: absolute;
+        bottom: -5px;
+        left: 10px;
+        z-index: 1;
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid $navy-dark;
+      }
+    }
+
+    //PRIORITY
+    #{$v}-priority {
+      background: $blue;
+      color: $white;
+      border-radius: 3px;
+      line-height: $baseline;
+      font-size: $basefont - 2;
+      font-style: normal;
+      padding: 0px 3px;
+      margin: 0px 5px 0px 0px;
+    }
+
+    //NODE NAME
+    #{$v}-name {
+      border-radius: 3px;
+      transition: all 500ms ease-out;
+      margin: 0px 10px 0px 0px;
+      font-size: $basefont;
+      font-weight: bold;
+    }
+
+    // NUMBER OF CHILD NODES
+    #{$v}-num-children {
+      opacity: .5;
+      font-size: $basefont - 2;
+      margin-left: -5px;
+    }
+
+    //VALUE
+    #{$v}-value {
+      margin: 0px 0px 0px 0px;
+      font-size: $basefont - 1;
+      font-style: normal;
+    }
+  }
+}

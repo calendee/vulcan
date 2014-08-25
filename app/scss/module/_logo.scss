@@ -1,0 +1,68 @@
+/**
+* Logo
+*
+*/
+
+#{$v}-logo {
+  border-radius: 1000px;
+  padding: 0px;
+  margin: 0px;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  background: $navy-darkest;
+  text-align: center;
+  color: $red;
+  line-height: 40px;
+  font-weight: 100;
+  font-size: $basefont + 4;
+
+  #{$v}-is-devtools & {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: $basefont;
+  }
+}
+
+/**
+* Main Title
+*
+*/
+
+#{$v}-title {
+  text-align: center;
+  margin: 20px 0px 0px 0px;
+  padding: 0px;
+  color: $red;
+  font-size: $basefont * 4;
+  line-height: auto;
+  font-family: $default-font;
+  text-transform: uppercase;
+  font-weight: 100;
+
+  #{$v}-is-devtools & {
+    margin: 0px;
+    font-size: $basefont * 2;
+  }
+}
+
+/**
+* Sub Title
+*
+*/
+#{$v}-sub-title {
+  text-align: center;
+  margin: 0px 0px 40px 0px;
+  padding: 0px;
+  color: $cool;
+  font-size: $basefont + 6;
+  line-height: $baseline;
+  font-family: $default-font;
+  font-weight: 200;
+
+  #{$v}-is-devtools & {
+    margin: 0px 0px 20px 0px;
+    font-size: $basefont + 2;
+  }
+}

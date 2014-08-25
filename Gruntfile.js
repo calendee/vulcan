@@ -103,17 +103,17 @@ module.exports = function(grunt) {
 
       sass: {
         files: ['app/scss/**/*.scss'],
-        tasks: ['sass', 'autoprefixer']
+        tasks: ['sass', 'autoprefixer', 'copy:chrome']
       },
 
       js: {
         files: ['app/js/**/*'],
-        tasks: ['react', 'browserify']
+        tasks: ['react', 'browserify', 'copy:chrome']
       },
 
       html: {
         files: ['app/html/**/*'],
-        tasks: ['copy:html']
+        tasks: ['copy:html', 'copy:chrome']
       },
 
       livereload: {

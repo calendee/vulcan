@@ -19,6 +19,14 @@ module.exports = React.createClass({
     };
   },
 
+  componentDidMount: function() {
+    this.refs.firstField.getDOMNode().focus();
+  },
+
+  componentDidUpdate: function() {
+    this.refs.firstField.getDOMNode().focus();
+  },
+
   handleSubmit: function(e) {
     e.preventDefault();
     var form = e.target;
@@ -69,7 +77,7 @@ module.exports = React.createClass({
       this.state.firebaseRef.child(parentKey).setWithPriority(childData, parentPriority, function() {
         //UPDATE CHILD PRIORITY
         this.state.firebaseRef.child(parentKey).child(key).setPriority(priority);
-              this.closeForm();
+        this.closeForm();
 
       }.bind(this));
     }
@@ -103,7 +111,10 @@ module.exports = React.createClass({
     this.closeForm();
   },
 
-  closeForm: function() {
+  closeForm: function(e) {
+    if(e && e.preventDefault) {
+      e.preventDefault();
+    }
     this.props.onComplete();
   },
 
@@ -125,31 +136,33 @@ module.exports = React.createClass({
 
     //OPTIONS FOR PINNING STATE
     var navClasses = cx({
-      'vulcan-form-nav': true,
-      'vulcan-nav-child-selected': this.state.addMode === 'child',
-      'vulcan-nav-branch-selected': this.state.addMode === 'branch',
-      'vulcan-nav-json-selected': this.state.addMode === 'json'
+      'modal-nav': true,
+      'child-is-selected': this.state.addMode === 'child',
+      'branch-is-selected': this.state.addMode === 'branch',
+      'json-is-selected': this.state.addMode === 'json'
     });
 
     return (
       <div>
-        <div className={pclass('form-overlay')}></div>
-        <form onSubmit={this.handleSubmit} className={pclass(['form', this.props.action])}>
+        <div className={pclass('overlay')}></div>
+        <form onSubmit={this.handleSubmit} className={pclass(['modal', this.props.action])}>
 
           {function() {
             //EDIT PRIORITY
             if(this.props.action === 'priority') {
               return (
                 <div>
-                  <header className={pclass('form-header')}><h3>Editing Priority for {this.state.name}</h3></header>
-                  <ul>
-                    <li>
-                      <div className={pclass('priority-box')}>
-                        <label>Priority</label>
-                        <input type="text" name="priority" valueLink={this.linkState('priority')} />
-                      </div>
-                    </li>
-                  </ul>
+                  <header className={pclass('modal-header')}><h3>Editing Priority for {this.state.name}</h3></header>
+                  <div className={pclass('modal-body')}>
+                    <ul className={pclass(['grid', 'form-fields', 'form-fields-small', 'l-stacked'])}>
+                      <li className={pclass('clearfix')}>
+                        <div className={pclass('25-percent')}>
+                          <label>Priority</label>
+                          <input ref="firstField" type="text" name="priority" valueLink={this.linkState('priority')} />
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               )
             }
@@ -161,22 +174,22 @@ module.exports = React.createClass({
             if(this.props.action === 'edit') {
               return (
                 <div>
-                  <header className={pclass('form-header')}><h3>Editing {this.state.name}</h3></header>
-                  <ul>
-                    <li>
-                      <div className={pclass(['value-box', 'left'])}>
-                        <label>{this.state.name}:</label>
-                        <input type="text" name="value" valueLink={this.linkState('value')} />
-                      </div>
+                  <header className={pclass('modal-header')}><h3>Editing {this.state.name}</h3></header>
+                  <div className={pclass('modal-body')}>
+                    <ul className={pclass(['grid', 'form-fields', 'form-fields-small', 'l-stacked'])}>
+                      <li className={pclass('clearfix')}>
+                        <div className={pclass('75-percent')}>
+                          <label>{this.state.name}:</label>
+                          <input ref="firstField" type="text" name="value" valueLink={this.linkState('value')} />
+                        </div>
 
-                      <div className={pclass(['priority-box', 'right'])}>
-                        <label>Priority</label>
-                        <input type="text" name="priority" valueLink={this.linkState('priority')} />
-                      </div>
-
-                      <div className={pclass('clear')}></div>
-                    </li>
-                  </ul>
+                        <div className={pclass('25-percent')}>
+                          <label>Priority</label>
+                          <input type="text" name="priority" valueLink={this.linkState('priority')} />
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               )
             }
@@ -187,13 +200,13 @@ module.exports = React.createClass({
             //HEADER NAV
             if(this.props.action === 'add') {
               return (
-                <header className={pclass('form-header')} >
+                <header className={pclass('modal-header')} >
                   <h3>Adding Child to <strong>{this.state.name}</strong> Node</h3>
 
-                  <nav className={navClasses}>
-                    <a className={pclass('form-nav-child')} onClick={this.addChildMode}>Add Child</a>
-                    <a className={pclass('form-nav-branch')} onClick={this.addBranchMode}>Add Branch</a>
-                    <a className={pclass('form-nav-json')} onClick={this.addJsonMode}>Add JSON</a>
+                  <nav className={pclass(navClasses)}>
+                    <a className={pclass('modal-tab modal-tab-child')} onClick={this.addChildMode}>Add Child <i></i></a>
+                    <a className={pclass('modal-tab modal-tab-branch')} onClick={this.addBranchMode}>Add Branch <i></i></a>
+                    <a className={pclass('modal-tab modal-tab-json')} onClick={this.addJsonMode}>Add JSON <i></i></a>
                   </nav>
                 </header>
               )
@@ -205,26 +218,26 @@ module.exports = React.createClass({
             //ADDING CHILD
             if(this.props.action === 'add' && this.state.addMode === 'child') {
               return (
-                <ul>
-                  <li>
-                    <div className={pclass(['key-box', 'left'])}>
-                      <label>Key</label>
-                      <input  type="text" name="key" />
-                    </div>
+                <div className={pclass('modal-body')}>
+                  <ul className={pclass(['grid', 'form-fields', 'form-fields-small', 'l-stacked'])}>
+                    <li>
+                      <div className={pclass(['25-percent', 'left'])}>
+                        <label>Key</label>
+                        <input  ref="firstField" type="text" name="key" />
+                      </div>
 
-                    <div className={pclass(['value-box', 'left'])}>
-                      <label>Value</label>
-                      <input type="text" name="value"  />
-                    </div>
+                      <div className={pclass(['50-percent', 'left'])}>
+                        <label>Value</label>
+                        <input type="text" name="value"  />
+                      </div>
 
-                    <div className={pclass(['priority-box', 'right'])}>
-                      <label>Priority</label>
-                      <input type="text" name="priority"  />
-                    </div>
-                    <div className={pclass('clear')}></div>
-
-                  </li>
+                      <div className={pclass(['25-percent', 'right'])}>
+                        <label>Priority</label>
+                        <input type="text" name="priority"  />
+                      </div>
+                    </li>
                 </ul>
+                </div>
               )
             }
           }.bind(this)()}
@@ -234,39 +247,38 @@ module.exports = React.createClass({
             //ADDING BRANCH
             if(this.props.action === 'add' && this.state.addMode === 'branch') {
               return (
-                <ul>
-                  <li>
-                    <div className={pclass(['parent-box', 'left'])}>
-                      <label>Parent Key</label>
-                      <input  type="text" name="parentKey" />
-                    </div>
+                <div className={pclass('modal-body')}>
+                  <ul className={pclass(['grid', 'form-fields', 'form-fields-small', 'l-stacked'])}>
+                    <li className={pclass('clearfix')}>
+                      <div className={pclass('25-percent')}>
+                        <label>Parent Key</label>
+                        <input  ref="firstField" type="text" name="parentKey" />
+                      </div>
 
-                    <div className={pclass(['priority-box', 'left'])}>
-                      <label>Priority</label>
-                      <input type="text" name="parentPriority" />
-                    </div>
-                    <div className={pclass('clear')}></div>
-                  </li>
+                      <div className={pclass('25-percent')}>
+                        <label>Priority</label>
+                        <input type="text" name="parentPriority" />
+                      </div>
+                    </li>
 
-                  <li>
-                    <div className={pclass(['key-box', 'left'])}>
-                      <label>Key</label>
-                      <input  type="text" name="key" />
-                    </div>
+                    <li className={pclass('clearfix')}>
+                      <div className={pclass('25-percent')}>
+                        <label>Key</label>
+                        <input  type="text" name="key" />
+                      </div>
 
-                    <div className={pclass(['value-box', 'left'])}>
-                      <label>Value</label>
-                      <input type="text" name="value"  />
-                    </div>
+                      <div className={pclass('50-percent')}>
+                        <label>Value</label>
+                        <input type="text" name="value"  />
+                      </div>
 
-                    <div className={pclass(['priority-box', 'right'])}>
-                      <label>Priority</label>
-                      <input type="text" name="priority"  />
-                    </div>
-                    <div className={pclass('clear')}></div>
-
-                  </li>
-                </ul>
+                      <div className={pclass('25-percent')}>
+                        <label>Priority</label>
+                        <input type="text" name="priority"  />
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               )
             }
           }.bind(this)()}
@@ -276,33 +288,35 @@ module.exports = React.createClass({
             //ADDING JSON
             if(this.props.action === 'add' && this.state.addMode === 'json') {
               return (
-                <ul>
-                  <li>
-                    <div className={pclass(['key-box', 'left'])}>
-                      <label>Key</label>
-                      <input  type="text" name="key" />
-                    </div>
+                <div className={pclass('modal-body')}>
+                  <ul className={pclass(['grid', 'form-fields', 'form-fields-small', 'l-stacked'])}>
+                    <li className={pclass('clearfix')}>
+                      <div className={pclass('25-percent')}>
+                        <label>Key</label>
+                        <input  ref="firstField" type="text" name="key" />
+                      </div>
 
-                    <div className={pclass(['priority-box', 'left'])}>
-                      <label>Priority</label>
-                      <input type="text" name="priority"  />
-                    </div>
-                    <div className={pclass('clear')}></div>
-                  </li>
-                  <li>
-                    <div className={pclass('json-box')}>
-                      <label>JSON</label>
-                      <textarea name="json"></textarea>
-                    </div>
-                  </li>
-                </ul>
+                      <div className={pclass('25-percent')}>
+                        <label>Priority</label>
+                        <input type="text" name="priority"  />
+                      </div>
+                      <div className={pclass('clear')}></div>
+                    </li>
+                    <li className={pclass('clearfix')}>
+                      <div className={pclass('100-percent')}>
+                        <label>JSON</label>
+                        <textarea name="json"></textarea>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               )
             }
           }.bind(this)()}
 
-          <footer  className={pclass('form-footer')}>
-            <input type="submit" value="Save"  className={pclass('button-primary')} />
-            <a className={pclass('button-secondary')} onClick={this.closeForm}>Cancel</a>
+          <footer  className={pclass('modal-footer')}>
+            <input type="submit" value="Save"  className={pclass('button button-primary l-pad-right')} />
+            <button className={pclass('button button-secondary')} onClick={this.closeForm}>Cancel</button>
           </footer>
         </form>
       </div>

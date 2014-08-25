@@ -1,0 +1,15 @@
+/**
+* Overlay
+*
+*/
+
+#{$v}-overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 1000;
+  background-color: $navy-darkest;
+  opacity: .3;
+}

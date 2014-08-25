@@ -1,0 +1,33 @@
+/**
+* APPLICATION CONAINER
+*
+*/
+#{$v}-app-container {
+  width: 500px;
+  border-radius: 3px 3px 0px 0px;
+  box-shadow: 0px 0px 50px rgba(0, 0, 0, .4);
+  background-color: $white;
+  font-family: $default-font;
+
+  #{$v}-app-body {
+    overflow: auto;
+    height: 400px;
+    padding: 20px;
+  }
+
+  // APP INSIDE CHROME DEV TOOLS
+  &#{$v}-is-devtools {
+    border-radius: 0px;
+    width: 100%;
+
+    #{$v}-app-body {
+      height: auto;
+      position: absolute;
+      top: 40px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+      z-index: 1;
+    }
+  }
+}

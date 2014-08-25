@@ -11,7 +11,27 @@ module.exports = React.createClass({
   mixins: [AppMixins],
 
   getInitialState: function() {
-    var options = (this.props.options && this.props.options.container) ? this.props.options.container : {};
+    //Check if running Vulcan in Chrome Dev Tools Panel
+    var isDevTools = (this.props.options && this.props.options.isDevTools) ? true: false;
+
+    // Default pinning options
+    var pinnedOptions = {
+      top: false,
+      left: false,
+      right: true,
+      bottom: true
+    }
+
+    // Pin to all 4 sides for dev tools
+    if(isDevTools) {
+      pinnedOptions = {
+        top: true,
+        left: true,
+        right: true,
+        bottom: true
+      }
+    }
+
     return {
       status: 'new',
       firebaseRef: null,
@@ -20,12 +40,8 @@ module.exports = React.createClass({
       formAction: null,
       node: null,
       minimized: false,
-      pinned: options.pinned || {
-        top: false,
-        left: false,
-        right: true,
-        bottom: true
-      }
+      pinned: pinnedOptions,
+      isDevTools: isDevTools
     };
   },
 
@@ -155,7 +171,7 @@ module.exports = React.createClass({
         classes += "hide ";
       }
 
-      classes += pclass("body");
+      classes += pclass("app-body");
       return classes;
 
     }.bind(this);
@@ -172,17 +188,19 @@ module.exports = React.createClass({
 
     //OPTIONS FOR PINNING STATE
     var classes = cx({
-      'vulcan-pinned-top': this.state.pinned.top,
-      'vulcan-pinned-bottom': this.state.pinned.bottom,
-      'vulcan-pinned-left': this.state.pinned.left,
-      'vulcan-pinned-right': this.state.pinned.right,
-      'vulcan-pinned-all': this.state.pinned.top && this.state.pinned.bottom && this.state.pinned.left && this.state.pinned.right,
-      'vulcan-pinned': true
+      'l-pinned-top': this.state.pinned.top,
+      'l-pinned-bottom': this.state.pinned.bottom,
+      'l-pinned-left': this.state.pinned.left,
+      'l-pinned-right': this.state.pinned.right,
+      'l-pinned-all': this.state.pinned.top && this.state.pinned.bottom && this.state.pinned.left && this.state.pinned.right,
+      'l-pinned': true,
+      'app-container':true,
+      'is-devtools': this.state.isDevTools
     });
 
     return (
-      <div className={classes}>
-        <AppHeader onHeaderAction={this.headerAction} url={this.state.url} showDropdown={false} checkStateOfParent={checkStateOfParent} setStateOfParent={setStateOfParent}/>
+      <div className={pclass(classes)}>
+        <AppHeader onHeaderAction={this.headerAction} isDevTools={this.state.isDevTools} url={this.state.url} showDropdown={false} checkStateOfParent={checkStateOfParent} setStateOfParent={setStateOfParent} />
 
         <div className={computeClasses()} ref="appBody">
           {function(){
@@ -190,7 +208,7 @@ module.exports = React.createClass({
               return <Root firebaseRef={this.state.firebaseRef} />
             }
             else {
-              return <LoginForm errors={this.state.loginError} onLogin={this.login} url="https://airwolfe.firebaseio.com/" />
+              return <LoginForm errors={this.state.loginError} isDevTools={this.state.isDevTools} onLogin={this.login} url="https://airwolfe.firebaseio.com/" />
             }
           }.bind(this)()}
         </div>

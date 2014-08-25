@@ -261,7 +261,7 @@ var Node = React.createClass({
           }
         }.bind(this)()}
 
-        <div className={pclass(['container', this.props.status])}>
+        <div className={pclass(['container', "is-" + this.props.status])}>
 
           {/* HOVER OPTIONS */}
           {function(){
@@ -269,9 +269,9 @@ var Node = React.createClass({
               return (
                 <div className={pclass('options')}>
                   <div className={pclass('options-arrow')}></div>
-                  <button className={pclass('button-add')} onClick={this.addNode}>Add</button>
-                  <button className={pclass('button-edit')} onClick={this.editPriority}>Priority</button>
-                  <button className={pclass('button-remove')} onClick={this.removeNode}>Remove</button>
+                  <button className={pclass('button button-small button-primary l-pad-right')} onClick={this.addNode}>Add</button>
+                  <button className={pclass('button button-small button-action l-pad-right')} onClick={this.editPriority}>Priority</button>
+                  <button className={pclass('button button-small button-caution')} onClick={this.removeNode}>Remove</button>
                 </div>
               )
             }
@@ -279,8 +279,8 @@ var Node = React.createClass({
               return (
                 <div className={pclass('options')}>
                   <div className={pclass('options-arrow')}></div>
-                  <button className={pclass('button-edit')} onClick={this.editNode}>Edit</button>
-                  <button className={pclass('button-remove')} onClick={this.removeNode}>Remove</button>
+                  <button className={pclass('button button-small button-action l-pad-right')} onClick={this.editNode}>Edit</button>
+                  <button className={pclass('button button-small button-caution')} onClick={this.removeNode}>Remove</button>
                 </div>
               )
             }
@@ -313,7 +313,7 @@ var Node = React.createClass({
             }
             else if(this.state.value === null) {
               //3. VALUE (NULL) ROOT
-              return <em className={pclass('value')}>One moment...</em>
+              return <em className={pclass('value')}>null</em>
             }
           }.bind(this)()}
         </div>

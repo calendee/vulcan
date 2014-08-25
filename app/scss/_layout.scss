@@ -1,0 +1,122 @@
+/**
+* FLOATS & CLEARS
+*
+*/
+@mixin clearfix {
+  *zoom: 1;
+
+  &:after, &:before {
+    content: '.';
+    clear: both;
+    display: block;
+    overflow: hidden;
+    visibility: hidden;
+    font-size: 0;
+    line-height: 0;
+    width: 0;
+    height: 0;
+  }
+}
+
+#{$v}-l-left {
+  float: left;
+}
+
+#{$v}-l-right {
+  float: right;
+}
+
+#{$v}-l-clear {
+  clear: both;
+}
+
+#{$v}-clearfix {
+  @include clearfix;
+}
+
+
+/**
+* PINNED LAYOUTS
+*
+*/
+#{$v}-l-pinned {
+  position: fixed;
+  z-index: 99999999;
+}
+
+#{$v}-pinned-all {
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  width: auto;
+}
+
+#{$v}-l-pinned-top {
+  top: 0px;
+}
+
+#{$v}-l-pinned-bottom {
+  bottom: 0px;
+}
+
+#{$v}-l-pinned-left {
+  left: 0px;
+}
+
+#{$v}-l-pinned-right {
+  right: 0px;
+}
+
+/**
+* SPACING
+*
+*/
+#{$v}-l-stacked li {
+  display: block;
+  margin-bottom: 20px;
+}
+
+#{$v}-l-pad-right {
+  margin-right: 10px;
+}
+
+#{$v}-l-pad-left {
+  margin-left: 10px;
+}
+
+
+/**
+* GRID
+*
+*/
+
+#{$v}-grid {
+  @include clearfix;
+
+  #{$v}-25-percent,
+  #{$v}-50-percent,
+  #{$v}-75-percent,
+  #{$v}-100-percent {
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
+    float: left;
+  }
+
+  #{$v}-25-percent {
+    width: 25%;
+  }
+
+  #{$v}-50-percent {
+    width: 50%;
+  }
+
+  #{$v}-75-percent {
+    width: 75%;
+  }
+
+  #{$v}-100-percent {
+    width: 100%;
+  }
+}
