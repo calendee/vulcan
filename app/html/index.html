@@ -22,13 +22,69 @@
 
     <!-- VULCAN & FIRBASE DEPENDANCIES -->
     <link rel="stylesheet" type="text/css" href="css/app.css">
-    <script type="text/javascript" src="bower_components/firebase/firebase.js"></script>
+    <script src="https://cdn.firebase.com/js/client/1.0.21/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
 
     <title>VULCAN - Realtime Data Manager</title>
   </head>
   <body>
-    <div id="demo-page"></div>
+    <div id="message-container">
+
+
+
+    </div>
+
+    <script>
+      var firebaseApp = new Firebase("https://vulcan-demo.firebaseio.com/");
+      var messages = firebaseApp.child("messages");
+      $("#add-message").on('submit', function(e){
+        e.preventDefault();
+        var newMessage = {};
+        
+        var name = $("#name").val();
+        var message = $("#message").val();
+        var priority = $("#priority").val();
+
+        newMessage["message"] = message;
+        messages.child(name).setWithPriority(newMessage, priority);
+      });
+
+    </script>
+    <div id="demo-page">
+          <div id="content">
+
+      <form id="add-message">
+        <label>your name:</label>
+        <input id="name"></input>
+        <label>message:</label>
+        <input id="message"></input>
+        <label>priority:</label>
+        <input id="priority"></input>
+        <button type="submit">Submit</button>
+      </form>
+
+      <form id="add-json">
+
+    </div>
+
+    <script>
+      var firebaseApp = new Firebase("https://vulcan-demo.firebaseio.com/");
+      var messages = firebaseApp.child("messages");
+      $("#add-message").on('submit', function(e){
+        e.preventDefault();
+        var newMessage = {};
+        
+        var name = $("#name").val();
+        var message = $("#message").val();
+        var priority = $("#priority").val();
+
+        newMessage["message"] = message;
+        messages.child(name).setWithPriority(newMessage, priority);
+      });
+
+    </script>
+    </div>
   </body>
 
 </html>
