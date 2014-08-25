@@ -136,10 +136,10 @@ module.exports = React.createClass({
 
     //OPTIONS FOR PINNING STATE
     var navClasses = cx({
-      'vulcan-modal-nav': true,
-      'vulcan-child-is-selected': this.state.addMode === 'child',
-      'vulcan-branch-is-selected': this.state.addMode === 'branch',
-      'vulcan-json-is-selected': this.state.addMode === 'json'
+      'modal-nav': true,
+      'child-is-selected': this.state.addMode === 'child',
+      'branch-is-selected': this.state.addMode === 'branch',
+      'json-is-selected': this.state.addMode === 'json'
     });
 
     return (
@@ -203,7 +203,7 @@ module.exports = React.createClass({
                 <header className={pclass('modal-header')} >
                   <h3>Adding Child to <strong>{this.state.name}</strong> Node</h3>
 
-                  <nav className={navClasses}>
+                  <nav className={pclass(navClasses)}>
                     <a className={pclass('modal-tab modal-tab-child')} onClick={this.addChildMode}>Add Child <i></i></a>
                     <a className={pclass('modal-tab modal-tab-branch')} onClick={this.addBranchMode}>Add Branch <i></i></a>
                     <a className={pclass('modal-tab modal-tab-json')} onClick={this.addJsonMode}>Add JSON <i></i></a>

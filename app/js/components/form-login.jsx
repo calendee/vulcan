@@ -24,10 +24,19 @@ module.exports = React.createClass({
 
   render: function() {
     var pclass = this.prefixClass;
+    var cx = React.addons.classSet;
     var alert = this.props.errors ? <div class="alert alert-error">{this.props.errors.message}</div> : '';
 
+
+    //OPTIONS FOR PINNING STATE
+    var classes = cx({
+      'login-form': true,
+      'is-devtools': this.props.isDevTools
+    });
+
+
     return  (
-      <form onSubmit={this.handleSubmit} className={pclass('login-form')}>
+      <form onSubmit={this.handleSubmit} className={pclass(classes)}>
         <h2 className={pclass('title')}>Vulcan</h2>
         <p className={pclass('sub-title')}>Firebase Data Inspector</p>
 

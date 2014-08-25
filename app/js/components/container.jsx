@@ -158,18 +158,18 @@ module.exports = React.createClass({
 
     //OPTIONS FOR PINNING STATE
     var classes = cx({
-      'vulcan-l-pinned-top': this.state.pinned.top,
-      'vulcan-l-pinned-bottom': this.state.pinned.bottom,
-      'vulcan-l-pinned-left': this.state.pinned.left,
-      'vulcan-l-pinned-right': this.state.pinned.right,
-      'vulcan-l-pinned-all': this.state.pinned.top && this.state.pinned.bottom && this.state.pinned.left && this.state.pinned.right,
-      'vulcan-l-pinned': true,
-      'vulcan-app-container':true,
-      'vulcan-is-devtools': this.state.isDevTools
+      'l-pinned-top': this.state.pinned.top,
+      'l-pinned-bottom': this.state.pinned.bottom,
+      'l-pinned-left': this.state.pinned.left,
+      'l-pinned-right': this.state.pinned.right,
+      'l-pinned-all': this.state.pinned.top && this.state.pinned.bottom && this.state.pinned.left && this.state.pinned.right,
+      'l-pinned': true,
+      'app-container':true,
+      'is-devtools': this.state.isDevTools
     });
 
     return (
-      <div className={classes}>
+      <div className={pclass(classes)}>
         <AppHeader onHeaderAction={this.headerAction} isDevTools={this.state.isDevTools} url={this.state.url} showDropdown={false}/>
 
         <div className={pclass("app-body")} ref="appBody">

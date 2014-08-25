@@ -59,12 +59,12 @@ module.exports = React.createClass({
 
     //OPTIONS FOR PINNING STATE
     var classes = cx({
-      'vulcan-toolbar': true,
-      'vulcan-is-devtools': this.props.isDevTools
+      'toolbar': true,
+      'is-devtools': this.props.isDevTools
     });
 
     return (
-      <div className={classes}>
+      <div className={pclass(classes)}>
 
         <div className={pclass('toolbar-start')}>
           <h1 className={pclass('logo')}>V</h1>
