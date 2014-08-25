@@ -210,7 +210,7 @@ module.exports = React.createClass({
             else {
               return (
                 <div>
-                  <LoginForm errors={this.state.loginError} isDevTools={this.state.isDevTools} onLogin={this.login} url="https://airwolfe.firebaseio.com/" />
+                  <LoginForm errors={this.state.loginError} isDevTools={this.state.isDevTools} onLogin={this.login} url="https://vulcan-demo.firebaseio.com/" />
                   <a className={pclass("badge")} href="https://www.firebase.com/" target="_blank">Firebase Inc.</a>
                 </div>
               );
