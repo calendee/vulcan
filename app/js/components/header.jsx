@@ -89,7 +89,14 @@ module.exports = React.createClass({
                     if(this.state.showDropdown) {
                       return (
                         <ul className={pclass('dropdown')}>
-                          <li><a href="#" onClick={this.minimize}>Minimize</a></li>
+                          {function(){
+                            // if not in dev tools, show minimize option
+                            if (!this.props.isDevTools) {
+                              return (
+                                <li><a href="#" onClick={this.minimize}>Minimize</a></li>
+                              )
+                            }
+                          }.bind(this)()}
                           <li><a href="#" onClick={this.expand}>Expand All</a></li>
                           <li><a href="#" onClick={this.collapse}>Collapse All</a></li>
                           <li><a href="#" onClick={this.logout}>Logout</a></li>
