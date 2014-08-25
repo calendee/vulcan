@@ -34,6 +34,12 @@ module.exports = React.createClass({
       'is-devtools': this.props.isDevTools
     });
 
+    var formClasses = cx({
+      'form-fields': true,
+      'l-stacked': true,
+      'form-fields-large': !this.props.isDevTools
+    });
+
 
     return  (
       <form onSubmit={this.handleSubmit} className={pclass(classes)}>
@@ -42,7 +48,7 @@ module.exports = React.createClass({
 
         {alert}
 
-        <ul className={pclass(['form-fields', 'form-fields-large', 'l-stacked'])}>
+        <ul className={pclass(formClasses)}>
           <li>
             <label ref="urlLabel">Firebase URL</label>
             <input ref="url" type="text" name="url" defaultValue={this.props.url}/>
