@@ -70,4 +70,10 @@
 */
 #{$v}-login-form {
   padding: 0px 60px;
+
+  &#{$v}-is-devtools {
+    padding: 0px;
+    max-width: 500px;
+    margin: 0px auto;
+  }
 }
