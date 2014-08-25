@@ -26,6 +26,28 @@
 }
 
 /**
+* Badge Logo
+*
+*/
+
+#{$v}-badge {
+  opacity: .7;
+  background: url(../images/badge-small-translucent.png) top left no-repeat;
+  display: block;
+  width: 146px;
+  height: 24px;
+  overflow: hidden;
+  text-indent: -3000px;
+  text-decoration: none;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  margin-left: -73px;
+  z-index: 1;
+}
+
+
+/**
 * Main Title
 *
 */

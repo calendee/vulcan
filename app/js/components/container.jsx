@@ -178,7 +178,12 @@ module.exports = React.createClass({
               return <Root firebaseRef={this.state.firebaseRef} />
             }
             else {
-              return <LoginForm errors={this.state.loginError} isDevTools={this.state.isDevTools} onLogin={this.login} url="https://airwolfe.firebaseio.com/" />
+              return (
+                <div>
+                  <LoginForm errors={this.state.loginError} isDevTools={this.state.isDevTools} onLogin={this.login} url="https://airwolfe.firebaseio.com/" />
+                  <a className={pclass("badge")} href="https://www.firebase.com/" target="_blank">Firebase Inc.</a>
+                </div>
+              );
             }
           }.bind(this)()}
         </div>
@@ -189,6 +194,7 @@ module.exports = React.createClass({
             return <EditForm node={this.state.node} action={this.state.formAction} onComplete={this.closeForm} status="changed"/>
           }
         }.bind(this)()}
+
       </div>
     );
   }
