@@ -11,7 +11,27 @@ module.exports = React.createClass({
   mixins: [AppMixins],
 
   getInitialState: function() {
-    var options = (this.props.options && this.props.options.container) ? this.props.options.container : {};
+    //Check if running Vulcan in Chrome Dev Tools Panel
+    var isDevTools = (this.props.options && this.props.options.isDevTools) ? true: false;
+
+    // Default pinning options
+    var pinnedOptions = {
+      top: false,
+      left: false,
+      right: true,
+      bottom: true
+    }
+
+    // Pin to all 4 sides for dev tools
+    if(isDevTools) {
+      pinnedOptions = {
+        top: true,
+        left: true,
+        right: true,
+        bottom: true
+      }
+    }
+
     return {
       status: 'new',
       firebaseRef: null,
@@ -19,12 +39,8 @@ module.exports = React.createClass({
       token: '',
       formAction: null,
       node: null,
-      pinned: options.pinned || {
-        top: false,
-        left: false,
-        right: true,
-        bottom: true
-      }
+      pinned: pinnedOptions,
+      isDevTools: isDevTools
     };
   },
 
@@ -148,14 +164,15 @@ module.exports = React.createClass({
       'vulcan-l-pinned-right': this.state.pinned.right,
       'vulcan-l-pinned-all': this.state.pinned.top && this.state.pinned.bottom && this.state.pinned.left && this.state.pinned.right,
       'vulcan-l-pinned': true,
-      'vulcan-app-container':true
+      'vulcan-app-container':true,
+      'vulcan-is-devtools': this.state.isDevTools
     });
 
     return (
       <div className={classes}>
-        <AppHeader onHeaderAction={this.headerAction} url={this.state.url} showDropdown={false}/>
+        <AppHeader onHeaderAction={this.headerAction} isDevTools={this.state.isDevTools} url={this.state.url} showDropdown={false}/>
 
-        <div className={pclass("body")} ref="appBody">
+        <div className={pclass("app-body")} ref="appBody">
           {function(){
             if(this.state.firebaseRef) {
               return <Root firebaseRef={this.state.firebaseRef} />

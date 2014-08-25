@@ -1,3 +1,7 @@
+/**
+* FLOATS & CLEARS
+*
+*/
 @mixin clearfix {
   *zoom: 1;
 
@@ -14,14 +18,9 @@
   }
 }
 
-
-/**
-* FLOATS & CLEARS
-*
-*/
 #{$v}-l-left {
-    float: left;
-  }
+  float: left;
+}
 
 #{$v}-l-right {
   float: right;
@@ -120,29 +119,4 @@
   #{$v}-100-percent {
     width: 100%;
   }
-}
-
-
-/**
-* SPACING
-*
-*/
-
-
-#{$v}-key-box {
-  width: 70px;
-  margin-right: 10px;
-}
-
-#{$v}-parent-box {
-  width: 100px;
-  margin-right: 10px;
-}
-
-#{$v}-value-box {
-  width: 200px;
-}
-
-#{$v}-priority-box {
-  width: 70px;
 }

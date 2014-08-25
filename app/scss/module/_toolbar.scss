@@ -89,4 +89,11 @@
       margin-left: -9px;
     }
   }
+
+  // APP INSIDE CHROME DEV TOOLS
+  &#{$v}-is-devtools {
+    border-radius: 0px;
+    height: 30px;
+    padding: 5px 70px 5px 70px;
+  }
 }
