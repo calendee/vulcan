@@ -178,7 +178,7 @@ module.exports = React.createClass({
               return <Root firebaseRef={this.state.firebaseRef} />
             }
             else {
-              return <LoginForm errors={this.state.loginError} onLogin={this.login} url="https://airwolfe.firebaseio.com/" />
+              return <LoginForm errors={this.state.loginError} isDevTools={this.state.isDevTools} onLogin={this.login} url="https://airwolfe.firebaseio.com/" />
             }
           }.bind(this)()}
         </div>

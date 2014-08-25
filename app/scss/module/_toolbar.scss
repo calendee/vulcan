@@ -93,7 +93,32 @@
   // APP INSIDE CHROME DEV TOOLS
   &#{$v}-is-devtools {
     border-radius: 0px;
-    height: 30px;
-    padding: 5px 70px 5px 70px;
+    height: 40px;
+    padding: 5px 50px 5px 50px;
+
+    // LEFT BOX
+    #{$v}-toolbar-start {
+      border-radius: 0px;
+      width: 30px;
+      height: 30px;
+      padding: 5px;
+    }
+
+    //URL FIELD
+    #{$v}-toolbar-url {
+      height: 30px;
+      font-size: $basefont;
+    }
+
+    // RIGHT BOX
+    #{$v}-toolbar-end {
+      width: 40px;
+      height: 40px;
+    }
+
+    //MENU ARROW
+    #{$v}-toolbar-arrow {
+      line-height: 40px;
+    }
   }
 }
