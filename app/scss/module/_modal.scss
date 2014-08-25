@@ -104,4 +104,20 @@
       min-width: 100px;
     }
   }
+
+  /**
+  * Is Dev Tools
+  *
+  */
+  &#{$v}-is-devtools {
+    top: 60px;
+    left: 50%;
+    right: auto;
+    width: 400px;
+    margin-left: -200px;
+
+    #{$v}-modal-body {
+      padding: 10px;
+    }
+  }
 }

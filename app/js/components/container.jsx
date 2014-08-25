@@ -221,7 +221,7 @@ module.exports = React.createClass({
 
         {function(){
           if(this.state.firebaseRef && this.state.formAction){
-            return <EditForm node={this.state.node} action={this.state.formAction} onComplete={this.closeForm} status="changed"/>
+            return <EditForm node={this.state.node} isDevTools={this.state.isDevTools} action={this.state.formAction} onComplete={this.closeForm} status="changed"/>
           }
         }.bind(this)()}
 

@@ -134,18 +134,26 @@ module.exports = React.createClass({
     var pclass = this.prefixClass;
     var cx = React.addons.classSet;
 
-    //OPTIONS FOR PINNING STATE
+
+    //MODAL CLASS
+    var modalClasses = cx({
+      'modal': true,
+      'is-devtools': this.props.isDevTools
+    });
+    modalClasses = modalClasses.concat([this.props.actio]);
+
+    //NAV TAB CLASS
     var navClasses = cx({
       'modal-nav': true,
       'child-is-selected': this.state.addMode === 'child',
       'branch-is-selected': this.state.addMode === 'branch',
-      'json-is-selected': this.state.addMode === 'json'
+      'json-is-selected': this.state.addMode === 'json',
     });
 
     return (
       <div>
         <div className={pclass('overlay')}></div>
-        <form onSubmit={this.handleSubmit} className={pclass(['modal', this.props.action])}>
+        <form onSubmit={this.handleSubmit} className={pclass(modalClasses)}>
 
           {function() {
             //EDIT PRIORITY
