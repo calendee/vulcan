@@ -14,7 +14,7 @@ module.exports = function(grunt) {
           debug: true
         },
         files: {
-          'production/js/app.js': ['tmp/js/app.js']
+          'production/js/vulcan.js': ['tmp/js/vulcan.js']
         }
       }
     },
@@ -31,18 +31,32 @@ module.exports = function(grunt) {
       },
     },
 
+    uglify: {
+      production: {
+        files: [{
+          expand: true,
+          cwd: 'production/js',
+          src: '**/*.js',
+          dest: 'production/js'
+        }]
+      }
+    },
+
     sass: {
       dist: {
         files: {
-          'tmp/css/app.css': 'app/scss/app.scss'
+          'tmp/css/vulcan.css': 'app/scss/vulcan.scss',
+          'tmp/css/demo.css': 'app/scss/demo.scss'
         }
       }
     },
 
     autoprefixer: {
       production: {
-        src: 'tmp/css/app.css',
-        dest: 'production/css/app.css'
+        expand: true,
+        flatten: true,
+        src: 'tmp/css/*.css',
+        dest: 'production/css/'
       }
     },
 
@@ -126,17 +140,15 @@ module.exports = function(grunt) {
           'app/html/**/*'
         ]
       }
-
     }
-
   });
 
-  grunt.registerTask('build', ['sass', 'autoprefixer', 'react', 'browserify', 'copy:html', 'copy:bower', 'copy:images', 'clean']);
-  grunt.registerTask('chrome', ['build', 'copy:chrome']);
+  grunt.registerTask('build:production', ['sass', 'autoprefixer', 'react', 'browserify', 'uglify', 'copy:html', 'copy:bower', 'copy:images', 'copy:chrome', 'clean']);
+  grunt.registerTask('build:development', ['sass', 'autoprefixer', 'react', 'browserify', 'copy:html', 'copy:bower', 'copy:images', 'copy:chrome', 'clean']);
 
   //DEVELOPMENT FOR WEB PLATFORM
-  grunt.registerTask('server', ['build', 'copy:chrome', 'connect', 'watch']);
+  grunt.registerTask('server', ['build:development', 'connect', 'watch']);
 
   //DEFAULT TASK ($ grunt) builds app and chrome extention
-  grunt.registerTask('default', ['sass', 'autoprefixer', 'react', 'browserify', 'copy:html', 'copy:bower', 'copy:images', 'clean', 'copy:chrome']);
+  grunt.registerTask('default', ['build:production']);
 };

@@ -18,6 +18,7 @@
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-connect": "~0.5.0",
     "grunt-contrib-copy": "~0.5.0",
+    "grunt-contrib-uglify": "^0.5.1",
     "grunt-contrib-watch": "~0.5.2",
     "grunt-react": "~0.6.0",
     "grunt-sass": "^0.10.0",
