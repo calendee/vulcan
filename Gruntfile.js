@@ -126,7 +126,7 @@ module.exports = function(grunt) {
       },
 
       html: {
-        files: ['app/html/**/*'],
+        files: ['app/html/**/*.html'],
         tasks: ['copy:html', 'copy:chrome']
       },
 

@@ -22,62 +22,107 @@
 
   <!-- CHAT DEMO -->
   <div class="example-chat l-demo-container">
-    <header>Firebase Chat Demo</header>
+    <header>Add an item to the list</header>
 
-    <div class='example-chat-toolbar'>
-      <label for="nameInput">Username:</label>
-      <input type='text' id='nameInput' placeholder='enter a username...'>
+    <ol id='example-messages' class="example-chat-messages is-hidden"></ol>
+
+    <div class="firebase-url-container">
+      <p>
+        This is a demo app. To use this demo app enter a Firebase
+        URL in the field below that match the Firebase URL you entered
+        in vulcan. We recccomend using an empty Firebase so this doesn't interfere with data you may have in an existing app.
+      </p>
+      <input type='text' id='firebaseInput'  placeholder='Enter a firebase URL...'>
     </div>
 
-    <ul id='example-messages' class="example-chat-messages"></ul>
-
     <footer>
-      <input type='text' id='messageInput'  placeholder='Type a message...'>
+      <input type='text' class="is-hidden" id='messageInput'  placeholder='Type a message...'>
     </footer>
   </div>
 
   <!-- CHAT JAVACRIPT -->
   <script>
-    // CREATE A REFERENCE TO FIREBASE
-    var messagesRef = new Firebase("https://vulcan-demo.firebaseio.com/");
+    var demoApp = {
+      firbaseURL: '',
+      messagesRef: null,
+      firebaseField: null,
+      messageField: null,
+      messageList: null,
 
-    // REGISTER DOM ELEMENTS
-    var messageField = $('#messageInput');
-    var nameField = $('#nameInput');
-    var messageList = $('#example-messages');
+      init: function() {
+        //REGISTER ELEMENTS
+        this.firebaseField = $('#firebaseInput');
+        this.messageField = $('#messageInput');
+        this.messageList = $('#example-messages');
 
-    // LISTEN FOR KEYPRESS EVENT
-    messageField.keypress(function (e) {
-      if (e.keyCode == 13) {
-        //FIELD VALUES
-        var username = nameField.val();
-        var message = messageField.val();
+        this.activateFirebaseField();
+      },
 
-        //SAVE DATA TO FIREBASE AND EMPTY FIELD
-        messagesRef.push({name:username, text:message});
-        messageField.val('');
+      activateFirebaseField: function() {
+        var self = this;
+
+        // LISTEN FOR KEYPRESS EVENT
+        this.firebaseField.keypress(function (e) {
+          if (e.keyCode == 13) {
+            self.firbaseURL = self.firebaseField.val();
+
+            self.messagesRef = new Firebase(self.firbaseURL);
+            self.activateMessageField();
+            self.activateMessageList();
+            self.firebaseField.addClass('is-hidden');
+          }
+        });
+      },
+
+      activateMessageField: function() {
+        var self = this;
+
+        //SET MESSAGE FIELD KEYPRESS EVENT
+        this.messageField.keypress(function (e) {
+          if (e.keyCode == 13) {
+            var message = self.messageField.val();
+
+            //SAVE DATA TO FIREBASE AND EMPTY FIELD
+            self.messagesRef.push({text:message});
+            self.messageField.val('');
+          }
+        });
+
+        //SHOW MESSAGE FIELD
+        this.messageField.removeClass('is-hidden');
+      },
+
+      activateMessageList: function() {
+        var self = this;
+
+        //LIST FOR UPDATES FROM FIREBASE
+        this.messagesRef.on('value', function (messages) {
+          self.messageList.html("");
+
+          messages.forEach(function(snapshot) {
+            //GET DATA
+            var data = snapshot.val();
+            var priority = snapshot.getPriority() || '';
+            var username = data.name || "anonymous";
+            var message = data.text;
+
+            //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
+            var messageElement = $("<li>");
+            var nameElement = $("<strong class='example-chat-username'></strong>")
+            nameElement.text(priority);
+            messageElement.text(message).prepend(nameElement);
+
+            //ADD MESSAGE
+            self.messageList.append(messageElement)
+          })
+        });
+
+        //SHOW LIST
+        self.messageList.removeClass('is-hidden');
       }
-    });
+    }
 
-    // Add a callback that is triggered for each chat message.
-    messagesRef.limit(10).on('child_added', function (snapshot) {
-      //GET DATA
-      var data = snapshot.val();
-      var username = data.name || "anonymous";
-      var message = data.text;
-
-      //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
-      var messageElement = $("<li>");
-      var nameElement = $("<strong class='example-chat-username'></strong>")
-      nameElement.text(username);
-      messageElement.text(message).prepend(nameElement);
-
-      //ADD MESSAGE
-      messageList.append(messageElement)
-
-      //SCROLL TO BOTTOM OF MESSAGE LIST
-      messageList[0].scrollTop = messageList[0].scrollHeight;
-    });
+    demoApp.init();
   </script>
 </body>
 </html>
