@@ -52,6 +52,7 @@
       init: function() {
         //REGISTER ELEMENTS
         this.firebaseField = $('#firebaseInput');
+        this.firebaseFieldContainer = $('.firebase-url-container');
         this.messageField = $('#messageInput');
         this.messageList = $('#example-messages');
 
@@ -69,7 +70,7 @@
             self.messagesRef = new Firebase(self.firbaseURL);
             self.activateMessageField();
             self.activateMessageList();
-            self.firebaseField.addClass('is-hidden');
+            self.firebaseFieldContainer.addClass('is-hidden');
           }
         });
       },
@@ -103,14 +104,15 @@
             //GET DATA
             var data = snapshot.val();
             var priority = snapshot.getPriority() || '';
-            var username = data.name || "anonymous";
             var message = data.text;
 
             //CREATE ELEMENTS MESSAGE & SANITIZE TEXT
             var messageElement = $("<li>");
-            var nameElement = $("<strong class='example-chat-username'></strong>")
-            nameElement.text(priority);
-            messageElement.text(message).prepend(nameElement);
+            messageElement.text(message);
+
+            if(priority) {
+              messageElement.prepend("<strong>" + priority + "</strong> ");
+            }
 
             //ADD MESSAGE
             self.messageList.append(messageElement)
