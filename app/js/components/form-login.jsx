@@ -50,12 +50,10 @@ module.exports = React.createClass({
 
         <ul className={pclass(formClasses)}>
           <li>
-            <label ref="urlLabel">Firebase URL</label>
-            <input ref="url" type="text" name="url" defaultValue={this.props.url}/>
+            <input ref="url" placeholder="Firebase URL" type="text" name="url" defaultValue={this.props.url}/>
           </li>
           <li>
-            <label>Auth Token <em>(optional)</em></label>
-            <input ref="token" type="password" name="token"/>
+            <input  placeholder="Auth Token (optional)" ref="token" type="password" name="token"/>
           </li>
         </ul>
 
