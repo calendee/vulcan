@@ -62,6 +62,21 @@ module.exports = function(grunt) {
 
     clean: ["tmp"],
 
+    compress: {
+      main: {
+        options: {
+          archive: 'chrome-extension.zip'
+        },
+        files: [
+          {
+            cwd: 'chrome-extension/',
+            src: ['**/*'],
+            expand: true
+          }
+        ]
+      }
+    },
+
     copy: {
       html: {
         files: [{
@@ -143,7 +158,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('build:production', ['sass', 'autoprefixer', 'react', 'browserify', 'uglify', 'copy:html', 'copy:bower', 'copy:images', 'copy:chrome', 'clean']);
+  grunt.registerTask('build:production', ['sass', 'autoprefixer', 'react', 'browserify', 'uglify', 'copy:html', 'copy:bower', 'copy:images', 'copy:chrome', 'compress', 'clean']);
   grunt.registerTask('build:development', ['sass', 'autoprefixer', 'react', 'browserify', 'copy:html', 'copy:bower', 'copy:images', 'copy:chrome', 'clean']);
 
   //DEVELOPMENT FOR WEB PLATFORM

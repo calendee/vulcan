@@ -54,7 +54,7 @@ module.exports = React.createClass({
   saveChildNode: function(form) {
     var key = form.key.value.trim();
     var value = form.value.value.trim();
-    var priority = form.priority.value.trim() || null;
+    var priority = this.cleanPriority(form.priority.value);
 
     if(value && key) {
       this.state.firebaseRef.child(key).setWithPriority(value, priority);
@@ -67,7 +67,7 @@ module.exports = React.createClass({
 
     var key = form.key.value.trim();
     var value = form.value.value.trim();
-    var priority = form.priority.value.trim() || null;
+    var priority = this.cleanPriority(form.priority.value);
 
     if(parentKey && key && value) {
       var childData = {};
@@ -86,7 +86,7 @@ module.exports = React.createClass({
   saveJsonNode: function(form) {
     var key = form.key.value.trim();
     var json = JSON.parse(form.json.value.trim());
-    var priority = form.priority.value.trim() || null;
+    var priority = this.cleanPriority(form.priority.value);
 
     if(json && key) {
       this.state.firebaseRef.child(key).setWithPriority(json, priority);
@@ -95,7 +95,7 @@ module.exports = React.createClass({
   },
 
   updateNode: function(form) {
-    var priority = form.priority.value.trim() || null;
+    var priority = this.cleanPriority(form.priority.value);
     var value = form.value.value.trim();
 
     if(value !== undefined && value !== '') {
@@ -105,7 +105,7 @@ module.exports = React.createClass({
   },
 
   updatePriority: function(form){
-    var priority = form.priority.value.trim() || null;
+    var priority = this.cleanPriority(form.priority.value);
 
     this.state.firebaseRef.setPriority(priority);
     this.closeForm();

@@ -1,8 +1,10 @@
 {
   "manifest_version": 2,
-
-  "name": "Firebase Data Inspector",
-  "description": "Tool for debugging Firebase applications.",
+  "name": "Vulcan by Firebase",
+  "short_name": "Vulcan",
+  "author": "Firebase Inc.",
+  "homepage_url": "https://www.firebase.com",
+  "description": "A Firebase data inspector and editor inside Chrome Devtools.",
   "version": "1.0.0",
 
   "icons": {
