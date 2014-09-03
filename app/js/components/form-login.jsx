@@ -43,6 +43,7 @@ module.exports = React.createClass({
 
     return  (
       <form onSubmit={this.handleSubmit} className={pclass(classes)}>
+        <img className={pclass('logo-image')} src="images/vulcan-logo.png" />
         <h2 className={pclass('title')}>Vulcan</h2>
         <p className={pclass('sub-title')}>Firebase Data Inspector</p>
 

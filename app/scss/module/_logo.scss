@@ -25,6 +25,20 @@
   }
 }
 
+
+/**
+* Logo image
+*
+*/
+
+#{$v}-logo-image {
+  margin: 0px auto;
+  display: block;
+  width: 100px;
+  height: 100px;
+}
+
+
 /**
 * Badge Logo
 *
@@ -54,10 +68,10 @@
 
 #{$v}-title {
   text-align: center;
-  margin: 20px 0px 0px 0px;
+  margin: 10px 0px 0px 0px;
   padding: 0px;
   color: $red;
-  font-size: $basefont * 4;
+  font-size: $basefont * 3;
   line-height: auto;
   font-family: $default-font;
   text-transform: uppercase;
@@ -75,16 +89,18 @@
 */
 #{$v}-sub-title {
   text-align: center;
-  margin: 0px 0px 40px 0px;
+  margin: 0px 0px 20px 0px;
   padding: 0px;
-  color: $cool;
-  font-size: $basefont + 6;
+  color: $gray-light;
+  font-size: $basefont - 2;
   line-height: $baseline;
   font-family: $default-font;
   font-weight: 200;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 
   #{$v}-is-devtools & {
     margin: 0px 0px 20px 0px;
-    font-size: $basefont + 2;
+    font-size: $basefont - 2;
   }
 }
