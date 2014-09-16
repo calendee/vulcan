@@ -7,6 +7,10 @@ var EditForm = require('./form-edit');
 var EventHub = require('./eventhub');
 var AppMixins = require('./mixins');
 
+var errorMessages = {
+  PERMISSION_DENIED: 'You do not have permission to write to this location.'
+};
+
 module.exports = React.createClass({
   mixins: [AppMixins],
 
@@ -49,12 +53,21 @@ module.exports = React.createClass({
     EventHub.subscribe('add', this.showForm);
     EventHub.subscribe('priority', this.showForm);
     EventHub.subscribe('edit', this.showForm);
+    EventHub.subscribe('error', this.showError);
   },
 
   showForm: function(name, node) {
     this.setState({
       formAction: name,
       node: node
+    });
+  },
+
+  showError: function(event, error) {
+    var message = errorMessages[error] || 'Sorry there was a problem with your request';
+
+    this.setState({
+      error: message
     });
   },
 
@@ -138,7 +151,8 @@ module.exports = React.createClass({
       status: 'new',
       firebaseRef: null,
       url: '',
-      token: ''
+      token: '',
+      error: ''
     },
     function() {
       //USE NEW FIREBASE REF
@@ -157,6 +171,19 @@ module.exports = React.createClass({
       case 'logout':    this.logout();                   break;
       case 'url':       this.changeURL(action);          break;
     }
+  },
+
+  renderErrorMessage: function() {
+    var pclass = this.prefixClass;
+    var message = '';
+
+    if(this.state.error) {
+      message = (
+        <div className={pclass(['alert', 'alert-error'])}>{this.state.error}</div>
+      );
+    }
+
+    return message;
   },
 
   render: function() {
@@ -203,6 +230,8 @@ module.exports = React.createClass({
         <AppHeader onHeaderAction={this.headerAction} isDevTools={this.state.isDevTools} url={this.state.url} showDropdown={false} checkStateOfParent={checkStateOfParent} setStateOfParent={setStateOfParent} />
 
         <div className={computeClasses()} ref="appBody">
+          {this.renderErrorMessage()}
+
           {function(){
             if(this.state.firebaseRef) {
               return <Root firebaseRef={this.state.firebaseRef} />

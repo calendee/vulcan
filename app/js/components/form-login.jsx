@@ -27,7 +27,6 @@ module.exports = React.createClass({
   render: function() {
     var pclass = this.prefixClass;
     var cx = React.addons.classSet;
-    var alert = this.props.errors ? <div class="alert alert-error">{this.props.errors.message}</div> : '';
 
 
     //OPTIONS FOR PINNING STATE
@@ -48,8 +47,6 @@ module.exports = React.createClass({
         <img className={pclass('logo-image')} src="images/vulcan-logo.png" />
         <h2 className={pclass('title')}>Vulcan</h2>
         <p className={pclass('sub-title')}>Firebase Data Inspector</p>
-
-        {alert}
 
         <ul className={pclass(formClasses)}>
           <li>

@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 var React = require('react/addons');
 var AppMixins = require('./mixins');
+var EventHub = require('./eventhub');
 
 module.exports = React.createClass({
   mixins: [AppMixins, React.addons.LinkedStateMixin],
@@ -57,7 +58,11 @@ module.exports = React.createClass({
     var priority = this.cleanPriority(form.priority.value);
 
     if(value && key) {
-      this.state.firebaseRef.child(key).setWithPriority(value, priority);
+      this.state.firebaseRef.child(key).setWithPriority(value, priority, function(error) {
+        if(error && error.code) {
+          EventHub.publish('error', error.code);
+        }
+      });
     }
   },
 
@@ -74,9 +79,19 @@ module.exports = React.createClass({
       childData[key] = value;
 
       //CREATE PARENT WITH DATA AND PRIORITY
-      this.state.firebaseRef.child(parentKey).setWithPriority(childData, parentPriority, function() {
-        //UPDATE CHILD PRIORITY
-        this.state.firebaseRef.child(parentKey).child(key).setPriority(priority);
+      this.state.firebaseRef.child(parentKey).setWithPriority(childData, parentPriority, function(error) {
+        if(error && error.code) {
+          EventHub.publish('error', error.code);
+        }
+        else {
+          //UPDATE CHILD PRIORITY
+          this.state.firebaseRef.child(parentKey).child(key).setPriority(priority, function(error) {
+            if(error && error.code) {
+              EventHub.publish('error', error.code);
+            }
+          });
+        }
+
         this.closeForm();
 
       }.bind(this));
@@ -89,7 +104,11 @@ module.exports = React.createClass({
     var priority = this.cleanPriority(form.priority.value);
 
     if(json && key) {
-      this.state.firebaseRef.child(key).setWithPriority(json, priority);
+      this.state.firebaseRef.child(key).setWithPriority(json, priority, function(error) {
+        if(error && error.code) {
+          EventHub.publish('error', error.code);
+        }
+      });
       this.closeForm();
     }
   },
@@ -99,7 +118,11 @@ module.exports = React.createClass({
     var value = form.value.value.trim();
 
     if(value !== undefined && value !== '') {
-      this.state.firebaseRef.setWithPriority(value, priority);
+      this.state.firebaseRef.setWithPriority(value, priority, function(error) {
+        if(error && error.code) {
+          EventHub.publish('error', error.code);
+        }
+      });
       this.closeForm();
     }
   },
@@ -107,7 +130,11 @@ module.exports = React.createClass({
   updatePriority: function(form){
     var priority = this.cleanPriority(form.priority.value);
 
-    this.state.firebaseRef.setPriority(priority);
+    this.state.firebaseRef.setPriority(priority, function(error) {
+      if(error && error.code) {
+        EventHub.publish('error', error.code);
+      }
+    });
     this.closeForm();
   },
 
