@@ -15,13 +15,12 @@
   color: $red;
   line-height: 40px;
   font-weight: 100;
-  font-size: $basefont + 4;
+  font-size: $basefont + 6;
 
   #{$v}-is-devtools & {
     width: 30px;
     height: 30px;
     line-height: 30px;
-    font-size: $basefont;
   }
 }
 
@@ -36,6 +35,11 @@
   display: block;
   width: 100px;
   height: 100px;
+
+  #{$v}-is-devtools & {
+    width: 70px;
+    height: 70px;
+  }
 }
 
 
@@ -68,19 +72,14 @@
 
 #{$v}-title {
   text-align: center;
-  margin: 10px 0px 0px 0px;
+  margin: 0px;
   padding: 0px;
   color: $red;
-  font-size: $basefont * 3;
+  font-size: $basefont * 2;
   line-height: auto;
   font-family: $default-font;
   text-transform: uppercase;
   font-weight: 100;
-
-  #{$v}-is-devtools & {
-    margin: 0px;
-    font-size: $basefont * 2;
-  }
 }
 
 /**

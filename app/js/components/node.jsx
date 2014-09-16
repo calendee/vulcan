@@ -319,6 +319,9 @@ var Node = React.createClass({
             else if(isRoot && noChildren) {
               return <em className={pclass('value')}>{this.state.value}</em>
             }
+            else if(!isRoot && noChildren) {
+              return <em className={pclass('value')}>{this.state.value}</em>
+            }
           }.bind(this)()}
         </div>
 

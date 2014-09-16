@@ -17,7 +17,9 @@
     text-transform: uppercase;
 
     > em {
-      font-style: normal;
+      font-style: italic;
+      text-transform: none;
+      color: lighten($navy-lightest, 10%);
     }
   }
 
@@ -75,5 +77,9 @@
     padding: 0px;
     max-width: 500px;
     margin: 0px auto;
+
+    label {
+      display: none;
+    }
   }
 }

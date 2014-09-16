@@ -10,6 +10,7 @@ module.exports = React.createClass({
     e.preventDefault();
     var url = this.refs.url.getDOMNode().value.trim();
     var token = this.refs.token.getDOMNode().value.trim();
+    var pclass = this.prefixClass;
 
     if(url) {
       this.props.onLogin({
@@ -19,6 +20,7 @@ module.exports = React.createClass({
     }
     else {
       this.refs.urlLabel.getDOMNode().innerHTML = 'Please enter your firebase URL';
+      this.refs.urlLabel.getDOMNode().className = pclass('has-error');
     }
   },
 
@@ -51,7 +53,8 @@ module.exports = React.createClass({
 
         <ul className={pclass(formClasses)}>
           <li>
-            <input ref="url" placeholder="Firebase URL" type="text" name="url" defaultValue={this.props.url}/>
+            <label for="urlField" ref="urlLabel">Firebase URL</label>
+            <input id="urlField" ref="url" placeholder="https://yourapp.firebaseio.com" type="text" name="url" defaultValue={this.props.url}/>
           </li>
           <li>
             <input  placeholder="Auth Token (optional)" ref="token" type="password" name="token"/>
