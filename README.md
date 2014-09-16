@@ -1,17 +1,17 @@
 # Vulcan - Firebase Data Inspector
+Vulcan is a powerful tool for inspecting and manipulating your Firebase data directly from the Browser or Chrome DevTools. 
 
-## Browser Plugin
+## Drop Vulcan into a web page 
 Vulcan can be used as plugin on your web page by simply including the script tags and css dependancies:
 
 ```
-<link rel="stylesheet" type="text/css" href="css/app.css">
-<script type="text/javascript" src="bower_components/firebase/firebase.js"></script>
-<script type="text/javascript" src="bower_components/react/react-with-addons.js"></script>
-<script type="text/javascript" src="js/app.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/vulcan.css">
+  <script src="https://cdn.firebase.com/js/client/1.0.21/firebase.js"></script>
+  <script type="text/javascript" src="js/vulcan.js"></script>
 ```
 
-## Chrome Plugin
-To use Vulcan as a chrom plugin:
+## Vulcan Chrome Plugin
+To use Vulcan as a chrome plugin:
 
 1. Go to settings in your browser
 2. Navigate to Extensions
@@ -21,9 +21,12 @@ To use Vulcan as a chrom plugin:
 6. Open your dev tools
 7. You should now have a Firebase tab
 
+Vulcan is also available in the [Chrome Store](https://chrome.google.com/webstore/detail/vulcan-by-firebase/oippbnlmebalopjbkemajgfbglcjhnbl?utm_source=chrome-ntp-icon)
+
+
 
 ## Development
-We use grunt for our build process. You can use the following commmands:
+We use grunt for our build process. You can use the following commands:
 
-- **grunt server** - builds the web environment and runs the server on localhost:8000 with live reload.
+- **grunt server** - Runs the demo on http://localhost:8000
 - **grunt** - builds both web and chrome extension production ready files.
