@@ -309,13 +309,15 @@ var Node = React.createClass({
 
           {/* VALUE */}
           {function(){
-            if(!this.state.hasChildren && !this.props.root) {
-              //2. VALUE (LEAF)
-              return <em className={pclass('value')}>{this.state.value}</em>
-            }
-            else if(this.state.value === null) {
-              //3. VALUE (NULL) ROOT
+            var isNull = this.state.value === null;
+            var isRoot = this.props.root;
+            var noChildren = !this.state.hasChildren;
+
+            if(isRoot && isNull) {
               return <em className={pclass('value')}>null</em>
+            }
+            else if(isRoot && noChildren) {
+              return <em className={pclass('value')}>{this.state.value}</em>
             }
           }.bind(this)()}
         </div>
