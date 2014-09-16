@@ -265,7 +265,7 @@ var Node = React.createClass({
 
           {/* HOVER OPTIONS */}
           {function(){
-            if(this.state.hasChildren) {
+            if(this.state.hasChildren || this.props.root) {
               return (
                 <div className={pclass('options')}>
                   <div className={pclass('options-arrow')}></div>
