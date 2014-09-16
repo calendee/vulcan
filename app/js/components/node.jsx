@@ -289,8 +289,10 @@ var Node = React.createClass({
 
           {/* PRIORITY */}
           {function(){
-            if(this.props.priority) {
-              return <em className={pclass('priority')}>{this.props.priority}</em>
+            var hasPriority = this.hasPriority(this.props.priority);
+
+            if(hasPriority) {
+              return <em className={pclass('priority')}>{this.props.priority}</em>;
             }
           }.bind(this)()}
 
