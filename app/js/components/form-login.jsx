@@ -9,19 +9,43 @@ module.exports = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
     var url = this.refs.url.getDOMNode().value.trim();
+    var urlIsValid = this.validateURL(url);
     var token = this.refs.token.getDOMNode().value.trim();
     var pclass = this.prefixClass;
 
-    if(url) {
+    if(urlIsValid) {
       this.props.onLogin({
         url: url,
         token: token
       });
     }
     else {
-      this.refs.urlLabel.getDOMNode().innerHTML = 'Please enter your firebase URL';
+      this.refs.urlLabel.getDOMNode().innerHTML = 'Please enter a valid Firebase URL';
       this.refs.urlLabel.getDOMNode().className = pclass('has-error');
     }
+  },
+
+  validateURL: function(url) {
+    var isValid = false;
+    var isFirebaseURL = /^(https:\/\/)[a-zA-Z0-9-]+(.firebaseio.com)[\w\W]*/i;
+
+    if(isFirebaseURL.test(url)) {
+      isValid = true;
+    }
+
+    return isValid;
+  },
+
+  renderAuthLabel: function() {
+    var pclass = this.prefixClass;
+    var label = <label for="tokenField" ref="tokenLabel">Authentication Token <em>(optional, <a target="_blank" href="https://www.firebase.com/docs/web/guide/simple-login/custom.html">more info</a>)</em></label>
+
+
+    if(this.props.authError) {
+      label = <label for="tokenField" ref="tokenLabel" className={pclass('has-error')}>The Authentication Token is Invalid</label>
+    }
+
+    return label;
   },
 
   render: function() {
@@ -54,7 +78,8 @@ module.exports = React.createClass({
             <input id="urlField" ref="url" placeholder="https://yourapp.firebaseio.com" type="text" name="url" defaultValue={this.props.url}/>
           </li>
           <li>
-            <input  placeholder="Auth Token (optional)" ref="token" type="password" name="token"/>
+            {this.renderAuthLabel()}
+            <input id="tokenField"  ref="token" type="password" name="token"/>
           </li>
         </ul>
 

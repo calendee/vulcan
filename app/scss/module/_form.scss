@@ -16,6 +16,10 @@
     color: $navy-lightest;
     text-transform: uppercase;
 
+    a {
+      color: $blue;
+    }
+
     > em {
       font-style: italic;
       text-transform: none;

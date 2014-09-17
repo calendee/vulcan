@@ -8,7 +8,8 @@ var EventHub = require('./eventhub');
 var AppMixins = require('./mixins');
 
 var errorMessages = {
-  PERMISSION_DENIED: 'You do not have permission to write to this location.'
+  PERMISSION_DENIED: 'You do not have permission to write to this location.',
+  INVALID_TOKEN: 'The token you entered is not valid.'
 };
 
 module.exports = React.createClass({
@@ -43,6 +44,7 @@ module.exports = React.createClass({
       token: '',
       formAction: null,
       node: null,
+      loginAuthError: '',
       minimized: false,
       pinned: pinnedOptions,
       isDevTools: isDevTools
@@ -88,7 +90,7 @@ module.exports = React.createClass({
 
   login: function(data) {
     //CLEAR ERROR MESSAGES
-    this.setState({loginError: null});
+    this.setState({loginAuthError: null});
 
     var firebase = new Firebase(data.url);
     var token = data.token || this.state.token;
@@ -104,8 +106,8 @@ module.exports = React.createClass({
 
   authenticate: function(firebase, token, url) {
     firebase.auth(token, function(error, result) {
-      if(error) {
-        this.setState({ loginError: error });
+      if(error && error.code) {
+        this.setState({ loginAuthError: error.code });
       }
       else {
         this.setState({
@@ -250,7 +252,7 @@ module.exports = React.createClass({
             else {
               return (
                 <div>
-                  <LoginForm errors={this.state.loginError} isDevTools={this.state.isDevTools} onLogin={this.login} />
+                  <LoginForm authError={this.state.loginAuthError} isDevTools={this.state.isDevTools} onLogin={this.login} />
                   <a className={pclass("badge")} href="https://www.firebase.com/" target="_blank">Firebase Inc.</a>
                 </div>
               );
