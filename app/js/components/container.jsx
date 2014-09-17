@@ -71,6 +71,14 @@ module.exports = React.createClass({
     });
   },
 
+  hideError: function(e) {
+    if(e && e.preventDefault) {
+      e.preventDefault();
+    }
+
+    this.setState({error: ''});
+  },
+
   closeForm: function() {
     this.setState({
       formAction: null,
@@ -179,7 +187,10 @@ module.exports = React.createClass({
 
     if(this.state.error) {
       message = (
-        <div className={pclass(['alert', 'alert-error'])}>{this.state.error}</div>
+        <div className={pclass(['alert', 'alert-error'])}>
+          {this.state.error}
+          <a href="#" onClick={this.hideError} className={pclass('alert-close')}>x</a>
+        </div>
       );
     }
 
