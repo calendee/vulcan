@@ -33,8 +33,8 @@
 #{$v}-logo-image {
   margin: 0px auto;
   display: block;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 
   #{$v}-is-devtools & {
     width: 70px;
@@ -97,9 +97,4 @@
   font-weight: 200;
   letter-spacing: 1px;
   text-transform: uppercase;
-
-  #{$v}-is-devtools & {
-    margin: 0px 0px 20px 0px;
-    font-size: $basefont - 2;
-  }
 }

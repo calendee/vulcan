@@ -8,7 +8,8 @@ var EventHub = require('./eventhub');
 var AppMixins = require('./mixins');
 
 var errorMessages = {
-  PERMISSION_DENIED: 'You do not have permission to write to this location.',
+  PERMISSION_DENIED: 'You do not have permission to write data at this location.',
+  PERMISSION_DENIED_READ: 'You do not have permission to view this Firebase.',
   INVALID_TOKEN: 'The token you entered is not valid.'
 };
 
@@ -56,6 +57,7 @@ module.exports = React.createClass({
     EventHub.subscribe('priority', this.showForm);
     EventHub.subscribe('edit', this.showForm);
     EventHub.subscribe('error', this.showError);
+    EventHub.subscribe('reset', this.resetApp);
   },
 
   showForm: function(name, node) {
@@ -86,6 +88,23 @@ module.exports = React.createClass({
       formAction: null,
       node: null
     });
+  },
+
+  resetApp: function(event, error) {
+    this.setState({
+      status: 'new',
+      firebaseRef: null,
+      url: '',
+      token: '',
+      formAction: null,
+      node: null,
+      loginAuthError: '',
+      minimized: false,
+    });
+
+    if(error && error === 'PERMISSION_DENIED') {
+      this.showError(null, 'PERMISSION_DENIED_READ');
+    }
   },
 
   login: function(data) {

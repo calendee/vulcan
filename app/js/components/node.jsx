@@ -57,7 +57,11 @@ var Node = React.createClass({
 
   //CALLED ONCE ON FIRST INIT
   componentWillMount: function() {
-    this.props.firebaseRef.on('value', this.listeners.value.bind(this));
+    this.props.firebaseRef.on('value', this.listeners.value.bind(this), function(error) {
+      if(error && error.code && this.props.root) {
+        EventHub.publish('reset', error.code);
+      }
+    }.bind(this));
 
     //ONLY USED FOR ROOT NODE EVENTS
     if(this.props.root) {
