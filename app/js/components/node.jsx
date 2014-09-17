@@ -253,8 +253,38 @@ var Node = React.createClass({
     return children;
   },
 
+  renderPriorityBadge: function() {
+    var priority = '';
+    var pclass = this.prefixClass;
+    var hasPriority = this.hasPriority(this.props.priority);
+
+    if(hasPriority) {
+      priority = <em className={pclass('priority')}>{this.props.priority}</em>;
+    }
+
+    return priority;
+  },
+
+  renderButtons: function() {
+    var pclass = this.prefixClass;
+    var editButton = (!this.state.hasChildren) ? <button className={pclass('button button-small button-action l-pad-right')} onClick={this.editNode}>Edit</button> : '';
+    var addButton = (this.state.hasChildren  || this.props.root) ? <button className={pclass('button button-small button-primary l-pad-right')} onClick={this.addNode}>Add</button> : '';
+    var priorityButton = (this.state.hasChildren && !this.props.root) ? <button className={pclass('button button-small button-action l-pad-right')} onClick={this.editPriority}>Priority</button> : '';
+
+    return (
+      <div className={pclass('options')}>
+        <div className={pclass('options-arrow')}></div>
+        {editButton}
+        {addButton}
+        {priorityButton}
+        <button className={pclass('button button-small button-caution')} onClick={this.removeNode}>Remove</button>
+      </div>
+    );
+  },
+
   render: function() {
     var pclass = this.prefixClass;
+
 
     return (
       <li className={pclass('node')}>
@@ -266,39 +296,9 @@ var Node = React.createClass({
         }.bind(this)()}
 
         <div className={pclass(['container', "is-" + this.props.status])}>
+          {this.renderButtons()}
+          {this.renderPriorityBadge()}
 
-          {/* HOVER OPTIONS */}
-          {function(){
-            if(this.state.hasChildren || this.props.root) {
-              return (
-                <div className={pclass('options')}>
-                  <div className={pclass('options-arrow')}></div>
-                  <button className={pclass('button button-small button-primary l-pad-right')} onClick={this.addNode}>Add</button>
-                  <button className={pclass('button button-small button-action l-pad-right')} onClick={this.editPriority}>Priority</button>
-                  <button className={pclass('button button-small button-caution')} onClick={this.removeNode}>Remove</button>
-                </div>
-              )
-            }
-            else {
-              return (
-                <div className={pclass('options')}>
-                  <div className={pclass('options-arrow')}></div>
-                  <button className={pclass('button button-small button-action l-pad-right')} onClick={this.editNode}>Edit</button>
-                  <button className={pclass('button button-small button-caution')} onClick={this.removeNode}>Remove</button>
-                </div>
-              )
-            }
-          }.bind(this)()}
-
-
-          {/* PRIORITY */}
-          {function(){
-            var hasPriority = this.hasPriority(this.props.priority);
-
-            if(hasPriority) {
-              return <em className={pclass('priority')}>{this.props.priority}</em>;
-            }
-          }.bind(this)()}
 
           {/* KEY (NAME) */}
           <strong className={pclass('name')}>{this.state.name}</strong>
