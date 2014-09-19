@@ -39,6 +39,7 @@ var Node = React.createClass({
     }
   },
 
+
   //CALLED BEFORE VERY FIRST INIT
   getInitialState: function() {
     this.firstRender = true;
@@ -55,6 +56,7 @@ var Node = React.createClass({
     };
   },
 
+
   //CALLED ONCE ON FIRST INIT
   componentWillMount: function() {
     this.props.firebaseRef.on('value', this.listeners.value.bind(this), function(error) {
@@ -69,9 +71,11 @@ var Node = React.createClass({
     }
   },
 
+
   componentWillUnmount: function() {
     this.props.firebaseRef.off();
   },
+
 
   componentDidUpdate: function() {
     //RESET STATUS TO NORMAL
@@ -81,6 +85,7 @@ var Node = React.createClass({
       }.bind(this), 1000);
     }
   },
+
 
   componentWillReceiveProps: function (nextProps) {
     if (nextProps.expandAll === true) {
@@ -100,6 +105,7 @@ var Node = React.createClass({
     }
   },
 
+
   //USER INITIATED METHODS
   toggle: function() {
     if(this.state.expanded) {
@@ -110,6 +116,7 @@ var Node = React.createClass({
     }
   },
 
+
   _expand: function() {
     this._addEvents();
     this.update(this.state.snapshot, {
@@ -118,6 +125,7 @@ var Node = React.createClass({
       collapseAll: this.props.collapseAll
     });
   },
+
 
   _collapse: function() {
     this._removeEvents();
@@ -128,34 +136,41 @@ var Node = React.createClass({
     });
   },
 
+
   getToggleText: function() {
     return this.state.expanded ? '-' : '+';
   },
+
 
   removeNode: function(e) {
     e.preventDefault();
     this.props.firebaseRef.remove();
   },
 
+
   editNode: function(e) {
     e.preventDefault();
     EventHub.publish('edit', this);
   },
+
 
   addNode: function(e) {
     e.preventDefault();
     EventHub.publish('add', this);
   },
 
+
   editPriority: function(e) {
     e.preventDefault();
     EventHub.publish('priority', this);
   },
 
+
   resetStatus: function(node) {
     //FORCE A RERENDER TO RESET ALL STATUS BACK TO NORMAL
     this.update(this.state.snapshot);
   },
+
 
   _removeEvents: function() {
     ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
@@ -163,11 +178,13 @@ var Node = React.createClass({
     }, this);
   },
 
+
   _addEvents: function() {
     ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
       this.props.firebaseRef.on(event, this.listeners[event].bind(this));
     }, this);
   },
+
 
   update: function(snapshot, options) {
     options = options || {};
@@ -218,6 +235,7 @@ var Node = React.createClass({
     });
   },
 
+
   createChildren: function(snapshot, options) {
     options = options || {};
     var expandAll = options.expandAll || false;
@@ -253,6 +271,19 @@ var Node = React.createClass({
     return children;
   },
 
+
+  renderToggleButton: function() {
+    var toggle = '';
+    var pclass = this.prefixClass;
+
+    if(this.state.hasChildren && !this.props.root) {
+      toggle = <span className={pclass('toggle')} onClick={this.toggle}>{this.getToggleText()}</span>;
+    }
+
+    return toggle;
+  },
+
+
   renderPriorityBadge: function() {
     var priority = '';
     var pclass = this.prefixClass;
@@ -264,6 +295,7 @@ var Node = React.createClass({
 
     return priority;
   },
+
 
   renderButtons: function() {
     var pclass = this.prefixClass;
@@ -282,63 +314,72 @@ var Node = React.createClass({
     );
   },
 
+
+  renderNumberOfChildren: function() {
+    var numChildren = '';
+    var pclass = this.prefixClass;
+
+    if(this.state.hasChildren) {
+      numChildren = <span className={pclass('num-children')}>({this.state.numChildren})</span>;
+    }
+
+    return numChildren;
+  },
+
+
+  renderChildren: function() {
+    var children = {};
+    var pclass = this.prefixClass;
+
+    if(this.state.hasChildren && this.state.expanded) {
+      children = (
+        <ul className={pclass('child-list')}>
+          {this.state.children}
+        </ul>
+      );
+    }
+
+    return children;
+  },
+
+
+  renderNodeValue: function() {
+    var nodeValue = '';
+    var isNull = this.state.value === null;
+    var isRoot = this.props.root;
+    var noChildren = !this.state.hasChildren;
+    var pclass = this.prefixClass;
+
+    if(isRoot && isNull) {
+      nodeValue = <em className={pclass('value')}>null</em>;
+    }
+    else if(isRoot && noChildren) {
+      nodeValue = <em className={pclass('value')}>{this.state.value + ''}</em>;
+    }
+    else if(!isRoot && noChildren) {
+      nodeValue = <em className={pclass('value')}>{this.state.value + ''}</em>;
+    }
+
+    return nodeValue;
+  },
+
+
   render: function() {
     var pclass = this.prefixClass;
 
-
     return (
       <li className={pclass('node')}>
-        {function(){
-          //SHOW BUTTON
-          if(this.state.hasChildren && !this.props.root) {
-            return <span className={pclass('toggle')} onClick={this.toggle}>{this.getToggleText()}</span>
-          }
-        }.bind(this)()}
+        {this.renderToggleButton()}
 
         <div className={pclass(['container', "is-" + this.props.status])}>
           {this.renderButtons()}
           {this.renderPriorityBadge()}
-
-
-          {/* KEY (NAME) */}
           <strong className={pclass('name')}>{this.state.name}</strong>
-
-          {/* NUMBER OF CHILDREN */}
-          {function(){
-            if(this.state.hasChildren) {
-              return <span className={pclass('num-children')}>({this.state.numChildren})</span>
-            }
-          }.bind(this)()}
-
-
-          {/* VALUE */}
-          {function(){
-            var isNull = this.state.value === null;
-            var isRoot = this.props.root;
-            var noChildren = !this.state.hasChildren;
-
-            if(isRoot && isNull) {
-              return <em className={pclass('value')}>null</em>
-            }
-            else if(isRoot && noChildren) {
-              return <em className={pclass('value')}>{this.state.value}</em>
-            }
-            else if(!isRoot && noChildren) {
-              return <em className={pclass('value')}>{this.state.value}</em>
-            }
-          }.bind(this)()}
+          {this.renderNumberOfChildren()}
+          {this.renderNodeValue()}
         </div>
 
-        {function(){
-          //1. TREE OF CHILDREN
-          if(this.state.hasChildren && this.state.expanded) {
-            return (
-              <ul className={pclass('child-list')}>
-                  {this.state.children}
-              </ul>
-            )
-          }
-        }.bind(this)()}
+        {this.renderChildren()}
       </li>
     );
   }
