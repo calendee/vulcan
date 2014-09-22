@@ -1,7 +1,7 @@
 # Vulcan - Firebase Data Inspector
-Vulcan is a powerful tool for inspecting and manipulating your Firebase data directly from the Browser or Chrome DevTools. 
+Vulcan is a powerful tool for inspecting and manipulating your Firebase data directly from the Browser or Chrome DevTools.
 
-## Drop Vulcan into a web page 
+## Drop Vulcan into a web page
 Vulcan can be used as plugin on your web page by simply including the script tags and css dependancies:
 
 ```
@@ -28,5 +28,5 @@ Vulcan is also available in the [Chrome Store](https://chrome.google.com/webstor
 ## Development
 We use grunt for our build process. You can use the following commands:
 
-- **grunt server** - Runs the demo on http://localhost:8000
+- **grunt dev** - Runs the demo on http://localhost:8000 and listens for changes.
 - **grunt** - builds both web and chrome extension production ready files.

@@ -6,6 +6,7 @@ var AppMixins = require('./mixins');
 
 var Node = React.createClass({
   mixins: [AppMixins],
+  updateTimeout: null,
 
   listeners: {
     value: function(snapshot) {
@@ -187,52 +188,68 @@ var Node = React.createClass({
 
 
   update: function(snapshot, options) {
-    options = options || {};
-    var children = [];
-    var expanded = (options.expanded !== undefined) ? options.expanded : this.state.expanded;
-    var name = snapshot.name();
-
-    //ROOT NODE ONLY
-    if(this.props.root) {
-      var rootName = this.props.firebaseRef.root().toString();
-      var refName = this.props.firebaseRef.toString();
-      expanded = true;
-
-      if(refName === rootName) {
-        name = refName.replace('https://', '').replace('.firebaseio.com', ''); //THIS IS THE ROOT NODE
-      }
-      else {
-        name = refName.replace(rootName + '/', ''); //USING A CHILD NODE, STRIP EVERYTHING AWAY BUT NAME
-      }
+    //CLEAR TIMEOUT
+    if(this.updateTimeout) {
+      console.log('cancel timeout');
+      clearTimeout(this.updateTimeout);
     }
 
-    if(snapshot.hasChildren() && expanded) {
-      //ITEM HAS BEEN REMOVED
-      if(this.state.numChildren > snapshot.numChildren()) {
-        children = this.createChildren(this.state.snapshot, options);
-        //DELAY THE STATE CHANGE FOR THE HIGHLIGHT
-        setTimeout(function(){
-          this.setState({
-            children: this.createChildren(snapshot, options)
-          });
-        }.bind(this), 1000);
-      }
-      //GET NEW LIST OF CHILDREN
-      else {
-        children = this.createChildren(snapshot, options);
-      }
+    if(this.childrenTimeout) {
+      console.log('cancel child timeout');
+      clearTimeout(this.childrenTimeout);
     }
 
     //SET THE NEW STATE
-    this.setState({
-      snapshot: snapshot,
-      hasChildren: snapshot.hasChildren(),
-      numChildren: snapshot.numChildren(),
-      children: children,
-      expanded: expanded,
-      name: name,
-      value: snapshot.val()
-    });
+    this.updateTimeout = setTimeout(function() {
+
+      options = options || {};
+      var children = [];
+      var expanded = (options.expanded !== undefined) ? options.expanded : this.state.expanded;
+      var name = snapshot.name();
+
+      //ROOT NODE ONLY
+      if(this.props.root) {
+        var rootName = this.props.firebaseRef.root().toString();
+        var refName = this.props.firebaseRef.toString();
+        expanded = true;
+
+        if(refName === rootName) {
+          name = refName.replace('https://', '').replace('.firebaseio.com', ''); //THIS IS THE ROOT NODE
+        }
+        else {
+          name = refName.replace(rootName + '/', ''); //USING A CHILD NODE, STRIP EVERYTHING AWAY BUT NAME
+        }
+      }
+
+      console.log(name);
+
+      if(snapshot.hasChildren() && expanded) {
+        //ITEM HAS BEEN REMOVED
+        if(this.state.numChildren > snapshot.numChildren()) {
+          children = this.createChildren(this.state.snapshot, options);
+          //DELAY THE STATE CHANGE FOR THE HIGHLIGHT
+          this.childrenTimeout = setTimeout(function(){
+            this.setState({
+              children: this.createChildren(snapshot, options)
+            });
+          }.bind(this), 1000);
+        }
+        //GET NEW LIST OF CHILDREN
+        else {
+          children = this.createChildren(snapshot, options);
+        }
+      }
+
+      this.setState({
+        snapshot: snapshot,
+        hasChildren: snapshot.hasChildren(),
+        numChildren: snapshot.numChildren(),
+        children: children,
+        expanded: expanded,
+        name: name,
+        value: snapshot.val()
+      });
+    }.bind(this), 10);
   },
 
 
