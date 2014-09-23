@@ -190,13 +190,7 @@ var Node = React.createClass({
   update: function(snapshot, options) {
     //CLEAR TIMEOUT
     if(this.updateTimeout) {
-      console.log('cancel timeout');
       clearTimeout(this.updateTimeout);
-    }
-
-    if(this.childrenTimeout) {
-      console.log('cancel child timeout');
-      clearTimeout(this.childrenTimeout);
     }
 
     //SET THE NEW STATE
@@ -221,14 +215,12 @@ var Node = React.createClass({
         }
       }
 
-      console.log(name);
-
       if(snapshot.hasChildren() && expanded) {
         //ITEM HAS BEEN REMOVED
         if(this.state.numChildren > snapshot.numChildren()) {
           children = this.createChildren(this.state.snapshot, options);
           //DELAY THE STATE CHANGE FOR THE HIGHLIGHT
-          this.childrenTimeout = setTimeout(function(){
+          setTimeout(function(){
             this.setState({
               children: this.createChildren(snapshot, options)
             });
@@ -249,7 +241,7 @@ var Node = React.createClass({
         name: name,
         value: snapshot.val()
       });
-    }.bind(this), 10);
+    }.bind(this), 50);
   },
 
 
