@@ -1,5 +1,9 @@
 /** @jsx React.DOM */
 
+/*! @license
+  Firebase Vulcan - License: https://www.firebase.com/terms/terms-of-service.html
+*/
+
 /*
 * Import React Components
 *

@@ -24,9 +24,12 @@ To use Vulcan as a chrome plugin during development:
 The production version of Vulcan is also available in the [Chrome Store](https://chrome.google.com/webstore/detail/vulcan-by-firebase/oippbnlmebalopjbkemajgfbglcjhnbl?utm_source=chrome-ntp-icon)
 
 
-
 ## Development
 We use grunt for our build process. You can use the following commands:
 
 - **grunt dev** - Builds the web and chrome extension in development mode and runs the demo on http://localhost:8000. All changes are processed automatically and live reloaded. The files in this mode are not compressed or uglified in order to make development easier.
 - **grunt** - Builds the web and chrome extension in production ready mode. The files produced with this command are minified and uglified in order to optimize performance.
+
+
+## License
+Firebase Vulcan - License: [https://www.firebase.com/terms/terms-of-service.html](https://www.firebase.com/terms/terms-of-service.html)

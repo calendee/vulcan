@@ -33,6 +33,9 @@ module.exports = function(grunt) {
 
     uglify: {
       production: {
+        options: {
+          preserveComments: 'some',
+        },
         files: [{
           expand: true,
           cwd: 'production/js',
