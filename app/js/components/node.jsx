@@ -537,7 +537,10 @@ var Node = React.createClass({
     var noChildren = !this.state.hasChildren;
     var pclass = this.prefixClass;
 
-    if(isRoot && isNull) {
+    if(!this.state.name) {
+      nodeValue = <em className={pclass('value')}>Loading...</em>;
+    }
+    else if(isRoot && isNull) {
       nodeValue = <em className={pclass('value')}>null</em>;
     }
     else if(isRoot && noChildren) {
