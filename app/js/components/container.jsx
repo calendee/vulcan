@@ -13,8 +13,20 @@ var errorMessages = {
   INVALID_TOKEN: 'The token you entered is not valid.'
 };
 
+/*
+* BASE CONTAINER ELEMENT
+*
+* This component is the wrapper for the entire application
+*/
+
 module.exports = React.createClass({
   mixins: [AppMixins],
+
+  /*
+  * getInitialState
+  *
+  * The return value will be used as the initial value of this.state
+  */
 
   getInitialState: function() {
     //Check if running Vulcan in Chrome Dev Tools Panel
@@ -52,7 +64,16 @@ module.exports = React.createClass({
     };
   },
 
+
+  /*
+  * componentWillMount
+  *
+  * Invoked once, both on the client and server,
+  * immediately before the initial rendering occurs.
+  */
+
   componentWillMount: function() {
+    //SUBSCRIBE TO EVENTS
     EventHub.subscribe('add', this.showForm);
     EventHub.subscribe('priority', this.showForm);
     EventHub.subscribe('edit', this.showForm);
@@ -60,12 +81,40 @@ module.exports = React.createClass({
     EventHub.subscribe('reset', this.resetApp);
   },
 
+
+  /*
+  * showForm
+  *
+  * Show the add or edit form
+  */
+
   showForm: function(name, node) {
     this.setState({
       formAction: name,
       node: node
     });
   },
+
+
+  /*
+  * closeForm
+  *
+  * Hide the add or edit form
+  */
+
+  closeForm: function() {
+    this.setState({
+      formAction: null,
+      node: null
+    });
+  },
+
+
+  /*
+  * showError
+  *
+  * Display error message to user
+  */
 
   showError: function(event, error) {
     var message = errorMessages[error] || 'Sorry there was a problem with your request';
@@ -75,6 +124,13 @@ module.exports = React.createClass({
     });
   },
 
+
+  /*
+  * hideError
+  *
+  * Hide the error message
+  */
+
   hideError: function(e) {
     if(e && e.preventDefault) {
       e.preventDefault();
@@ -83,12 +139,12 @@ module.exports = React.createClass({
     this.setState({error: ''});
   },
 
-  closeForm: function() {
-    this.setState({
-      formAction: null,
-      node: null
-    });
-  },
+
+  /*
+  * resetApp
+  *
+  * Reset application by removing all previous state info.
+  */
 
   resetApp: function(event, error) {
     this.setState({
@@ -107,6 +163,14 @@ module.exports = React.createClass({
     }
   },
 
+
+  /*
+  * login
+  *
+  * Intialize the login for the Firebase URL and
+  * Auth Token the user has provided.
+  */
+
   login: function(data) {
     //CLEAR ERROR MESSAGES
     this.setState({loginAuthError: null});
@@ -123,6 +187,35 @@ module.exports = React.createClass({
     }
   },
 
+
+  /*
+  * logout
+  *
+  * Log a user out of the current Firebase and return them
+  * to the login screen.
+  */
+
+  logout: function() {
+    //UNAUTHENTICATE
+    this.state.firebaseRef.unauth();
+
+    this.setState({
+      formAction: null,
+      node: null,
+      status: 'new',
+      firebaseRef: null,
+      url: '',
+      token: ''
+    });
+  },
+
+
+  /*
+  * authenticate
+  *
+  * Authenticate the Firebase with a token
+  */
+
   authenticate: function(firebase, token, url) {
     firebase.auth(token, function(error, result) {
       if(error && error.code) {
@@ -138,37 +231,63 @@ module.exports = React.createClass({
     }.bind(this));
   },
 
+
+  /*
+  * minimize
+  *
+  * Minimize the application. This method is used only when
+  * Vulcan is injected into a web page.
+  */
+
   minimize: function() {
     if (!this.state.minimized){
       this.toggleHide();
     }
   },
 
+
+  /*
+  * toggleHide
+  *
+  * Toggle the hide/show state for the app
+  */
+
   toggleHide: function(){
     this.setState({minimized: !this.state.minimized});
   },
+
+
+  /*
+  * collapseAll
+  *
+  * Trigger the collapse all event for nodes. Once this is
+  * triggered only the root node and immediate children will
+  * be displayed in the DOM
+  */
 
   collapseAll: function() {
     EventHub.publish('collapseAll');
   },
 
+
+  /*
+  * expandAll
+  *
+  * Trigger the expand all event for nodes. Once this is
+  * triggered all nodes in the Firebase will be fully displayed.
+  */
+
   expandAll: function() {
     EventHub.publish('expandAll');
   },
 
-  logout: function() {
-    //UNAUTHENTICATE
-    this.state.firebaseRef.unauth();
 
-    this.setState({
-      formAction: null,
-      node: null,
-      status: 'new',
-      firebaseRef: null,
-      url: '',
-      token: ''
-    });
-  },
+  /*
+  * changeURL
+  *
+  * Change the application to display the contents of a new
+  * Firebase URL.
+  */
 
   changeURL: function(data) {
     var firebase = new Firebase(data.url);
@@ -192,6 +311,14 @@ module.exports = React.createClass({
     }.bind(this));
   },
 
+
+  /*
+  * headerAction
+  *
+  * A map of the different methods to call when the header
+  * of the app triggers and action.
+  */
+
   headerAction: function(action) {
     switch(action.type) {
       case 'minimize':  this.minimize();                 break;
@@ -201,6 +328,13 @@ module.exports = React.createClass({
       case 'url':       this.changeURL(action);          break;
     }
   },
+
+
+  /*
+  * renderErrorMessage
+  *
+  * Returns an error message if the current state has an error.
+  */
 
   renderErrorMessage: function() {
     var pclass = this.prefixClass;
@@ -217,6 +351,14 @@ module.exports = React.createClass({
 
     return message;
   },
+
+
+  /*
+  * render
+  *
+  * When called, it should examine this.props and
+  * this.state and return a single child component.
+  */
 
   render: function() {
     var pclass = this.prefixClass;

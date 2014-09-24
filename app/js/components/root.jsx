@@ -4,8 +4,21 @@ var EventHub = require('./eventhub');
 var AppMixins = require('./mixins');
 var Node = require('./node');
 
+
+/*
+* ROOT NODE COMPONENT
+*
+* The root node element for the data tree
+*/
+
 var Root = React.createClass({
   mixins: [AppMixins],
+
+  /*
+  * getInitialState
+  *
+  * The return value will be used as the initial value of this.state
+  */
 
   getInitialState: function() {
     return {
@@ -15,6 +28,14 @@ var Root = React.createClass({
       collapseAll: false
     };
   },
+
+
+  /*
+  * componentWillMount
+  *
+  * Invoked once, both on the client and server,
+  * immediately before the initial rendering occurs.
+  */
 
   componentWillMount: function () {
     EventHub.subscribe('expandAll', function () {
@@ -31,13 +52,35 @@ var Root = React.createClass({
     }.bind(this));
   },
 
+
+  /*
+  * resetStatus
+  *
+  * Resets the status back to normal
+  */
+
   resetStatus: function(node) {
     this.setState({status: 'normal'});
   },
 
+
+  /*
+  * updateStatus
+  *
+  * Updates the status with new data
+  */
+
   updateStatus: function(data) {
     this.setState(data);
   },
+
+
+  /*
+  * render
+  *
+  * When called, it should examine this.props and
+  * this.state and return a single child component.
+  */
 
   render: function() {
     var pclass = this.prefixClass;

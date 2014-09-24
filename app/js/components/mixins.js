@@ -1,4 +1,18 @@
+/*
+* REACT MIXINS
+*
+* Custom mixins for use in React components
+*/
+
 module.exports = {
+
+  /*
+  * cleanPriority
+  *
+  * Takes the string value from a form field
+  * and returns a number, string, or null.
+  */
+
   cleanPriority: function(priority) {
     priority = priority.trim();
 
@@ -12,6 +26,14 @@ module.exports = {
 
     return priority;
   },
+
+
+  /*
+  * hasPriority
+  *
+  * Check if the value is a valid priority
+  * and returns true or false.
+  */
 
   hasPriority: function(priority) {
     var hasPriority = false;
@@ -27,6 +49,16 @@ module.exports = {
 
     return hasPriority;
   },
+
+
+  /*
+  * prefixClass
+  *
+  * Prefixes css names spaces with  the prefix
+  * var used below. This is to help avoid namespace
+  * conflicts if you choose to import Vulcan into
+  * a webpage when debugging.
+  */
 
   prefixClass: function(name) {
     var prefix = 'vulcan';

@@ -2,9 +2,23 @@
 var React = require('react/addons');
 var AppMixins = require('./mixins');
 
-//LOGIN FORM CLASS
+
+/*
+* LOGIN FORM COMPONENT
+*
+* This component dislays a form that requires the user
+* to enter a Firebase URL and an Auth Token (optional)
+*/
+
 module.exports = React.createClass({
   mixins: [AppMixins],
+
+
+  /*
+  * handleSubmit
+  *
+  * Handles the submit event for the form
+  */
 
   handleSubmit: function(e) {
     e.preventDefault();
@@ -25,6 +39,13 @@ module.exports = React.createClass({
     }
   },
 
+
+  /*
+  * validateURL
+  *
+  * Enforces that the URL is a firebase app url
+  */
+
   validateURL: function(url) {
     var isValid = false;
     var isFirebaseURL = /^(https:\/\/)[a-zA-Z0-9-]+(.firebaseio.com)[\w\W]*/i;
@@ -35,6 +56,14 @@ module.exports = React.createClass({
 
     return isValid;
   },
+
+
+  /*
+  * renderAuthLabel
+  *
+  * Renders the label for the authentication token field.
+  * This method also renders the error message for this field.
+  */
 
   renderAuthLabel: function() {
     var pclass = this.prefixClass;
@@ -47,6 +76,14 @@ module.exports = React.createClass({
 
     return label;
   },
+
+
+  /*
+  * render
+  *
+  * When called, it should examine this.props and
+  * this.state and return a single child component.
+  */
 
   render: function() {
     var pclass = this.prefixClass;

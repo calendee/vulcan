@@ -2,31 +2,42 @@
 
 /*
 * Import React Components
+*
 */
+
 var React = require('react/addons');
 window.React = React;
 var Wrapper = require('./components/container');
 
+
+/*
+* Initialize Method
+*
+*/
+
 var initialize = function (options) {
   options = options || {};
 
-  //Create Container for React Module
+  //CREATE DOM CONTAINER
   var container = document.createElement('div');
   container.id = 'vulcan';
   document.body.appendChild(container);
 
-  // Add React component
+  // ADD REACT COMPONENT
   React.renderComponent(<Wrapper options={options} />, container);
 };
 
 
 /*
-* Init with chrome dev tools or browser window
+* Initialize Application
+*
 */
+
 if (chrome && chrome.devtools) {
-  // If it is, let the devtools initialize the app
+  // LET DEV TOOLS INITIALIZE APP
   window.VULCAN = initialize;
 }
 else {
+  // INITIALIZE IN BROWSER
   document.addEventListener('DOMContentLoaded', initialize);
 }

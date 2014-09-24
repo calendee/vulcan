@@ -11,7 +11,7 @@ Vulcan can be used as plugin on your web page by simply including the script tag
 ```
 
 ## Vulcan Chrome Plugin
-To use Vulcan as a chrome plugin:
+To use Vulcan as a chrome plugin during development:
 
 1. Go to settings in your browser
 2. Navigate to Extensions
@@ -21,12 +21,12 @@ To use Vulcan as a chrome plugin:
 6. Open your dev tools
 7. You should now have a Firebase tab
 
-Vulcan is also available in the [Chrome Store](https://chrome.google.com/webstore/detail/vulcan-by-firebase/oippbnlmebalopjbkemajgfbglcjhnbl?utm_source=chrome-ntp-icon)
+The production version of Vulcan is also available in the [Chrome Store](https://chrome.google.com/webstore/detail/vulcan-by-firebase/oippbnlmebalopjbkemajgfbglcjhnbl?utm_source=chrome-ntp-icon)
 
 
 
 ## Development
 We use grunt for our build process. You can use the following commands:
 
-- **grunt dev** - Runs the demo on http://localhost:8000 and listens for changes.
-- **grunt** - builds both web and chrome extension production ready files.
+- **grunt dev** - Builds the web and chrome extension in development mode and runs the demo on http://localhost:8000. All changes are processed automatically and live reloaded. The files in this mode are not compressed or uglified in order to make development easier.
+- **grunt** - Builds the web and chrome extension in production ready mode. The files produced with this command are minified and uglified in order to optimize performance.

@@ -4,9 +4,25 @@ var EventHub = require('./eventhub');
 var ReactTransitionGroup = React.addons.TransitionGroup;
 var AppMixins = require('./mixins');
 
+/*
+* NODE COMPONENT
+*
+* The node element that is the core of this application.
+* This component recursively creates itself when displaying
+* data from Firebase.
+*/
+
 var Node = React.createClass({
   mixins: [AppMixins],
+  timeout: null,
   updateTimeout: null,
+
+  /*
+  * listeners
+  *
+  * Methods that are executed when one of the following
+  * Firebase events is fired from a ref.
+  */
 
   listeners: {
     value: function(snapshot) {
@@ -41,7 +57,12 @@ var Node = React.createClass({
   },
 
 
-  //CALLED BEFORE VERY FIRST INIT
+  /*
+  * getInitialState
+  *
+  * The return value will be used as the initial value of this.state
+  */
+
   getInitialState: function() {
     this.firstRender = true;
     this.flags = {}; //USED TO TRACK STATE OF RECENTLY CHANGE NODE
@@ -58,7 +79,13 @@ var Node = React.createClass({
   },
 
 
-  //CALLED ONCE ON FIRST INIT
+  /*
+  * componentWillMount
+  *
+  * Invoked once, both on the client and server,
+  * immediately before the initial rendering occurs.
+  */
+
   componentWillMount: function() {
     this.props.firebaseRef.on('value', this.listeners.value.bind(this), function(error) {
       if(error && error.code && this.props.root) {
@@ -73,20 +100,44 @@ var Node = React.createClass({
   },
 
 
+  /*
+  * componentWillUnmount
+  *
+  * Invoked immediately before a component is unmounted from the DOM.
+  */
+
   componentWillUnmount: function() {
     this.props.firebaseRef.off();
   },
 
 
+  /*
+  * componentDidUpdate
+  *
+  * Invoked immediately after updating occurs.
+  * This method is not called for the initial render.
+  */
+
   componentDidUpdate: function() {
     //RESET STATUS TO NORMAL
     if(this.props.status !== 'normal' && this.props.status !== 'removed') {
+      if(this.timeout) {
+        clearTimeout(this.timeout);
+      }
+
       this.timeout = setTimeout(function() {
         this.props.onResetStatus(this);
       }.bind(this), 1000);
     }
   },
 
+
+  /*
+  * componentWillReceiveProps
+  *
+  * Invoked when a component is receiving new props.
+  * This method is not called for the initial render.
+  */
 
   componentWillReceiveProps: function (nextProps) {
     if (nextProps.expandAll === true) {
@@ -107,7 +158,12 @@ var Node = React.createClass({
   },
 
 
-  //USER INITIATED METHODS
+  /*
+  * toggle
+  *
+  * Used to toggle open and close a node that has children
+  */
+
   toggle: function() {
     if(this.state.expanded) {
       this._collapse();
@@ -117,6 +173,12 @@ var Node = React.createClass({
     }
   },
 
+
+  /*
+  * _expand
+  *
+  * Expand a node tree to display its children
+  */
 
   _expand: function() {
     this._addEvents();
@@ -128,6 +190,12 @@ var Node = React.createClass({
   },
 
 
+  /*
+  * _collapse
+  *
+  * Collapse a node tree to hide its children
+  */
+
   _collapse: function() {
     this._removeEvents();
     this.update(this.state.snapshot, {
@@ -138,10 +206,23 @@ var Node = React.createClass({
   },
 
 
+  /*
+  * getToggleText
+  *
+  * Returns the symbol displayed in the toggle button
+  * that hides and shows child nodes
+  */
+
   getToggleText: function() {
     return this.state.expanded ? '-' : '+';
   },
 
+
+  /*
+  * removeNode
+  *
+  * Deletes a node from Firebase
+  */
 
   removeNode: function(e) {
     e.preventDefault();
@@ -153,11 +234,25 @@ var Node = React.createClass({
   },
 
 
+  /*
+  * editNode
+  *
+  * Publishes the edit event that should display
+  * an input method for a user to edit a node
+  */
+
   editNode: function(e) {
     e.preventDefault();
     EventHub.publish('edit', this);
   },
 
+
+  /*
+  * addNode
+  *
+  * Publishes the add event that should display
+  * an input method for a user to add a node
+  */
 
   addNode: function(e) {
     e.preventDefault();
@@ -165,17 +260,35 @@ var Node = React.createClass({
   },
 
 
+  /*
+  * editPriority
+  *
+  * Publishes the priority event that should display
+  * an input method for a user to edit the priority for a node
+  */
+
   editPriority: function(e) {
     e.preventDefault();
     EventHub.publish('priority', this);
   },
 
 
+  /*
+  * resetStatus
+  *
+  * Force a rerender to reset all status back to normal
+  */
+
   resetStatus: function(node) {
-    //FORCE A RERENDER TO RESET ALL STATUS BACK TO NORMAL
     this.update(this.state.snapshot);
   },
 
+
+  /*
+  * _removeEvents
+  *
+  * Remove child event listeners
+  */
 
   _removeEvents: function() {
     ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
@@ -184,12 +297,25 @@ var Node = React.createClass({
   },
 
 
+  /*
+  * _addEvents
+  *
+  * Add child event listeners
+  */
+
   _addEvents: function() {
     ['child_added', 'child_removed', 'child_changed', 'child_moved'].forEach(function(event) {
       this.props.firebaseRef.on(event, this.listeners[event].bind(this));
     }, this);
   },
 
+
+  /*
+  * update
+  *
+  * Updates the node and its children when new snapshot data
+  * or options are presented.
+  */
 
   update: function(snapshot, options) {
     //CLEAR TIMEOUT
@@ -199,7 +325,6 @@ var Node = React.createClass({
 
     //SET THE NEW STATE
     this.updateTimeout = setTimeout(function() {
-
       options = options || {};
       var children = [];
       var expanded = (options.expanded !== undefined) ? options.expanded : this.state.expanded;
@@ -212,30 +337,35 @@ var Node = React.createClass({
         expanded = true;
 
         if(refName === rootName) {
-          name = refName.replace('https://', '').replace('.firebaseio.com', ''); //THIS IS THE ROOT NODE
+          //THIS IS THE ROOT NODE
+          name = refName.replace('https://', '').replace('.firebaseio.com', '');
         }
         else {
-          name = refName.replace(rootName + '/', ''); //USING A CHILD NODE, STRIP EVERYTHING AWAY BUT NAME
+          //STRIP EVERYTHING AWAY BUT NAME
+          name = refName.replace(rootName + '/', '');
         }
       }
 
+      // IF CHILDREN ARE PRESENT AND DISPLAYED
       if(snapshot.hasChildren() && expanded) {
-        //ITEM HAS BEEN REMOVED
+
+        // A CHILD NODE HAS BEEN DELETED
         if(this.state.numChildren > snapshot.numChildren()) {
           children = this.createChildren(this.state.snapshot, options);
-          //DELAY THE STATE CHANGE FOR THE HIGHLIGHT
+
+          //DELAY CHANGE FOR THE HIGHLIGHT
           setTimeout(function(){
             this.setState({
               children: this.createChildren(snapshot, options)
             });
           }.bind(this), 1000);
         }
-        //GET NEW LIST OF CHILDREN
         else {
           children = this.createChildren(snapshot, options);
         }
       }
 
+      //UPDATE STATE
       this.setState({
         snapshot: snapshot,
         hasChildren: snapshot.hasChildren(),
@@ -248,6 +378,12 @@ var Node = React.createClass({
     }.bind(this), 50);
   },
 
+
+  /*
+  * createChildren
+  *
+  * Creates the child nodes for the current node
+  */
 
   createChildren: function(snapshot, options) {
     options = options || {};
@@ -285,6 +421,12 @@ var Node = React.createClass({
   },
 
 
+  /*
+  * renderToggleButton
+  *
+  * Returns a toggle button element if node has children
+  */
+
   renderToggleButton: function() {
     var toggle = '';
     var pclass = this.prefixClass;
@@ -296,6 +438,12 @@ var Node = React.createClass({
     return toggle;
   },
 
+
+  /*
+  * renderPriorityBadge
+  *
+  * Returns a priority badge if node has a priority set
+  */
 
   renderPriorityBadge: function() {
     var priority = '';
@@ -309,6 +457,13 @@ var Node = React.createClass({
     return priority;
   },
 
+
+  /*
+  * renderButtons
+  *
+  * Returns the correct edit buttons. This methods will return different
+  * buttons for leaf nodes, parent nodes, and the root node.
+  */
 
   renderButtons: function() {
     var pclass = this.prefixClass;
@@ -328,6 +483,12 @@ var Node = React.createClass({
   },
 
 
+  /*
+  * renderNumberOfChildren
+  *
+  * Returns a number of children element if node has children
+  */
+
   renderNumberOfChildren: function() {
     var numChildren = '';
     var pclass = this.prefixClass;
@@ -339,6 +500,13 @@ var Node = React.createClass({
     return numChildren;
   },
 
+
+  /*
+  * renderChildren
+  *
+  * Returns list of child nodes elements if node has children
+  * and they should be displayed
+  */
 
   renderChildren: function() {
     var children = {};
@@ -355,6 +523,12 @@ var Node = React.createClass({
     return children;
   },
 
+
+  /*
+  * renderNodeValue
+  *
+  * Returns the value the current node
+  */
 
   renderNodeValue: function() {
     var nodeValue = '';
@@ -376,6 +550,13 @@ var Node = React.createClass({
     return nodeValue;
   },
 
+
+  /*
+  * render
+  *
+  * When called, it should examine this.props and
+  * this.state and return a single child component.
+  */
 
   render: function() {
     var pclass = this.prefixClass;

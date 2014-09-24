@@ -3,8 +3,22 @@ var React = require('react/addons');
 var AppMixins = require('./mixins');
 var EventHub = require('./eventhub');
 
+/*
+* EDIT NODE FORM COMPONENT
+*
+* This component is used to add and edit data for
+* Firebase nodes.
+*/
+
 module.exports = React.createClass({
   mixins: [AppMixins, React.addons.LinkedStateMixin],
+
+
+  /*
+  * getInitialState
+  *
+  * The return value will be used as the initial value of this.state
+  */
 
   getInitialState: function() {
     var node = this.props.node;
@@ -20,13 +34,35 @@ module.exports = React.createClass({
     };
   },
 
+  /*
+  * componentDidMount
+  *
+  * Invoked immediately after rendering occurs,
+  * only on the client (not on the server).
+  */
+
   componentDidMount: function() {
     this.refs.firstField.getDOMNode().focus();
   },
 
+
+  /*
+  * componentDidUpdate
+  *
+  * Invoked immediately after updating occurs.
+  * This method is not called for the initial render.
+  */
+
   componentDidUpdate: function() {
     this.refs.firstField.getDOMNode().focus();
   },
+
+
+  /*
+  * handleSubmit
+  *
+  * Handles the submit event for the form
+  */
 
   handleSubmit: function(e) {
     e.preventDefault();
@@ -52,6 +88,13 @@ module.exports = React.createClass({
     this.closeForm();
   },
 
+
+  /*
+  * saveChildNode
+  *
+  * Method for creating a standard key/value child node
+  */
+
   saveChildNode: function(form) {
     var key = form.key.value.trim();
     var value = form.value.value.trim();
@@ -65,6 +108,13 @@ module.exports = React.createClass({
       });
     }
   },
+
+
+  /*
+  * saveBranchNode
+  *
+  * Method for creating a branch node
+  */
 
   saveBranchNode: function(form) {
     var parentKey = form.parentKey.value.trim();
@@ -98,6 +148,13 @@ module.exports = React.createClass({
     }
   },
 
+
+  /*
+  * saveJsonNode
+  *
+  * Method for adding JSON data to a node
+  */
+
   saveJsonNode: function(form) {
     var key = form.key.value.trim();
     var json = JSON.parse(form.json.value.trim());
@@ -113,6 +170,13 @@ module.exports = React.createClass({
     }
   },
 
+
+  /*
+  * updateNode
+  *
+  * Updates the value for an existing node.
+  */
+
   updateNode: function(form) {
     var priority = this.cleanPriority(form.priority.value);
     var value = form.value.value.trim();
@@ -127,6 +191,13 @@ module.exports = React.createClass({
     }
   },
 
+
+  /*
+  * updatePriority
+  *
+  * Updates the priority for an existing node.
+  */
+
   updatePriority: function(form){
     var priority = this.cleanPriority(form.priority.value);
 
@@ -138,6 +209,14 @@ module.exports = React.createClass({
     this.closeForm();
   },
 
+
+  /*
+  * closeForm
+  *
+  * Cancels out the form and removes it from view
+  * Changes to the form are lost.
+  */
+
   closeForm: function(e) {
     if(e && e.preventDefault) {
       e.preventDefault();
@@ -145,17 +224,46 @@ module.exports = React.createClass({
     this.props.onComplete();
   },
 
+
+  /*
+  * addChildMode
+  *
+  * Set the view mode for adding a child node
+  */
+
   addChildMode: function() {
     this.setState({addMode: 'child'});
   },
+
+
+  /*
+  * addBranchMode
+  *
+  * Set the view mode for adding a branch
+  */
 
   addBranchMode: function() {
     this.setState({addMode: 'branch'});
   },
 
+
+  /*
+  * addJsonMode
+  *
+  * Set the view mode for adding json
+  */
+
   addJsonMode: function() {
     this.setState({addMode: 'json'});
   },
+
+
+  /*
+  * render
+  *
+  * When called, it should examine this.props and
+  * this.state and return a single child component.
+  */
 
   render: function() {
     var pclass = this.prefixClass;
