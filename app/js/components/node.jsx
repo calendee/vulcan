@@ -145,7 +145,11 @@ var Node = React.createClass({
 
   removeNode: function(e) {
     e.preventDefault();
-    this.props.firebaseRef.remove();
+    this.props.firebaseRef.remove(function(error) {
+      if(error && error.code) {
+        EventHub.publish('error', error.code);
+      }
+    }.bind(this));
   },
 
 
