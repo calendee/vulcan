@@ -5,7 +5,7 @@
   "author": "Firebase Inc.",
   "homepage_url": "https://www.firebase.com",
   "description": "A Firebase data inspector and editor inside Chrome Devtools.",
-  "version": "1.1.1",
+  "version": "1.1.2",
 
   "icons": {
     "16":  "images/icon16.png",
