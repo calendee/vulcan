@@ -7,7 +7,6 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-
     browserify: {
       account_dev: {
         options: {
@@ -34,7 +33,7 @@ module.exports = function(grunt) {
     uglify: {
       production: {
         options: {
-          preserveComments: 'some',
+          preserveComments: 'some'
         },
         files: [{
           expand: true,
