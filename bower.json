@@ -1,9 +1,10 @@
 {
-  "name": "project-x",
-  "version": "0.0.0",
-  "homepage": "https://github.com/firebase/project-x",
+  "name": "Vulcan",
+  "version": "1.1.5",
+  "homepage": "https://github.com/firebase/vulcan",
   "authors": [
-    "alexwolfe <alex@firebase.com>"
+    "alexwolfe <alex@firebase.com>",
+    "Firebase Inc."
   ],
   "license": "MIT",
   "private": true,
@@ -13,9 +14,5 @@
     "bower_components",
     "test",
     "tests"
-  ],
-  "dependencies": {
-    "react": "~0.8.0",
-    "firebase": "~1.0.3"
-  }
+  ]
 }

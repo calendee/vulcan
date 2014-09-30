@@ -1,14 +1,14 @@
 {
-  "name": "project-x",
-  "version": "0.0.0",
-  "description": "project-x =========",
+  "name": "Vulcan",
+  "version": "1.1.5",
+  "description": "Firebase Data Inspector",
   "repository": {
     "type": "git",
-    "url": "https://github.com/firebase/project-x.git"
+    "url": "https://github.com/firebase/vulcan"
   },
-  "author": "Alex Wolfe, Adam Putinski",
+  "author": "Alex Wolfe, Adam Putinski, Joey Yang, Firebase Inc.",
   "bugs": {
-    "url": "https://github.com/firebase/project-x/issues"
+    "url": "https://github.com/firebase/vulcan/issues"
   },
   "dependencies": {},
   "devDependencies": {
