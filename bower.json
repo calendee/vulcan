@@ -8,7 +8,7 @@
     "Joey Yang",
     "Firebase Inc."
   ],
-  "license": "https://www.firebase.com/terms/terms-of-service.html",
+  "license": "http://firebase.mit-license.org",
   "private": true,
   "ignore": [
     "**/.*",
