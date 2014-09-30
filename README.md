@@ -32,4 +32,4 @@ We use grunt for our build process. You can use the following commands:
 
 
 ## License
-Firebase Vulcan - License: [https://www.firebase.com/terms/terms-of-service.html](https://www.firebase.com/terms/terms-of-service.html)
+MIT - http://firebase.mit-license.org
