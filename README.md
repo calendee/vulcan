@@ -6,7 +6,7 @@ Vulcan can be used as plugin on your web page by simply including the script tag
 
 ```
   <link rel="stylesheet" type="text/css" href="css/vulcan.css">
-  <script src="https://cdn.firebase.com/js/client/1.0.21/firebase.js"></script>
+  <script src="https://cdn.firebase.com/js/client/1.0.24/firebase.js"></script>
   <script type="text/javascript" src="js/vulcan.js"></script>
 ```
 
