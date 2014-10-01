@@ -483,7 +483,8 @@ var Node = React.createClass({
     var editButton = (!this.state.hasChildren) ? <button className={pclass('button button-small button-action l-pad-right')} onClick={this.editNode}>Edit</button> : '';
     var addButton = (this.state.hasChildren  || this.props.root) ? <button className={pclass('button button-small button-primary l-pad-right')} onClick={this.addNode}>Add</button> : '';
     var priorityButton = (this.state.hasChildren && !this.props.root) ? <button className={pclass('button button-small button-action l-pad-right')} onClick={this.editPriority}>Priority</button> : '';
-    var browseButton = (this.state.hasChildren && !this.props.root) ? <button className={pclass('button button-small button-action l-pad-right')} onClick={this.browseToRef}>Browse</button> : '';
+    var browseButton = (this.state.hasChildren && !this.props.root) ? <button className={pclass('button button-small button-action l-pad-right')} onClick={this.browseToRef}>Go To</button> : '';
+    var browseToParent = (this.props.root) ? <button className={pclass('button button-small button-action l-pad-right')} onClick={this.browseToRef}>Parent</button> : '';
 
     return (
       <div className={pclass('options')}>
@@ -492,6 +493,7 @@ var Node = React.createClass({
         {addButton}
         {priorityButton}
         {browseButton}
+        {browseToParent}
         <button className={pclass('button button-small button-caution')} onClick={this.removeNode}>Remove</button>
       </div>
     );

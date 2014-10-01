@@ -89,7 +89,15 @@ module.exports = React.createClass({
   */
 
   browseToRef: function(name, node) {
-    this.changeURL({url : node.props.firebaseRef.toString()});
+    var url = node.props.firebaseRef.toString();
+    if(node.props.root) {
+      url = url.replace('://', '___');
+      url = url.split('/');
+      if(url.length > 1) url.pop();
+      url = url.join('/');
+      url = url.replace('___', '://');
+    }
+    this.changeURL({url : url});
   },
 
   /*
