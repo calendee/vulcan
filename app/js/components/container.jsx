@@ -79,8 +79,18 @@ module.exports = React.createClass({
     EventHub.subscribe('edit', this.showForm);
     EventHub.subscribe('error', this.showError);
     EventHub.subscribe('reset', this.resetApp);
+    EventHub.subscribe('browse', this.browseToRef);
   },
 
+  /*
+  * browseToRef
+  *
+  * Change the URL to a specific reference
+  */
+
+  browseToRef: function(name, node) {
+    this.changeURL({url : node.props.firebaseRef.toString()});
+  },
 
   /*
   * showForm

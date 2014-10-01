@@ -235,6 +235,19 @@ var Node = React.createClass({
 
 
   /*
+  * browseToRef
+  *
+  * Publishes the browseToRef event that should change the URL
+  * to the specified node
+  */
+
+  browseToRef: function(e) {
+    e.preventDefault();
+    EventHub.publish('browse', this);
+  },
+
+
+  /*
   * editNode
   *
   * Publishes the edit event that should display
@@ -470,6 +483,7 @@ var Node = React.createClass({
     var editButton = (!this.state.hasChildren) ? <button className={pclass('button button-small button-action l-pad-right')} onClick={this.editNode}>Edit</button> : '';
     var addButton = (this.state.hasChildren  || this.props.root) ? <button className={pclass('button button-small button-primary l-pad-right')} onClick={this.addNode}>Add</button> : '';
     var priorityButton = (this.state.hasChildren && !this.props.root) ? <button className={pclass('button button-small button-action l-pad-right')} onClick={this.editPriority}>Priority</button> : '';
+    var browseButton = (this.state.hasChildren && !this.props.root) ? <button className={pclass('button button-small button-action l-pad-right')} onClick={this.browseToRef}>Browse</button> : '';
 
     return (
       <div className={pclass('options')}>
@@ -477,6 +491,7 @@ var Node = React.createClass({
         {editButton}
         {addButton}
         {priorityButton}
+        {browseButton}
         <button className={pclass('button button-small button-caution')} onClick={this.removeNode}>Remove</button>
       </div>
     );
